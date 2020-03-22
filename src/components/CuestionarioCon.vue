@@ -21,9 +21,9 @@
 
 </style>
 <template>
-  <div>
+  <div style="height:100%;">
     
-    <v-stepper v-model="e1" :vertical="vertical" style="box-shadow:none;">
+    <v-stepper v-model="e1" :vertical="vertical" style="box-shadow:none;background-color:#f0efff;height:100%;">
       <template>
         <v-stepper-items class="stepper">
           <v-stepper-content
@@ -32,11 +32,12 @@
             :step="n + 1"
             class="stepeercontent"
           >
-            <v-card  height="100%" elevation="0">
-              <v-card-title class="Medium 20sp pt-0 pb-2 ">
+            <v-card  height="100%" elevation="0" style="background-color:#f0efff;">
+              <!-- <v-card-title class="Medium 20sp pt-0 pb-2 ">
                 {{ detaCon.enunciadoContenido }}
                 {{ n }}
-              </v-card-title>
+              </v-card-title> -->
+              <h3 class="enunciadoTitulo">{{ detaCon.enunciadoContenido }}{{ n }}</h3>
               <prism language="javascript">{{
                 detaCon.ejemploContenido
               }}</prism>
@@ -62,7 +63,7 @@
             
               <div class="d-flex justify-space-between botones ">
                 <v-btn
-                  color="error"
+                  color="#ff4f5a"
                   fab
                   large
                   dark
@@ -71,7 +72,7 @@
                 >
                   <v-icon>arrow_back_ios</v-icon>
                 </v-btn>
-                <v-btn color="error" fab large dark elevation="0" @click="nextStep(n + 1)">
+                <v-btn color="#ff4f5a" fab large dark elevation="0" @click="nextStep(n + 1)">
                   <v-icon>arrow_forward_ios</v-icon>
                 </v-btn>
               </div>
@@ -208,6 +209,7 @@ export default {
         if (n === this.cuestionario.length) {
           this.e1 = n;
         } else {
+          this.$vuetify.goTo(-1000, 5)
           this.e1 = n + 1;
         }
       
@@ -216,7 +218,7 @@ export default {
         if (n == 1) {
           this.e1 = n;
         } else {
-          
+          this.$vuetify.goTo(-1000, 5)
           this.e1 = n - 1;
         }
     },

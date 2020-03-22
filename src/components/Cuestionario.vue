@@ -88,7 +88,7 @@
                   :key="x"
                   :value="x"
                   class="chip font-weight-bold  "
-                  color="deep-purple darken-1"
+                  color="#514e95"
                   text-color="white"
                 >
                   {{ index + 1 }}) {{ x }}
@@ -99,7 +99,7 @@
             <div class="d-flex justify-space-between botones ">
               <v-btn
                 class="botones"
-                color="error"
+                color="#ff4f5a"
                 fab
                 large
                 dark
@@ -115,7 +115,7 @@
               <!-- <button class="bubbly-button" >Click me!</button> -->
               <v-btn
               class="botones"
-                color="error"
+                color="#ff4f5a"
                 fab
                 large
                 dark
