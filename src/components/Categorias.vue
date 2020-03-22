@@ -13,17 +13,7 @@
   margin-right: auto;
   border-radius: 2px;
 }
-.linea-hor {
-  border: 0;
-  height: 1px;
 
-  background-image: -moz-linear-gradient(
-    left,
-    #f0f0f0,
-    #8c8b8b,
-    #f0f0f0
-  ) !important;
-}
 .container {
   max-width: 100% !important;
 }
@@ -147,10 +137,6 @@ export default {
     // this.getModulos();
   },
   methods: {
-    signIn: function() {
-      this.$router.push({ path: "/cuestionario" });
-    },
-
     // getCategorias(){
     //   axios.get('Categorias/listarCat').then(response => {
     //     this.categorias = response.data;

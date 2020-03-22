@@ -1,37 +1,22 @@
 <style>
-/* .imagen {
-  background-size: cover;
-} */
-/* .contenido-imagen {
-  width: 100%;
-  height: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-} */
+@font-face {
+  font-family: "Dosis";
+  src: url(../fonts/Dosis-Bold.ttf);
+}
 .chip {
   width: 100%;
 }
-/* .imagen {
-  max-width: 100%;
-  height: auto;
-} */
-/* .v-slide-group__content {
-  white-space: normal;
-  flex-wrap: wrap;
-  max-width: 100%;
-}
-@media screen and(max-width: 600px) {
-.v-slide-group__content {
-    white-space: normal;
-    flex-wrap: nowrap;
-    max-width: 100%;
-  }
-} */
+
 .chipsColumn .v-slide-group__content {
   white-space: normal;
   flex-wrap: nowrap;
   max-width: 100%;
+}
+.enunciadoTitulo{
+  font-family: "Dosis";
+  font-weight: normal;
+  font-size: 22px;
+  text-align:justify;
 }
 
 @media screen and (max-width: 800px) {
@@ -39,6 +24,23 @@
     white-space: normal;
     flex-wrap: wrap;
     max-width: 100%;
+  }
+  .enunciadoTitulo{
+    font-size:18px;
+  }
+}
+@media screen and (max-width:600px ){
+  .enunciadoTitulo{
+    font-size: 16px;
+  }
+  .v-btn--fab.v-size--large{
+    width: 54px !important;
+    height: 54px !important;
+  }
+}
+@media screen and (max-width:400px ){
+  .enunciadoTitulo{
+    font-size: 14px;
   }
 }
 .v-snack__content {
@@ -48,26 +50,17 @@
 .v-snack__wrapper {
   min-width: 30% !important;
 }
-/* @media screen and (max-width: 2000px) {
-  .botones {
-  margin-top: 4%;
-}
-  }
-  @media screen and (max-width: 1100px) {
-  .botones {
-  margin-top: 5%;
-}
-  } */
+
 </style>
 <template>
-  <div>
+  <div style="height:100%;">
     <v-progress-linear
       :buffer-value="progresoBuffer"
       :value="progreso"
       :color="colorBarra"
       height="10"
     ></v-progress-linear>
-    <v-stepper v-model="e1" :vertical="vertical" style="box-shadow:none;">
+    <v-stepper v-model="e1" :vertical="vertical" style="box-shadow:none; background-color:#f0efff;height:100%;">
       <template>
         <v-stepper-items class="stepper">
           <v-stepper-content
@@ -75,12 +68,12 @@
             :key="`${n + 1}-content`"
             :step="n + 1"
             class="stepeercontent"
+            
           >
-            <v-card height="100%" elevation="0">
-              <v-card-title class="Medium 20sp pt-0 pb-2 ">
-                {{ detaCon.enunciadoContenido }}
-                {{ n }}
-              </v-card-title>
+            <v-card height="100%" elevation="0" style="background-color:#f0efff;">
+              <!-- <v-card-title class="Medium 20sp pt-0 pb-2 enunciadoTitulo"> -->
+                <h3 class="enunciadoTitulo">{{ detaCon.enunciadoContenido }}{{ n }}</h3>
+              <!-- </v-card-title> -->
               <prism language="javascript">{{
                 detaCon.ejemploContenido
               }}</prism>
@@ -105,6 +98,7 @@
 
             <div class="d-flex justify-space-between botones ">
               <v-btn
+                class="botones"
                 color="error"
                 fab
                 large
@@ -120,6 +114,7 @@
                
               <!-- <button class="bubbly-button" >Click me!</button> -->
               <v-btn
+              class="botones"
                 color="error"
                 fab
                 large
@@ -132,6 +127,7 @@
             </div>
           </v-stepper-content>
         </v-stepper-items>
+        
       </template>
       <!-- <pre>{{ $data | json }}</pre> -->
     </v-stepper>
@@ -152,7 +148,7 @@ export default {
       editable: true,
       cuestionario: [
         {
-          enunciadoContenido: "enunciado1",
+          enunciadoContenido: "En el siguiente codigo se muestran un ciclo for anidado, en que situacion puede ser usado este ciclo anidado, dentro del ciclo se encuentran dos if que En el siguiente codigo se muestran un ciclo for anidado, en que situacion puede ser usado este ciclo anidado, dentro del ciclo se encuentran dos if que",
           ejemploContenido: `var n1 = n;
       if (this.cuestionario[n1 - 1].respuestaseleccionada == "") {
         this.e1 = n;
@@ -267,7 +263,7 @@ export default {
       return this.progreso + (100 / (this.cuestionario.length * 100)) * 100;
     },
     colorBarra() {
-      console.log(this.progreso);
+      // console.log(this.progreso);
       return this.progreso < 33
         ? "red"
         : this.progreso > 33 && this.progreso < 66
@@ -295,19 +291,23 @@ export default {
         if (n === this.cuestionario.length) {
           this.e1 = n;
         } else {
+          this.$vuetify.goTo(-1000, 5)
           this.e1 = n + 1;
+          
         }
       }
     },
     previousStep(n) {
       if (this.cuestionario[n - 1].respuestaseleccionada == undefined) {
         this.cuestionario[n - 1].respuestaseleccionada = "";
-
+        this.$vuetify.goTo(-1000, 5)
         this.e1 = n - 1;
+        
       } else {
         if (n == 1) {
           this.e1 = n;
         } else {
+          this.$vuetify.goTo(-1000, 5)
           this.e1 = n - 1;
         }
       }
