@@ -69,7 +69,7 @@
 }
 </style>
 <template>
-  <v-container class="ma-0 pa-0" style="background-color:#f0efff">
+  <v-container class="ma-0 pa-0" style="background-color:#f0efff; height:100%">
     <div v-for="(cat, indexCat) in categorias" :key="indexCat" class="pt-2">
       <v-sheet class="ma-0" max-width="100%" height="auto" color="#f0efff">
         <h1 class="pl-4 tituloCat">
@@ -133,24 +133,24 @@ export default {
     idModulo: 0
   }),
   created(){
-    // this.getCategorias();
-    // this.getModulos();
+    this.getCategorias();
+    this.getModulos();
   },
   methods: {
-    // getCategorias(){
-    //   axios.get('Categorias/listarCat').then(response => {
-    //     this.categorias = response.data;
-    //   }).catch(error => {
-    //     console.log(error)
-    //   });
-    // },
-    // getModulos(){
-    //   axios.get('Moduloes/listarMod').then(response => {
-    //     this.modulos = response.data;
-    //   }).catch(error => {
-    //     console.log(error)
-    //   });
-    // },
+    getCategorias(){
+      axios.get('Categorias/listarCat').then(response => {
+        this.categorias = response.data;
+      }).catch(error => {
+        console.log(error)
+      });
+    },
+    getModulos(){
+      axios.get('Moduloes/listarMod').then(response => {
+        this.modulos = response.data;
+      }).catch(error => {
+        console.log(error)
+      });
+    },
     toModulo(){
       this.$router.push({path:'/cuestionario'})
     }

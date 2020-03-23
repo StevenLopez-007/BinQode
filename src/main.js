@@ -28,7 +28,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 Vue.component("prism", Prism);
 
-// axios.defaults.baseURL='https://localhost:44379/api/'
+axios.defaults.baseURL='https://localhost:44379/api/'
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
 // Initialize Firebase

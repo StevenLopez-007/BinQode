@@ -58,7 +58,7 @@
     <div class="d-flex justify-center content">
     <v-card class="cardLogin " >
       <div class="pa-5">
-      <v-img src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/imagenlogin.jpg?alt=media&token=166151b9-cd6a-4524-a73b-2fafe4650e76"></v-img>
+      <v-img src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/imagenlogin2.jpg?alt=media&token=7f6d19b3-c37f-4693-a8b5-b72125bc27f6"></v-img>
       
       <h2 class="titulo1">B1nQ0de</h2>
       <h4 class="titulo2 pa-4">Inicia sesión para continuar</h4>
