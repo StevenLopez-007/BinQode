@@ -60,7 +60,7 @@ const router = new VueRouter({
     },
     {
     path:'/',
-      name: Home,
+      name: 'Home',
       component:Home,
       meta:{
         libre:true,

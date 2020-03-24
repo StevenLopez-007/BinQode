@@ -104,11 +104,12 @@ export default {
           if (result.credential) {
             // This gives you a Google Access Token. You can use it to access the Google API.
             var token = result.credential.accessToken;
+             me.$router.go({ path: "/categoria" });
             // ...
           }
           // The signed-in user info.
           var user = result.user;
-          me.$router.push({ path: "/categoria" });
+         
         })
         .catch(function(error) {
           // Handle Errors here.

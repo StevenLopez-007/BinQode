@@ -78,6 +78,34 @@
 .tituloHome3 {
   display: none;
 }
+.tituloHome4 {
+  font-family: "Dosis";
+  color: #3c3c3c;
+  line-height: 1;
+}
+.descripcionHome4 {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: justify;
+  color: #777;
+  line-height: 2;
+}
+.tituloFooter {
+  font-family: "Dosis";
+  font-size: 36px;
+  letter-spacing: 1px;
+  color: #f5f5f5;
+}
+.redesFooter li {
+  list-style-type: none;
+  color: white;
+  font-weight: bold;
+}
+.redesFooter {
+  padding-left: 0 !important;
+  padding-top: 20px;
+}
+
 .circulo {
   position: absolute;
   left: 0;
@@ -101,13 +129,17 @@
   left: 0;
   top: 90px;
 }
-@media screen and (max-width: 1300px) {
+
+@media screen and (max-width: 1264px) {
   .tituloHome {
     font-size: 36px;
   }
   .avatarHome {
     width: 90px !important;
     height: 90px !important;
+  }
+  .imgFooter {
+    display: none;
   }
 }
 @media screen and (max-width: 1050px) {
@@ -159,6 +191,17 @@
   .circulo {
     display: none;
   }
+  .avatarHome4 {
+    width: 150px !important;
+    height: 150px !important;
+    min-width: 150px !important;
+  }
+  .tituloHome4 {
+    font-size: 26px;
+  }
+  .descripcionHome4 {
+    font-size: 14px;
+  }
 }
 @media screen and (max-width: 600px) {
   .imgPlayStore {
@@ -175,6 +218,12 @@
   }
   .tituloHome3 h1 {
     font-size: 26px;
+  }
+  .tituloHome4 {
+    text-align: center;
+  }
+  .contenidoHome4 {
+    flex-direction: column-reverse;
   }
 }
 </style>
@@ -359,7 +408,7 @@
       </v-col>
     </v-row>
     <!--  -->
-    <v-row>
+    <v-row class="mt-7">
       <v-col
         lg="12"
         class="d-flex justify-lg-center justify-sm-center justify-md-center justify-start"
@@ -394,8 +443,175 @@
         </v-col>
       </v-col>
     </v-row>
+    <!-- Seccion4----------------- -->
+    <v-row class="mt-12">
+      <v-col cols="12" class="d-flex justify-center">
+        <v-col lg="10">
+          <hr style="height:0px; border: 1px solid #e5e5e5; width:100%;  " />
+        </v-col>
+      </v-col>
+    </v-row>
 
-    
+    <v-row>
+      <v-col
+        lg="3"
+        md="3"
+        sm="3"
+        cols="12"
+        class="d-flex justify-lg-end justify-md-center justify-sm-center justify-center"
+      >
+        <v-avatar size="250" class="avatarHome4">
+          <v-img
+            src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/LogosRobot%2Flogorobot5.jpg?alt=media&token=ec808fb5-9f34-4da5-a598-1f1239caeea3"
+          ></v-img>
+        </v-avatar>
+      </v-col>
+      <v-col lg="9" class="d-flex align-center">
+        <v-col lg="10">
+          <div class="ml-3">
+            <h1 class="tituloHome4">
+              Retroalimenta tus conocimientos básicos de programación
+            </h1>
+            <p class="descripcionHome4 mt-7">
+              En B1nQ0de te ayudamos a mejorar tu logica básica en programación,
+              ¿Que esperas para probar B1nQ0ode?
+            </p>
+          </div>
+        </v-col>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="12" class="d-flex justify-center">
+        <v-col lg="10">
+          <hr style="height:0px; border: 1px solid #e5e5e5; width:100%;  " />
+        </v-col>
+      </v-col>
+    </v-row>
+
+    <v-row class="contenidoHome4">
+      <v-col lg="9" class="d-flex align-center justify-end">
+        <v-col lg="10">
+          <div class="ml-3">
+            <h1 class="tituloHome4">
+              Obtiene una calificación al terminar el cuestionario
+            </h1>
+            <p class="descripcionHome4 mt-7">
+              Al finalizar un modulo obtendrás una calificacion en base a las
+              respuestas correctas, pero recuerda una calificación no define tu
+              inteligencia.
+            </p>
+          </div>
+        </v-col>
+      </v-col>
+      <v-col
+        lg="3"
+        md="3"
+        sm="3"
+        cols="12"
+        class="d-flex justify-lg-start justify-md-center justify-sm-center justify-center"
+      >
+        <v-avatar size="200" class="avatarHome4">
+          <v-img
+            src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/LogosRobot%2Flogorobot6.jpg?alt=media&token=934db329-4e36-49d7-9d2e-d035b142f3a4"
+          ></v-img>
+        </v-avatar>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="12" class="d-flex justify-center">
+        <v-col lg="10">
+          <hr style="height:0px; border: 1px solid #e5e5e5; width:100%;  " />
+        </v-col>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col
+        lg="3"
+        md="3"
+        sm="3"
+        cols="12"
+        class="d-flex justify-lg-end justify-md-center justify-sm-center justify-center"
+      >
+        <v-avatar size="200" class="avatarHome4">
+          <v-img
+            src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/LogosRobot%2Flogorobot7.jpg?alt=media&token=41c78303-f975-4dd8-a692-c543c287d7d5"
+          ></v-img>
+        </v-avatar>
+      </v-col>
+      <v-col lg="9" class="d-flex align-center">
+        <v-col lg="10">
+          <div class="ml-3">
+            <h1 class="tituloHome4">Revisa tus módulos completados</h1>
+            <p class="descripcionHome4 mt-7">
+              Puedes revisar tu historial de módulos, puedes las respuestas que
+              seleccionaste y tu calificación obtenida en los cuestionarios
+            </p>
+          </div>
+        </v-col>
+      </v-col>
+    </v-row>
+
+    <!--Seccion5 ---------------------- -->
+    <v-row style="background-color:#041d31" class="d-flex justify-center">
+      <v-col lg="3" class="imgFooter">
+        <v-img
+          src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/LogosRobot%2Flogorobot8.png?alt=media&token=3a065154-5c0f-460a-9d51-4159c3674f2f"
+        ></v-img>
+      </v-col>
+      <v-col
+        lg="2"
+        cols="12"
+        class="d-flex align-lg-center align-md-center justify-md-center align-sm-center justify-sm-center justify-center align-center"
+      >
+        <h1 class="tituloFooter">B1nQo0de</h1>
+      </v-col>
+      <v-col lg="3" cols="6" class="pt-10 pl-11 ">
+        <h3 style="color:white;">Siguenos</h3>
+        <ul class="redesFooter">
+          <li class="mt-3">
+            <v-icon class="mr-2" style="width:21px; color:white"
+              >fab fa-facebook-f</v-icon
+            >
+            Facebook
+          </li>
+          <li class="mt-3">
+            <v-icon class="mr-2" style="width:21px; color:white"
+              >fab fa-instagram</v-icon
+            >
+            Instagram
+          </li>
+          <li class="mt-3">
+            <v-icon class="mr-2" style="width:21px; color:white"
+              >fab fa-twitter</v-icon
+            >
+            Twitter
+          </li>
+        </ul>
+      </v-col>
+      <v-col lg="3" cols="6" class="pt-10 pl-11 ">
+        <h3 style="color:white;">Sobre Nosotros</h3>
+        <ul class="redesFooter">
+          <li class="mt-3">¿Quienes Somos?</li>
+          <li class="mt-3">Equipo</li>
+          <li class="mt-3">Trabajo</li>
+          <li class="mt-3">Contáctanos</li>
+        </ul>
+      </v-col>
+      <v-col cols="12" class="d-flex justify-center">
+        <v-col lg="10">
+          <hr style="height:0px; border: 1px solid #e5e5e5; width:100%;  " />
+          <div class="d-flex justify-space-between">
+            <span style="font-size:12px; color:white;">&copy;BinQode App</span>
+            <span style="font-size:12px; color:white;">{{
+              new Date().getFullYear()
+            }}</span>
+          </div>
+        </v-col>
+      </v-col>
+    </v-row>
   </div>
 </template>
 <script>
@@ -420,7 +636,7 @@ export default {
         {
           titulo: "Bases de Datos",
           descripcion:
-            "Si ni el diseño web ni programacion es lo tuyo, entonces prueba las bases de datos, elige entre la variedad de modulos.",
+            "Si el diseño web ni programacion es lo tuyo, entonces prueba las bases de datos, elige entre la variedad de modulos.",
           color: "rgb(98, 215, 107)",
           icon: "fas fa-database"
         }
