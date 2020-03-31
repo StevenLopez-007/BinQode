@@ -3,9 +3,11 @@ import VueRouter from 'vue-router'
 import Categoria from '../components/Categorias.vue'
 import Cuestionario from '../components/Cuestionario.vue'
 import CuestionarioCon from '../components/CuestionarioCon.vue'
-import Code from '../components/Code.vue'
+import InstroduccionMod from '../components/IntroduccionModulo.vue'
 import Home from '../components/Home.vue'
 import Login from '../components/Login.vue'
+import Modulos from '../components/Modulos.vue'
+import scroll from '../components/pruebaScroll.vue'
 import firebase, { firestore } from 'firebase'
 
 Vue.use(VueRouter)
@@ -24,13 +26,21 @@ const router = new VueRouter({
      
     },
     {
-      path:'/cuestionario',
+      path:'/cuestionario/:id',
       name:'Cuestionario',
       component:Cuestionario,
       meta:{
         login:true,
       }
       
+    },
+    {
+      path:'/introduccion/:id',
+      name:'InstroduccionMod',
+      component:InstroduccionMod,
+      meta:{
+        login:true,
+      }
     },
     {
       path:'/cuestionarioCon',
@@ -41,15 +51,7 @@ const router = new VueRouter({
       }
       
     },
-    {
-      path:'/code',
-      name:'code',
-      component:Code,
-      meta:{
-        login:true
-      }
-      
-    },
+    
     {
       path:'/login',
       name:Login,
@@ -65,6 +67,22 @@ const router = new VueRouter({
       meta:{
         libre:true,
       },
+    },
+    {
+    path:'/modulos/:id',
+    name:'Modulos',
+    component:Modulos,
+    meta:{
+      login:true
+    }
+    },
+    {
+      path:"/scroll",
+      name:'scroll',
+      component:scroll,
+      meta:{
+        login:true
+      }
     }
   ]
 })

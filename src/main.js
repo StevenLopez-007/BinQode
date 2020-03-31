@@ -15,6 +15,9 @@ import "prismjs/plugins/autolinker/prism-autolinker.min";
 import "prismjs/plugins/autolinker/prism-autolinker.css";
 import Prism from "vue-prism-component";
 
+// Lo declaramos globalmente
+
+
 var firebaseConfig = {
   apiKey: "AIzaSyB7FFfnuq_ixg0PG7Q174zWiRweqCP17EU",
   authDomain: "binqode.firebaseapp.com",
@@ -28,7 +31,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 Vue.component("prism", Prism);
 
-axios.defaults.baseURL='https://localhost:44379/api/'
+axios.defaults.baseURL='http://b1nc0de-api.herokuapp.com/'
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
 // Initialize Firebase

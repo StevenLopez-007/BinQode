@@ -12,11 +12,11 @@
   flex-wrap: nowrap;
   max-width: 100%;
 }
-.enunciadoTitulo{
+.enunciadoTitulo {
   font-family: "Dosis";
   font-weight: normal;
   font-size: 22px;
-  text-align:justify;
+  text-align: justify;
 }
 
 @media screen and (max-width: 800px) {
@@ -25,21 +25,21 @@
     flex-wrap: wrap;
     max-width: 100%;
   }
-  .enunciadoTitulo{
-    font-size:18px;
+  .enunciadoTitulo {
+    font-size: 18px;
   }
 }
-@media screen and (max-width:600px ){
-  .enunciadoTitulo{
+@media screen and (max-width: 600px) {
+  .enunciadoTitulo {
     font-size: 16px;
   }
-  .v-btn--fab.v-size--large{
+  .v-btn--fab.v-size--large {
     width: 54px !important;
     height: 54px !important;
   }
 }
-@media screen and (max-width:400px ){
-  .enunciadoTitulo{
+@media screen and (max-width: 400px) {
+  .enunciadoTitulo {
     font-size: 14px;
   }
 }
@@ -50,91 +50,136 @@
 .v-snack__wrapper {
   min-width: 30% !important;
 }
-
 </style>
 <template>
   <div style="height:100%;">
+     <v-row v-if="error">
+      <v-col cols="12" class="d-flex justify-center red--text">
+            <h1>
+              ¡Error!
+            </h1>
+      </v-col>
+    </v-row>
+
+    <v-row v-if="status" >
+      <v-col cols="12" class="d-flex justify-center">
+        <v-progress-circular
+          indeterminate
+          color="primary"
+        ></v-progress-circular>
+      </v-col>
+    </v-row>
+
     <v-progress-linear
       :buffer-value="progresoBuffer"
       :value="progreso"
       :color="colorBarra"
       height="10"
     ></v-progress-linear>
-    <v-stepper v-model="e1" :vertical="vertical" style="box-shadow:none; background-color:#f0efff;height:100%;">
+    <v-stepper
+      v-if="!status"
+      v-model="e1"
+      :vertical="vertical"
+      style="box-shadow:none; background-color:#f0efff;height:100%;"
+    >
       <template>
-        <v-stepper-items class="stepper">
+        <v-stepper-items class="stepper" style="height:100%">
           <v-stepper-content
             v-for="(detaCon, n) in cuestionario"
             :key="`${n + 1}-content`"
             :step="n + 1"
             class="stepeercontent"
-            
+            style="height:100%;"
           >
-            <v-card height="100%" elevation="0" style="background-color:#f0efff;">
-              <!-- <v-card-title class="Medium 20sp pt-0 pb-2 enunciadoTitulo"> -->
-                <h3 class="enunciadoTitulo">{{ detaCon.enunciadoContenido }}{{ n }}</h3>
-              <!-- </v-card-title> -->
-              <prism language="javascript">{{
-                detaCon.ejemploContenido
-              }}</prism>
+            <v-row style="height:100%; " class="d-flex flex-column">
+              <v-row style="width:100%;">
+                <v-col cols="12">
+                  <v-card
+                    height="100%"
+                    elevation="0"
+                    style="background-color:#f0efff;"
+                  >
+                    <!-- <v-card-title class="Medium 20sp pt-0 pb-2 enunciadoTitulo"> -->
+                    <h3 class="enunciadoTitulo">
+                      {{ detaCon.enunciadoContenido }}
+                    </h3>
+                    <h3 class="enunciadoTitulo">
+                      <br>
+                      Pregunta: <br>
+                      {{ detaCon.preguntaCuestionario }}
+                    </h3>
+                    <!-- </v-card-title> -->
+                    <prism language="html">{{
+                      detaCon.ejemploContenido
+                    }}</prism>
+                  </v-card>
+                </v-col>
+              </v-row>
+              <v-row>
+                      <v-col cols="12" lg="12">
+                    <v-chip-group
+                      v-model="detaCon.respuestaseleccionada"
+                      active-class="white--text text--accent-10 blue"
+                      class="chipsColumn mt-5 mb-5"
+                    >
+                      <v-chip
+                        v-for="(x, index) in detaCon.respuestasOrdenadas"
+                        :key="x"
+                        :value="x"
+                        class="chip font-weight-bold  "
+                        color="#514e95"
+                        text-color="white"
+                      >
+                        {{ index + 1 }}) {{ x }}
+                      </v-chip>
+                    </v-chip-group>
+                    </v-col>
+                    </v-row>
 
-              <v-chip-group
-                v-model="detaCon.respuestaseleccionada"
-                active-class="white--text text--accent-10 blue"
-                class="chipsColumn mt-5 mb-5"
-              >
-                <v-chip
-                  v-for="(x, index) in detaCon.respuestasOrdenadas"
-                  :key="x"
-                  :value="x"
-                  class="chip font-weight-bold  "
-                  color="#514e95"
-                  text-color="white"
-                >
-                  {{ index + 1 }}) {{ x }}
-                </v-chip>
-              </v-chip-group>
-            </v-card>
+              <v-row class="d-flex align-end" style="width:100%;">
+                <v-col cols="12" lg="12" md="12" sm="12">
+                  <div class="d-flex justify-space-between botones ">
+                    <v-btn
+                      class="botones"
+                      color="#ff4f5a"
+                      fab
+                      large
+                      dark
+                      elevation="0"
+                      @click="previousStep(n + 1)"
+                    >
+                      <v-icon>arrow_back_ios</v-icon>
+                    </v-btn>
+                    <v-snackbar v-model="snackbar" :timeout="timeout">
+                      ¡Seleccione una respuesta!
+                    </v-snackbar>
 
-            <div class="d-flex justify-space-between botones ">
-              <v-btn
-                class="botones"
-                color="#ff4f5a"
-                fab
-                large
-                dark
-                elevation="0"
-                @click="previousStep(n + 1)"
-              >
-                <v-icon>arrow_back_ios</v-icon>
-              </v-btn>
-              <v-snackbar v-model="snackbar" :timeout="timeout">
-                ¡Seleccione una respuesta!
-              </v-snackbar>
-               
-              <!-- <button class="bubbly-button" >Click me!</button> -->
-              <v-btn
-              class="botones"
-                color="#ff4f5a"
-                fab
-                large
-                dark
-                elevation="0"
-                @click="nextStep(n + 1)"
-              >
-                <v-icon>arrow_forward_ios</v-icon>
-              </v-btn>
-            </div>
+                    <!-- <button class="bubbly-button" >Click me!</button> -->
+                    <v-btn
+                      class="botones"
+                      color="#ff4f5a"
+                      fab
+                      large
+                      dark
+                      elevation="0"
+                      @click="nextStep(n + 1)"
+                    >
+                      <v-icon>arrow_forward_ios</v-icon>
+                    </v-btn>
+                  </div>
+                </v-col>
+              </v-row>
+            </v-row>
           </v-stepper-content>
         </v-stepper-items>
-        
       </template>
-      <!-- <pre>{{ $data | json }}</pre> -->
+      <!-- <pre>{{ $data.cuestionario }}</pre> -->
     </v-stepper>
   </div>
 </template>
 <script src="D:\Escritorio\testapp\src\js\animacionBoton.js"></script>
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
@@ -143,96 +188,15 @@ export default {
       snackbar: false,
       timeout: 2000,
 
+      status: true,
+      error:false,
       steps: 2,
       vertical: false,
       editable: true,
-      cuestionario: [
-        {
-          enunciadoContenido: "En el siguiente codigo se muestran un ciclo for anidado, en que situacion puede ser usado este ciclo anidado, dentro del ciclo se encuentran dos if que En el siguiente codigo se muestran un ciclo for anidado, en que situacion puede ser usado este ciclo anidado, dentro del ciclo se encuentran dos if que",
-          ejemploContenido: `var n1 = n;
-      if (this.cuestionario[n1 - 1].respuestaseleccionada == "") {
-        this.e1 = n;
-      } else {
-        if (n === this.cuestionario.length) {
-          this.e1 = n;
-        } else {
-          this.e1 = n + 1;
-        }
-      }`,
-          respuestas: ["respuesta1C1", "op1C1", "op2C1", "op3C1"],
-          respuestasOrdenadas: [],
-          // respuesta: "respuesta1C1",
-          // opcion1: "op1C1",
-          // opcion2: "op2C1",
-          // opcion3: "op3C1",
-          idDetalleContenido: "1",
-          respuestaseleccionada: ""
-        },
-        {
-          enunciadoContenido: "enunciado2Py",
-          ejemploContenido: `var n1 = n;
-      if (this.cuestionario[n1 - 1].respuestaseleccionada == "") {
-        this.e1 = n;
-      } else {
-        if (n === this.cuestionario.length) {
-          this.e1 = n;
-        } else {
-          this.e1 = n + 1;
-        }
-      }`,
-          respuestas: ["respuesta1C2", "op1C2", "op2C2", "op3C2"],
-          respuestasOrdenadas: [],
-          // respuesta: "respuesta1C2",
-          // opcion1: "op1C2",
-          // opcion2: "op2C",
-          // opcion3: "op3C2",
-          idDetalleContenido: "2",
-          respuestaseleccionada: ""
-        },
-        {
-          enunciadoContenido: "enunciado3Py",
-          ejemploContenido: `var n1 = n;
-      if (this.cuestionario[n1 - 1].respuestaseleccionada == "") {
-        this.e1 = n;
-      } else {
-        if (n === this.cuestionario.length) {
-          this.e1 = n;
-        } else {
-          this.e1 = n + 1;
-        }
-      }`,
-          respuestas: ["respuesta1C3", "op1C3", "op2C3", "op3C3"],
-          respuestasOrdenadas: [],
-          // respuesta: "respuesta1C3",
-          // opcion1: "op1C3",
-          // opcion2: "op2C3",
-          // opcion3: "op3C3",
-          idDetalleContenido: "3",
-          respuestaseleccionada: ""
-        },
-        {
-          enunciadoContenido: "enunciado4Py",
-          ejemploContenido: `var n1 = n;
-      if (this.cuestionario[n1 - 1].respuestaseleccionada == "") {
-        this.e1 = n;
-      } else {
-        if (n === this.cuestionario.length) {
-          this.e1 = n;
-        } else {
-          this.e1 = n + 1;
-        }
-      }`,
-          respuestas: ["respuesta1C4", "op1C4", "op2C4", "op3C4"],
-          respuestasOrdenadas: [],
-          // respuesta: "respuesta1C4",
-          // opcion1: "op1C4",
-          // opcion2: "op2C4",
-          // opcion3: "op3C4",
-          idDetalleContenido: "4",
-          respuestaseleccionada: ""
-        }
-      ],
-      respuestasSeleccionadas: []
+      cuestionario: [],
+      respuestasSeleccionadas: [],
+
+      cuestionarioCon: []
     };
   },
 
@@ -245,6 +209,9 @@ export default {
     vertical() {
       this.e1 = 2;
       requestAnimationFrame(() => (this.e1 = 1)); // Workarounds
+    },
+    status() {
+      this.ordenarPreguntas();
     }
   },
   computed: {
@@ -272,7 +239,7 @@ export default {
     }
   },
   created: function() {
-    this.ordenarPreguntas();
+    this.getCuestionario();
   },
   methods: {
     onInput(val) {
@@ -291,31 +258,29 @@ export default {
         if (n === this.cuestionario.length) {
           this.e1 = n;
         } else {
-          this.$vuetify.goTo(-1000, 5)
+          this.$vuetify.goTo(-1000, 5);
           this.e1 = n + 1;
-          
         }
       }
     },
     previousStep(n) {
       if (this.cuestionario[n - 1].respuestaseleccionada == undefined) {
         this.cuestionario[n - 1].respuestaseleccionada = "";
-        this.$vuetify.goTo(-1000, 5)
+        this.$vuetify.goTo(-1000, 5);
         this.e1 = n - 1;
-        
       } else {
         if (n == 1) {
           this.e1 = n;
         } else {
-          this.$vuetify.goTo(-1000, 5)
+          this.$vuetify.goTo(-1000, 5);
           this.e1 = n - 1;
         }
       }
     },
     generarRamdon() {
-      if (this.respuestasSeleccionadas.length != 4) {
+      if (this.respuestasSeleccionadas.length != 3) {
         while (repetido != false) {
-          var numberrandom = Math.floor(Math.random() * 4) + 0;
+          var numberrandom = Math.floor(Math.random() * 3) + 0;
           var repetido = this.comprobarnumeroGanador(numberrandom);
         }
         this.respuestasSeleccionadas.push(numberrandom);
@@ -338,7 +303,7 @@ export default {
       let me = this;
       for (var i = 0; i < this.cuestionario.length; i++) {
         this.respuestasSeleccionadas = [];
-        for (var j = 0; j < 4; j++) {
+        for (var j = 0; j < this.cuestionario[i].respuestas.length; j++) {
           var respuestaOr = this.cuestionario[i].respuestas[
             this.generarRamdon()
           ];
@@ -346,6 +311,37 @@ export default {
           this.cuestionario[i].respuestasOrdenadas.push(respuestaOr);
         }
       }
+    },
+
+    getCuestionario() {
+      axios
+        .get("modulo/contenidoCuestPorModulo/"+ this.$route.params.id)
+        .then(response => {
+          // this.cuestionarioCon = response.data.cursor;
+          response.data.cursor.map(obj => {
+            var contenido = {};
+            contenido.idModulo = obj.modulos._id;
+            contenido.idContenido = obj.contenidos._id;
+            contenido.idCuestionario = obj.cuestionarios._id;
+            contenido.enunciadoContenido = obj.contenidos.enunciadoContenido;
+            contenido.ejemploContenido = obj.contenidos.ejemploContenido;
+            contenido.preguntaCuestionario = obj.cuestionarios.pregunta;
+            contenido.respuestas = [
+              obj.cuestionarios.opt1,
+              obj.cuestionarios.opt2,
+              obj.cuestionarios.opt3
+            ];
+            contenido.respuestasOrdenadas = [];
+            contenido.respuestaCorrecta = obj.cuestionarios.respuesta;
+            contenido.respuestaseleccionada = "";
+            this.cuestionario.push(contenido);
+            console.log(this.cuestionarioCon);
+          });
+        }).catch(error =>{
+          console.log(error)
+          this.error = true;
+        })
+        .finally(() =>  {this.status = false; this.cuestionario.length ==0 ? this.error = true : null;});
     }
   }
 };
