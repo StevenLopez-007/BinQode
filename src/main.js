@@ -10,9 +10,7 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import '@fortawesome/fontawesome-free/css/all.css' // Ensure you are using css-loader
 import "prismjs";
 import "prismjs/themes/prism-shades.css";
-import "prismjs/components/prism-scss.min";
-import "prismjs/plugins/autolinker/prism-autolinker.min";
-import "prismjs/plugins/autolinker/prism-autolinker.css";
+  
 import Prism from "vue-prism-component";
 import Swal from 'sweetalert2';
 import ProgressBar from 'progressbar.js'
@@ -30,7 +28,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 Vue.component("prism", Prism);
 
-axios.defaults.baseURL='http://b1nc0de-api.herokuapp.com/'
+axios.defaults.baseURL='https://b1nc0de-api.herokuapp.com/'
 Vue.config.productionTip = false;
 Vue.use(Vuetify,Swal,ProgressBar);
 // Initialize Firebase
