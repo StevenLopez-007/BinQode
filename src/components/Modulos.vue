@@ -66,6 +66,11 @@
     font-size: 14px;
   }
 }
+@media screen and (max-width:450px){
+  .imgMod{
+    height: 100px !important;
+  }
+}
 @media screen and (max-width: 600px) {
   .descripcionModulo {
     display: none;
@@ -118,7 +123,7 @@
     <v-row v-if="!status && !error">
       <v-col cols="12" class="d-flex justify-center">
         <h1
-          style="border:none; font-size:36px !important; text-align:center"
+          style="border:none; font-size:24px !important; text-align:center"
           class="tituloModulo"
         >
           Modulos de {{ nombreCategoria }}
@@ -129,11 +134,11 @@
 
     <v-row class="d-flex justify-center " v-if="!status && !error">
       <v-col
-        cols="8"
+        cols="6"
         lg="3"
         md="5"
         sm="4"
-        class="ma-5  mt-2 d-flex flex-wrap"
+        class="ma-lg-11 ma-sm-6 d-flex flex-wrap"
         v-for="(mod, indexMod) in modulos"
         :key="indexMod"
       >
@@ -158,11 +163,14 @@
       </v-col>
     </v-row>
 
-    <v-row v-if="!status && !error">
+    <v-row v-if="!status && !error" style="position: absolute; bottom:0px; left:0px; right:0px;">
       <v-col cols="12" class="d-flex justify-center">
         <v-btn @click="cargarMas()" color="#4d4d87" style="color:white;"
           >Mostrar +</v-btn
         >
+        <v-snackbar v-model="snackbar" :timeout="timeout">
+          ¡No hay más modulos!
+        </v-snackbar>
       </v-col>
     </v-row>
     <!-- <pre>{{$data }}</pre> -->
@@ -174,6 +182,10 @@ import axios from "axios";
 export default {
   data: () => ({
     model: null,
+
+    snackbar: false,
+    timeout: 2000,
+
     status: true,
     error: false,
     modulos: [],
@@ -215,6 +227,7 @@ export default {
           if (response.data.modulosEdit <= 0) {
             console.log("Esta pagina no tiene mas modulos");
             this.pagina--;
+            this.snackbar = true;
             console.log(this.pagina);
           } else {
             response.data.modulosEdit.forEach(element => {

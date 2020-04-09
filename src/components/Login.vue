@@ -62,7 +62,7 @@
       
       <h2 class="titulo1">B1nQ0de</h2>
       <h4 class="titulo2 pa-4">Inicia sesión para continuar</h4>
-      <v-btn @click="login()" color="#4d4d87" width="100%" height="50px" class="white--text pa-2 mt-4 botonGoogle"><v-icon color="white" class="ma-3">fab fa-google</v-icon>INGRESAR CON GOOGLE</v-btn>
+      <v-btn @click="login()" color="#4d4d87" width="100%" height="50px" class="white--text  mt-4 botonGoogle"><v-icon color="white" class="ma-3">fab fa-google</v-icon>INGRESAR CON GOOGLE</v-btn>
       
       </div>
     </v-card>

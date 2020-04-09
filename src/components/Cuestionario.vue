@@ -56,33 +56,23 @@
 </style>
 <template>
   <div style="background-color: #f0efff; height: 100%;">
-    <v-row v-if="error" style="height: 100%;">
-      <v-col
-        cols="12"
-        class="d-flex justify-center align-center red--text"
-        style="height: 100%;"
-      >
+    <v-row v-if="error" style="height: 100%;" class="d-flex justify-center align-center red--text">
         <h1>
           ¡Error!
         </h1>
-      </v-col>
     </v-row>
 
-    <v-row v-if="status" style="height: 100%;">
-      <v-col
-        cols="12"
-        class="d-flex justify-center align-center"
-        style="height: 100%;"
-      >
+    <v-row v-if="status" style="height: 100%;" class="d-flex justify-center align-center red--text">
+      
         <v-progress-circular
           indeterminate
           color="primary"
         ></v-progress-circular>
-      </v-col>
+     
     </v-row>
 
-    <v-container class="pa-0" style="height: 100%;">
-      <v-row class="pt-1">
+    <v-container class="pa-0" style="height: 100%;"  v-if="!status && !error">
+      <v-row class="pt-1" v-if="!status && !error">
         <v-col cols="1" class="d-flex justify-center align-center">
           <v-btn icon :to="{ path: '/categoria' }">
             <v-icon color="red darken-1">fas fa-times-circle</v-icon>
@@ -260,7 +250,6 @@
 <script src="D:\Escritorio\testapp\src\js\animacionBoton.js"></script>
 <script>
 import axios from "axios";
-import ProgressBar from "progressbar.js";
 export default {
   data() {
     return {

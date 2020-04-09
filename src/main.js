@@ -9,7 +9,7 @@ import firebase from 'firebase'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import '@fortawesome/fontawesome-free/css/all.css' // Ensure you are using css-loader
 import "prismjs";
-import "prismjs/themes/prism-shades.css";
+import "./themesCode/prism-shades.css";
   
 import Prism from "vue-prism-component";
 import Swal from 'sweetalert2';

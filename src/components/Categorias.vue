@@ -66,6 +66,9 @@
   .descripcionCategoria {
     font-size: 14px;
   }
+  .imgCat{
+    height: 100px !important;
+  }
 }
 @media screen and (max-width: 600px) {
   .descripcionCategoria {
@@ -73,10 +76,12 @@
   }
   .tituloCat {
     font-size: 14px;
+    margin-top: 10px;
   }
   .cardCat {
     border-radius: 0px;
   }
+  
 }
 </style>
 <template>
@@ -109,7 +114,7 @@
     <v-row v-if="!status && !error">
       <v-col cols="12" class="d-flex justify-center">
         <h1
-          style="border:none; font-size:36px; text-align:center"
+          style="border:none; font-size:24px;"
           class="tituloCat"
         >
           Categorias
@@ -129,7 +134,7 @@
 
     <v-row class="d-flex justify-center " v-if="!status && !error">
       <v-col
-        cols="8"
+        cols="6"
         lg="3"
         md="5"
         sm="4"
@@ -156,7 +161,7 @@
       </v-col>
     </v-row>
     <!-- mostrar + -->
-    <v-row v-if="!status && !error">
+    <v-row v-if="!status && !error" style="position: absolute; bottom:0px; left:0px; right:0px;">
       <v-col cols="12" class="d-flex justify-center">
         <v-btn @click="cargarMas()" color="#4d4d87" style="color:white;"
           >Mostrar +</v-btn
@@ -218,7 +223,7 @@ export default {
         .get("categoria/?pagina=" + this.pagina)
         .then(response => {
           if (response.data.categorias <= 0) {
-            console.log("Esta pagina no tiene mas modulos");
+            console.log("Esta pagina no tiene mas categorias");
             this.pagina--;
             this.snackbar = true;
             console.log(this.pagina);
