@@ -48,7 +48,7 @@
   box-shadow: none !important;
 }
 .imgMod {
-  height: 300px !important;
+  height: 200px !important;
 }
 .selectMod {
   height: 150px !important;
@@ -80,24 +80,32 @@
 </style>
 <template>
   <v-container class="ma-0 pa-0" style="background-color:#f0efff; height:100%">
-    <v-row v-if="error">
-      <v-col cols="12" class="d-flex justify-center red--text">
-            <h1>
-              ¡Error!
-            </h1>
+    <v-row v-if="error" style="height:100%;">
+      <v-col
+        cols="12"
+        class="d-flex justify-center align-center red--text"
+        style="height:100%;"
+      >
+        <h1>
+          ¡Error!
+        </h1>
       </v-col>
     </v-row>
 
-    <v-row v-if="status" >
-      <v-col cols="12" class="d-flex justify-center">
+    <!-- <v-row v-if="status" style="height:100%;">
+      <v-col
+        cols="12"
+        class="d-flex justify-center align-center"
+        style="height:100%;"
+      >
         <v-progress-circular
           indeterminate
           color="primary"
         ></v-progress-circular>
       </v-col>
-    </v-row>
+    </v-row> -->
 
-     <v-row  class="d-flex justify-center" v-if="status">
+    <v-row class="d-flex justify-center align-center" v-if="status" style="height:100%;">
       <v-col cols="7" lg="3" md="5" sm="4" v-for="n in 3" :key="n">
         <v-skeleton-loader
           class="mx-auto"
@@ -109,7 +117,10 @@
 
     <v-row v-if="!status && !error">
       <v-col cols="12" class="d-flex justify-center">
-        <h1 style="border:none; font-size:26px !important; text-align:center" class="tituloModulo">
+        <h1
+          style="border:none; font-size:36px !important; text-align:center"
+          class="tituloModulo"
+        >
           Modulos de {{ nombreCategoria }}
         </h1>
         <!-- <h1 v-if="!status" style="color:#f44336;font-size:40px;">¡Error!</h1> -->
@@ -122,17 +133,20 @@
         lg="3"
         md="5"
         sm="4"
-        class="ma-11 mt-2 d-flex flex-wrap"
+        class="ma-5  mt-2 d-flex flex-wrap"
         v-for="(mod, indexMod) in modulos"
         :key="indexMod"
       >
         <v-hover v-slot:default="{ hover }">
-          <v-card class="cardMod pa-2" :elevation="hover ? 6 :null" @click="toCuestionario(mod._id)" style="border-radius:25px;box-shadow:none;">
-            <div
-              style="width:100%; height:auto; background-color: transparent !important; border-radius:15px;"
-            >
-              <v-img class="imgMod" :src="mod.img"> </v-img>
-            </div>
+          <v-card
+            class="cardMod pa-2"
+            :elevation="hover ? 6 : null"
+            @click="toCuestionario(mod.id)"
+            style="border-radius:25px;box-shadow:none;"
+          >
+            
+              <v-img style="border-radius:15px;" class="imgMod" :src="mod.img"> </v-img>
+            
 
             <v-row>
               <h1 class="tituloModulo">{{ mod.nombre }}</h1>
@@ -143,7 +157,7 @@
         </v-hover>
       </v-col>
     </v-row>
-    
+
     <v-row v-if="!status && !error">
       <v-col cols="12" class="d-flex justify-center">
         <v-btn @click="cargarMas()" color="#4d4d87" style="color:white;"
@@ -177,16 +191,20 @@ export default {
       axios
         .get("modulo/getModulosPorCategoria/" + this.$route.params.id)
         .then(response => {
-          this.modulos = response.data.modulos;
+          
+          this.modulos = response.data.modulosEdit;
           if (this.modulos.length > 0) {
-            this.nombreCategoria = response.data.modulos[0].categoria.nombre;
+            this.nombreCategoria = response.data.modulosEdit[0].categoria.nombre;
           }
         })
         .catch(error => {
           console.log(error);
           this.error = true;
         })
-        .finally(() => {this.status = false; this.modulos.length ==0 ? this.error = true : null;});
+        .finally(() => {
+          this.status = false;
+          this.modulos.length == 0 ? (this.error = true) : null;
+        });
     },
     cargarMas() {
       let me = this;
@@ -194,28 +212,29 @@ export default {
       axios
         .get("modulo/?pagina=" + this.pagina)
         .then(response => {
-          if (response.data.modulos <= 0) {
+          if (response.data.modulosEdit <= 0) {
             console.log("Esta pagina no tiene mas modulos");
             this.pagina--;
             console.log(this.pagina);
           } else {
-            response.data.modulos.forEach(element => {
+            response.data.modulosEdit.forEach(element => {
               me.modulos.push(element);
             });
           }
         })
         .catch(error => {
           this.error = true;
+          console.log(error);
         })
         .finally(() => (this.status = false));
     },
-    toCuestionario(id){
+    toCuestionario(id) {
       this.$router.push({
-        name:'InstroduccionMod',
-        params:{
-          id:id
+        name: "InstroduccionMod",
+        params: {
+          id: id
         }
-      })
+      });
     }
   }
 };

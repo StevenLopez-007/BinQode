@@ -556,7 +556,7 @@
     </v-row>
 
     <!--Seccion5 ---------------------- -->
-    <v-row style="background-color:#041d31" class="d-flex justify-center">
+    <v-row style="background-color:#041d31" class="d-flex justify-center" >
       <v-col lg="3" class="imgFooter">
         <v-img
           src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/LogosRobot%2Flogorobot8.png?alt=media&token=3a065154-5c0f-460a-9d51-4159c3674f2f"

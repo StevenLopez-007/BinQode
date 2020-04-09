@@ -7,7 +7,7 @@ import InstroduccionMod from '../components/IntroduccionModulo.vue'
 import Home from '../components/Home.vue'
 import Login from '../components/Login.vue'
 import Modulos from '../components/Modulos.vue'
-import scroll from '../components/pruebaScroll.vue'
+
 import firebase, { firestore } from 'firebase'
 
 Vue.use(VueRouter)
@@ -54,7 +54,7 @@ const router = new VueRouter({
     
     {
       path:'/login',
-      name:Login,
+      name:'Login',
       component:Login,
       meta:{
         libre:true,
@@ -76,14 +76,7 @@ const router = new VueRouter({
       login:true
     }
     },
-    {
-      path:"/scroll",
-      name:'scroll',
-      component:scroll,
-      meta:{
-        login:true
-      }
-    }
+    
   ]
 })
 router.beforeEach((to,from,next)=>{

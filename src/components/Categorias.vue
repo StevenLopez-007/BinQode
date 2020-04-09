@@ -43,7 +43,7 @@
   box-shadow: none !important;
 }
 .imgCat {
-  height: auto !important;
+  height: 200px !important;
 }
 
 @media screen and (max-width: 960px) {
@@ -81,27 +81,35 @@
 </style>
 <template>
   <v-container class="ma-0 pa-0" style="background-color:#f0efff; height:100%">
-    <v-row v-if="error">
-      <v-col cols="12" class="d-flex justify-center red--text">
+    <v-row v-if="error" style="height:100%;">
+      <v-col
+        cols="12"
+        class="d-flex justify-center align-center red--text"
+        style="height:100%;"
+      >
         <h1>
           ¡Error!
         </h1>
       </v-col>
     </v-row>
 
-    <v-row v-if="status">
-      <v-col cols="12" class="d-flex justify-center">
+    <!-- <v-row v-if="status" style="height:100%;">
+      <v-col
+        cols="12"
+        class="d-flex justify-center align-center"
+        style="height:100%;"
+      >
         <v-progress-circular
           indeterminate
           color="primary"
         ></v-progress-circular>
       </v-col>
-    </v-row>
+    </v-row> -->
 
     <v-row v-if="!status && !error">
       <v-col cols="12" class="d-flex justify-center">
         <h1
-          style="border:none; font-size:26px; text-align:center"
+          style="border:none; font-size:36px; text-align:center"
           class="tituloCat"
         >
           Categorias
@@ -109,7 +117,7 @@
       </v-col>
     </v-row>
 
-    <v-row class="d-flex justify-center" v-if="status">
+    <v-row class="d-flex justify-center align-center" v-if="status" style="height:100%;">
       <v-col cols="7" lg="3" md="5" sm="4" v-for="n in 3" :key="n">
         <v-skeleton-loader
           class="mx-auto"
@@ -182,6 +190,7 @@ export default {
   }),
   created() {
     this.getCategorias();
+    
   },
   watch: {
     status: function() {}

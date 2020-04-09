@@ -14,9 +14,8 @@ import "prismjs/components/prism-scss.min";
 import "prismjs/plugins/autolinker/prism-autolinker.min";
 import "prismjs/plugins/autolinker/prism-autolinker.css";
 import Prism from "vue-prism-component";
-
-// Lo declaramos globalmente
-
+import Swal from 'sweetalert2';
+import ProgressBar from 'progressbar.js'
 
 var firebaseConfig = {
   apiKey: "AIzaSyB7FFfnuq_ixg0PG7Q174zWiRweqCP17EU",
@@ -33,7 +32,7 @@ Vue.component("prism", Prism);
 
 axios.defaults.baseURL='http://b1nc0de-api.herokuapp.com/'
 Vue.config.productionTip = false;
-Vue.use(Vuetify);
+Vue.use(Vuetify,Swal,ProgressBar);
 // Initialize Firebase
 
 export default new Vuetify({
@@ -46,5 +45,6 @@ new Vue({
   router,
   store,
   vuetify,
+  
   render: h => h(App)
 }).$mount('#app')

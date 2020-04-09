@@ -55,10 +55,10 @@
 </style>
 <template>
   <v-content class="content ">
-    <div class="d-flex justify-center content">
+    <div class="d-flex justify-center content align-center">
     <v-card class="cardLogin " >
       <div class="pa-5">
-      <v-img src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/imagenlogin2.jpg?alt=media&token=7f6d19b3-c37f-4693-a8b5-b72125bc27f6"></v-img>
+      <v-img style="height:300px;" src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/imagenlogin2.jpg?alt=media&token=7f6d19b3-c37f-4693-a8b5-b72125bc27f6"></v-img>
       
       <h2 class="titulo1">B1nQ0de</h2>
       <h4 class="titulo2 pa-4">Inicia sesión para continuar</h4>
@@ -92,6 +92,7 @@ export default {
           var email = error.email;
           // The firebase.auth.AuthCredential type that was used.
           var credential = error.credential;
+          console.log(error);
           // ...
         });
     },
@@ -119,6 +120,7 @@ export default {
           var email = error.email;
           // The firebase.auth.AuthCredential type that was used.
           var credential = error.credential;
+          console.log(error);
           // ...
         });
     }
