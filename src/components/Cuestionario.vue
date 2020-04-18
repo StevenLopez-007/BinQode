@@ -55,7 +55,7 @@
 }
 </style>
 <template>
-  <div style="background-color: #f0efff; height: 100%;">
+  <div class="pl-2 pr-2" style="background-color: #f0efff; height: 100%;">
     <v-row v-if="error" style="height: 100%;" class="d-flex justify-center align-center red--text">
         <h1>
           ¡Error!
@@ -71,7 +71,7 @@
      
     </v-row>
 
-    <v-container class="pa-0" style="height: 100%;"  v-if="!status && !error">
+    <v-container class="pa-0" style="height: 100%; width:100%;"  v-if="!status && !error">
       <v-row class="pt-1" v-if="!status && !error">
         <v-col cols="1" class="d-flex justify-center align-center">
           <v-btn icon :to="{ path: '/categoria' }">
@@ -182,13 +182,13 @@
                     <v-snackbar v-model="snackbar" :timeout="timeout">
                       ¡Seleccione una respuesta!
                     </v-snackbar>
-                    <!-- <v-btn
+                    <v-btn
                       @click="registrarCues()"
-                      color="#4d4d87"
-                      class="white--text"
-                      v-if="progreso == 100"
-                      >Finalizar</v-btn
-                    > -->
+                      color="#78c800"
+                      fab
+                      :disabled="progreso == 100?false:true"
+                      ><v-icon color="white">fas fa-trophy</v-icon></v-btn
+                    >
                     <v-btn
                       class="botones"
                       color="#ff4f5a"
@@ -247,9 +247,10 @@
     </v-container>
   </div>
 </template>
-<script src="D:\Escritorio\testapp\src\js\animacionBoton.js"></script>
+
 <script>
 import axios from "axios";
+import Swal from "sweetalert2";
 export default {
   data() {
     return {
@@ -274,9 +275,30 @@ export default {
       cuestionarioCon: [],
     };
   },
-  // beforeRouteLeave(to,from,next){
-  //   this.popup().then(next).catch(()=>next(false));
-  // },
+  beforeRouteLeave(to,from,next){
+    if(this.dialog == true){
+      next();
+    }
+    else{
+          Swal.fire({
+        title: "¿Seguro quieres salir?",
+        text: "Perderás el progreso del test.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Aceptar",
+        cancelButtonText:"Cancelar",
+      }).then((result) => {
+        if (result.value) {
+          next();
+        }
+        else{
+          next(false);
+        }
+      });
+    }
+  },
   watch: {
     steps(val) {
       if (this.e1 > val) {
@@ -423,21 +445,11 @@ export default {
           this.cuestionario.length == 0 ? (this.error = true) : null;
         });
     },
-
     registrarCues() {
       this.dialog = true;
       var i = 0;
       var notaPorPregunta = 100 / this.cuestionario.length;
-      var duracion = 2000/this.cuestionario.length;
-      // for (var i = 0; i < this.cuestionario.length; i++) {
-      //   if (
-      //     this.cuestionario[i].respuestaseleccionada ===
-      //     this.cuestionario[i].respuestaCorrecta
-      //   ) {
-      //     this.calificacion += notaPorPregunta;
-      //     this.respuestasCorrectas++;
-      //   }
-      // }
+      var duracion = 1400/this.cuestionario.length;
          this.interval = setInterval(() => {
            if(i ==this.cuestionario.length){
              clearInterval(this.interval)

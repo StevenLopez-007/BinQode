@@ -40,7 +40,7 @@
 }
 </style>
 <template>
-  <div style="height: 100%; background-color: #f0efff; height: 100%;">
+  <div class="pa-5" style="height: 100%; background-color: #f0efff; height: 100%;">
     <v-row v-if="error" style="height: 100%;">
       <v-col
         cols="12"

@@ -22,6 +22,7 @@ const router = new VueRouter({
       component: Categoria,
       meta:{
         login:true
+        // libre:true
       }
      
     },

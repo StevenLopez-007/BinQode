@@ -120,7 +120,7 @@
   background-color: #fafafa;
 }
 #tituloHome3::after {
-  content: "Principales Categorias";
+  content: "Principales Categorías";
   font-size: 36px;
   font-family: "Ubuntu";
   font-weight: normal;
@@ -211,7 +211,7 @@
     margin-right: auto;
   }
   .tituloHome {
-    font-size: 22px;
+    font-size: 20px;
   }
   .tituloHome2 h1 {
     font-size: 26px;
@@ -237,7 +237,7 @@
         md="6"
         class="d-flex  justify-lg-center align-lg-center  justify-sm-center align-sm-center justify-center"
       >
-        <v-col cols="6" lg="6" md="6" sm="6">
+        <v-col cols="12" lg="6" md="6" sm="6">
           <div class="d-flex justify-sm-center justify-md-start justify-center">
             <v-avatar size="100" class="ma-1 avatarHome">
               <img
@@ -257,7 +257,7 @@
                 alt=""
             /></a>
           </div>
-          <div class="d-flex justify-space-around mt-4">
+          <!-- <div class="d-flex justify-space-around mt-4">
             <div class="iconosRedes">
               <a href="#"
                 ><v-icon size="30px" color="#404074"
@@ -277,7 +277,7 @@
                 ><v-icon size="30px" color="#404074">fab fa-twitter</v-icon></a
               >
             </div>
-          </div>
+          </div> -->
         </v-col>
       </v-col>
       <v-col cols="6" lg="6" class="pa-0 imagenHome">
@@ -291,7 +291,7 @@
     <v-row>
       <v-col cols="12">
         <div class="tituloHome2">
-          <h1>Diviertete mientras aprendes</h1>
+          <h1>Diviértete mientras aprendes</h1>
         </div>
       </v-col>
     </v-row>
@@ -323,11 +323,11 @@
               <v-icon color="rgb(252, 88, 115)" class="ma-2"
                 >fas fa-th-list</v-icon
               >
-              Categorias
+              Categorías
             </h2>
             <h3>
-              Toda una variedad de modulos sobre diferentes áreas, solo pulsa
-              sobre uno para iniciarlo
+              Toda una variedad de módulos sobre diferentes áreas, solo pulsa
+              sobre uno para comenzar.
             </h3>
           </v-card>
         </v-col>
@@ -388,11 +388,11 @@
               src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/Captura2.JPG?alt=media&token=84531dd3-61ea-4ed2-979a-7e127d947a3a"
             ></v-img>
             <h2 class="tituloSeccion2">
-              <v-icon class="ma-2" color="#fcd839">fas fa-th-list</v-icon>
-              Modulos contestados
+              <v-icon class="ma-2" color="#fcd839">fas fa-layer-group</v-icon>
+              Módulos completados
             </h2>
             <h3>
-              Puedes consultar los modulos que has terminado, pero recuerda de
+              Puedes consultar los módulos que has completado, pero recuerda de
               los errores se aprende.
             </h3>
           </v-card>
@@ -404,7 +404,7 @@
     <v-row>
       <v-col cols="12">
         <div class="tituloHome3">
-          <h1>Principales categorias</h1>
+          <h1>Principales categorías</h1>
         </div>
       </v-col>
     </v-row>
@@ -474,8 +474,8 @@
               Retroalimenta tus conocimientos básicos de programación
             </h1>
             <p class="descripcionHome4 mt-7">
-              En B1nQ0de te ayudamos a mejorar tu logica básica en programación,
-              ¿Que esperas para probar B1nQ0ode?
+              En B1nQ0de te ayudamos a mejorar tu lógica básica en programación,
+              ¿Que esperas para probar B1nQ0de?
             </p>
           </div>
         </v-col>
@@ -498,8 +498,8 @@
               Obtiene una calificación al terminar el cuestionario
             </h1>
             <p class="descripcionHome4 mt-7">
-              Al finalizar un modulo obtendrás una calificacion en base a las
-              respuestas correctas, pero recuerda una calificación no define tu
+              Al finalizar un módulo obtendrás una calificacion en base a las
+              respuestas que acertaste, pero recuerda una calificación no define tu
               inteligencia.
             </p>
           </div>
@@ -547,7 +547,7 @@
           <div class="ml-3">
             <h1 class="tituloHome4">Revisa tus módulos completados</h1>
             <p class="descripcionHome4 mt-7">
-              Puedes revisar tu historial de módulos, puedes las respuestas que
+              Puedes revisar tu historial de módulos, puedes ver las respuestas que
               seleccionaste y tu calificación obtenida en los cuestionarios
             </p>
           </div>
@@ -567,10 +567,10 @@
         cols="12"
         class="d-flex align-lg-center align-md-center justify-md-center align-sm-center justify-sm-center justify-center align-center"
       >
-        <h1 class="tituloFooter">B1nQo0de</h1>
+        <h1 class="tituloFooter">B1nQ0de</h1>
       </v-col>
       <v-col lg="3" cols="6" class="pt-10 pl-11 ">
-        <h3 style="color:white;">Siguenos</h3>
+        <h3 style="color:white;">Síguenos</h3>
         <ul class="redesFooter">
           <li class="mt-3">
             <v-icon class="mr-2" style="width:21px; color:white"
@@ -595,7 +595,7 @@
       <v-col lg="3" cols="6" class="pt-10 pl-11 ">
         <h3 style="color:white;">Sobre Nosotros</h3>
         <ul class="redesFooter">
-          <li class="mt-3">¿Quienes Somos?</li>
+          <li class="mt-3">¿Quiénes Somos?</li>
           <li class="mt-3">Equipo</li>
           <li class="mt-3">Trabajo</li>
           <li class="mt-3">Contáctanos</li>
@@ -623,21 +623,21 @@ export default {
         {
           titulo: "Diseño Web",
           descripcion:
-            "Prueba tus dotes en el diseño web con los difrerentes modulos reservados para esta área",
+            "Prueba tus dotes en el diseño web con los difrerentes módulos reservados para esta área",
           color: "rgb(252, 88, 115)",
           icon: "fab fa-css3"
         },
         {
           titulo: "Programación",
           descripcion:
-            "Módulos donde pondrás en práctica y aprenderas lo básico pero importante sobre los distintos lenguajes de programación que hemos reservado para  tí.",
+            "Módulos donde pondrás en práctica y aprenderás lo básico pero importante sobre los distintos lenguajes de programación que hemos reservado para  tí.",
           color: "purple darken-1",
           icon: "fas fa-code"
         },
         {
           titulo: "Bases de Datos",
           descripcion:
-            "Si el diseño web ni programacion es lo tuyo, entonces prueba las bases de datos, elige entre la variedad de modulos.",
+            "Si el desarrollo web ni programacion de alguna otra área es lo tuyo, entonces prueba las bases de datos, elige entre la variedad de módulos.",
           color: "rgb(98, 215, 107)",
           icon: "fas fa-database"
         }

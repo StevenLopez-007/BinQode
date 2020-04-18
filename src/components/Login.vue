@@ -12,6 +12,20 @@
    height: 550px;
    border-radius: 10px !important;
  }
+ .cardLogin a{
+    color: transparent !important;
+ }
+ /* .cardLogin:before{
+   content: "";
+   width:150px;
+   height: 150px;
+   background-color: black;
+   position: absolute;
+   left: -100px;
+   top: -50px;
+   border-radius: 50%;
+   z-index: -1;
+ } */
  .titulo1{
    font-weight: normal;
    font-family: "Dosis";
@@ -40,9 +54,15 @@
    letter-spacing: 1px;
    
  }
+ #botonBack .v-icon{
+   color:rgba(81, 78, 149,0.15) !important;
+ }
+ #botonBack:hover .v-icon {
+   color:#4d4d87 !important;
+ }
  @media screen and (max-width: 500px){
    .cardLogin{
-     width: 100% !important;
+     
      height: 100%;
      box-shadow: none !important;
      border-radius: 0px !important;
@@ -54,10 +74,13 @@
  }
 </style>
 <template>
-  <v-content class="content ">
+  <div class="content ">
+    
     <div class="d-flex justify-center content align-center">
-    <v-card class="cardLogin " >
-      <div class="pa-5">
+    <v-card class="cardLogin d-flex align-center" v-resize="windowWidth" :width="width <=500 ? width+'px':'400px'">
+      
+      <a id="botonBack" href="/" style="position:absolute; left:0px;top:10px; z-index:1000;" class="ml-3" > <v-icon size="30">fas fa-arrow-left</v-icon></a>
+      <div class="pa-5" :style="{width: width<=500? width+'px': 400+'px'}">
       <v-img style="height:300px;" src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/imagenlogin2.jpg?alt=media&token=7f6d19b3-c37f-4693-a8b5-b72125bc27f6"></v-img>
       
       <h2 class="titulo1">B1nQ0de</h2>
@@ -65,16 +88,25 @@
       <v-btn @click="login()" color="#4d4d87" width="100%" height="50px" class="white--text  mt-4 botonGoogle"><v-icon color="white" class="ma-3">fab fa-google</v-icon>INGRESAR CON GOOGLE</v-btn>
       
       </div>
+      
     </v-card>
     </div>
-  </v-content>
+  </div>
 </template>
 <script>
 import firebase from "firebase";
 // import {config} from './helpers/firebaseConfig'
 export default {
+ data() {
+    return {
+      width:0+'px'
+    };
+  },
   created:function() {
       this.getToken();
+  },
+  mounted(){
+    this.windowWidth()
   },
   methods: {
     login() {
@@ -123,7 +155,10 @@ export default {
           console.log(error);
           // ...
         });
+    },
+    windowWidth(){
+      this.width = window.outerWidth;
     }
-  }
+  },
 };
 </script>
