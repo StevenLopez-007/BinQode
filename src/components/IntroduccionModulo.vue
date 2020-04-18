@@ -80,8 +80,8 @@
             class="pb-0 stepeercontentIntro"
           >
             <v-row style="height: 100%;" class="d-flex flex-column">
-              <v-row style="width: 100%;">
-                <v-col cols="12">
+              <v-row style="width: 100%; height:80%" >
+                <v-col cols="12" style="height:100%">
                   <v-card
                     height="100%"
                     elevation="0"
@@ -94,9 +94,11 @@
                         {{ detaCon.enunciadoContenido }}
                       </h3>
                     </v-card-title>
-                    <prism :language="modulo">{{
+                    <div style="overflow:auto; max-height:350px;">
+                    <prism :language="modulo" class="ma-0" style="height:350px;">{{
                       detaCon.ejemploContenido
                     }}</prism>
+                    </div>
                     <!-- <pre>
                       <code :class="'language-'+ modulo" >
                         {{detaCon.ejemploContenido}}
@@ -105,7 +107,7 @@
                   </v-card>
                 </v-col>
               </v-row>
-              <v-row class="d-flex align-end" style="width: 100%;">
+              <v-row class="d-flex align-end" style="width: 100%; max-height:90px;">
                 <v-col cols="12" lg="12" md="12" sm="12">
                   <div class="d-flex justify-space-between align-center">
                     <v-btn
@@ -127,7 +129,7 @@
                         color: white;
                         z-index: 6;
                       "
-                      v-if="!overlay"
+                      v-if="botonPlay"
                     >
                       <v-icon class="ml-2">fas fa-play</v-icon>
                     </v-btn>
@@ -163,7 +165,7 @@
           Antes de empezar el test, echa un vistazo de algunas cosas básicas
           sobre {{ modulo2 }}.
         </p>
-        <v-btn icon @click="(overlay = false), (overlay2 = true)">
+        <v-btn icon @click="(overlay = false)">
           <v-icon>mdi-close</v-icon>
         </v-btn>
       </div>
@@ -223,6 +225,7 @@ export default {
 
       overlay: false,
       overlay2: false,
+      botonPlay:false,
     };
   },
   created() {
@@ -243,6 +246,7 @@ export default {
       if (n === this.contenido.length) {
         this.e1 = n;
         this.overlay2 = true;
+        this.botonPlay = true;
       } else {
         this.$vuetify.goTo(-1000, 5);
         this.e1 = n + 1;
@@ -251,7 +255,6 @@ export default {
     previousStep(n) {
       if (n == 1) {
         this.e1 = n;
-        this.overlay2 = true;
       } else {
         this.$vuetify.goTo(-1000, 5);
         this.e1 = n - 1;

@@ -49,7 +49,7 @@
 }
 .imgCat {
   height: 200px !important;
-  border-radius: 25px !important;
+  border-radius: 25px ;
 }
 
 @media screen and (max-width: 960px) {
@@ -58,6 +58,9 @@
   }
   .cardCat {
     border-radius: 10px !important;
+  }
+  .imgCat{
+    border-radius: 10px ;
   }
   .descripcionCategoria {
     display: none;
