@@ -9,7 +9,7 @@
 }
  .cardLogin{
    width:400px;
-   height: 550px;
+   height: auto;
    border-radius: 10px !important;
  }
  .cardLogin a{
@@ -60,6 +60,9 @@
  #botonBack:hover .v-icon {
    color:#4d4d87 !important;
  }
+#botonLogin:hover{
+  background-color: #00b248 !important;
+}
  @media screen and (max-width: 500px){
    .cardLogin{
      
@@ -84,81 +87,156 @@
       <v-img style="height:300px;" src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/imagenlogin2.jpg?alt=media&token=7f6d19b3-c37f-4693-a8b5-b72125bc27f6"></v-img>
       
       <h2 class="titulo1">B1nQ0de</h2>
-      <h4 class="titulo2 pa-4">Inicia sesión para continuar</h4>
-      <v-btn @click="login()" color="#4d4d87" width="100%" height="50px" class="white--text  mt-4 botonGoogle"><v-icon color="white" class="ma-3">fab fa-google</v-icon>INGRESAR CON GOOGLE</v-btn>
-      
+      <h4 class="titulo2 pa-4">{{register?'¡Creá una cuenta!':'Inicia con una cuenta'}}</h4>
+      <v-btn  color="#4d4d87" width="100%" height="50px" class="white--text  mt-1 botonGoogle"><v-icon color="white" class="ma-3">fab fa-google</v-icon>{{register?'CONECTAR':'INGRESAR'}} CON GOOGLE</v-btn>
+      <h4 class="mt-2" style="text-align:center; color:#b0b2be;" >{{register?'Ó regístrate con tu correo':'Ó continua con tu correo.'}}</h4>
+        <div class="mt-2">
+        <v-form ref="form" v-model="valid" >
+        <v-text-field :counter="40" :rules="nameRules" v-if="register" v-model="nombre"  color="#b0b2be" label="Nombre de usuario" outlined clearable></v-text-field>
+        <v-text-field :rules="emailRules" v-model="email"  color="#b0b2be" label="E-mail" outlined clearable></v-text-field>
+        <v-text-field :rules="register?passwordRules:[]" v-model="password"  color="#b0b2be" @click:append="showPassword = !showPassword" :append-icon="showPassword?'fas fa-eye':'fas fa-eye-slash'" :type="showPassword?'text':'password'" label="Contraseña" outlined></v-text-field>
+        </v-form>
+        <span v-if="emailIncorrecto" class="red--text">E-mail ó contraseña incorrectos</span>
+        <span v-if="error" class="red--text">Hubo error al iniciar sesión, intentalo de nuevo</span>
+        </div>
+        <v-btn :disabled="!valid" :loading="cargando" @click="loginWidth()" id="botonLogin" class="white--text" width="100%" height="50px" style="border-radius: 24px; transition:0.25s;" color="#00e676">{{register?'Crear cuenta':'Ingresar'}}</v-btn>
+      <h4 class="mt-2" style="text-align:center; color:#b0b2be;">{{register?'¿Ya tienes una cuenta?':'¿No tienes una cuenta?'}} <span @click="register? register=false:register=true" style="color:#4d4d87; text-decoration:underline; cursor:pointer;  ">{{register?'Inicia Sesión':'Regístrate'}}</span></h4>
       </div>
-      
     </v-card>
     </div>
   </div>
 </template>
 <script>
 import firebase from "firebase";
+import axios from 'axios';
+import decode from 'jwt-decode'
+import store from '../store'
 // import {config} from './helpers/firebaseConfig'
 export default {
  data() {
     return {
-      width:0+'px'
+      valid:true,
+      width:0+'px',
+      register:false,
+      showPassword:false,
+      nombre:'',
+      email:'',
+      password:'',
+      emailRules: [
+        v => !!v || 'E-mail es requerido',
+        v => /^([a-z-0-9_\.\-])+\@(([a-z-0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(v) || 'E-mail deber ser válido',
+      ],
+       nameRules: [
+        v => v==null?v='': !!v || 'El nombre es requerido',
+        v => v==null?v='': v.length <= 40 || 'El nombre debe ser menos de 40 carácteres',
+      ],
+      passwordRules:[
+        v => !!v || 'La contraseña es requerida',
+        v => v.length >=5 || 'Contraseña demasiado corta'
+      ],
+      emailIncorrecto:false,
+      cargando:false,
+      error:false,
     };
   },
   created:function() {
-      this.getToken();
+      // this.getToken();
   },
   mounted(){
     this.windowWidth()
   },
   methods: {
-    login() {
-      const me = this;
-      var provider = new firebase.auth.GoogleAuthProvider();
-      firebase
-        .auth()
-        .signInWithRedirect(provider)
-        .then(function() {})
-        .catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // The email of the user's account used.
-          var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
-          console.log(error);
-          // ...
-        });
-    },
-    getToken() {
-      let me = this;
-      firebase
-        .auth()
-        .getRedirectResult()
-        .then(function(result) {
-          if (result.credential) {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            var token = result.credential.accessToken;
-             me.$router.go({ path: "/categoria" });
-            // ...
-          }
-          // The signed-in user info.
-          var user = result.user;
+    
+    // login() {
+    //   const me = this;
+    //   var provider = new firebase.auth.GoogleAuthProvider();
+    //   firebase
+    //     .auth()
+    //     .signInWithRedirect(provider)
+    //     .then(function() {})
+    //     .catch(function(error) {
+    //       // Handle Errors here.
+    //       var errorCode = error.code;
+    //       var errorMessage = error.message;
+    //       // The email of the user's account used.
+    //       var email = error.email;
+    //       // The firebase.auth.AuthCredential type that was used.
+    //       var credential = error.credential;
+    //       console.log(error);
+    //       // ...
+    //     });
+    // },
+    // getToken() {
+    //   let me = this;
+    //   firebase
+    //     .auth()
+    //     .getRedirectResult()
+    //     .then(function(result) {
+    //       if (result.credential) {
+    //         // This gives you a Google Access Token. You can use it to access the Google API.
+    //         var token = result.credential.accessToken;
+    //          me.$router.go({ path: "/categoria" });
+    //         // ...
+    //       }
+    //       // The signed-in user info.
+    //       var user = result.user;
          
-        })
-        .catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // The email of the user's account used.
-          var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
-          console.log(error);
-          // ...
-        });
+    //     })
+    //     .catch(function(error) {
+    //       // Handle Errors here.
+    //       var errorCode = error.code;
+    //       var errorMessage = error.message;
+    //       // The email of the user's account used.
+    //       var email = error.email;
+    //       // The firebase.auth.AuthCredential type that was used.
+    //       var credential = error.credential;
+    //       console.log(error);
+    //       // ...
+    //     });
+    // },
+    loginWidth(){
+      this.cargando = true;
+      if(this.register){
+        axios.post('estudiante/create',{nombre:this.nombre,password:this.password,email:this.email,avatar:'avatar.png'})
+        .then(response => {
+          console.log(response.data.ok)
+          if(response.data.ok){
+            this.$store.dispatch("guardarToken",response.data.token)
+            this.emailIncorrecto = false;
+              this.cargando = false;
+              this.$router.push('/categoria')
+          }
+          else{
+            console.log('Error');
+            this.emailIncorrecto=false;
+            this.error =true;
+            this.cargando=false;
+          }
+        }).catch(error=>{ this.error =true, this.cargando=false,this.emailIncorrecto=false;})
+      }
+      else{
+        axios.post('estudiante/login',{email:this.email,password:this.password}).then(response => {
+            if(response.data.ok){
+              this.$store.dispatch("guardarToken",response.data.token)
+              this.emailIncorrecto = false;
+              this.cargando = false;
+              this.$router.push('/categoria')
+            }
+            else{
+              this.error=false;
+              this.emailIncorrecto = true;
+              this.cargando = false;
+            }
+        }).catch( () => this.error=true,this.cargando=false,this.emailIncorrecto=false)
+      }
+      
     },
     windowWidth(){
       this.width = window.outerWidth;
-    }
+    },
+     validate () {
+        this.$refs.form.validate()
+      },
   },
 };
 </script>

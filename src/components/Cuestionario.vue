@@ -56,22 +56,29 @@
 </style>
 <template>
   <div class="pl-2 pr-2" style="background-color: #f0efff; height: 100%;">
-    <v-row v-if="error" style="height: 100%;" class="d-flex justify-center align-center red--text">
-        <h1>
-          ¡Error!
-        </h1>
+    <v-row
+      v-if="error"
+      style="height: 100%;"
+      class="d-flex justify-center align-center red--text"
+    >
+      <h1>
+        ¡Error!
+      </h1>
     </v-row>
 
-    <v-row v-if="status" style="height: 100%;" class="d-flex justify-center align-center red--text">
-      
-        <v-progress-circular
-          indeterminate
-          color="primary"
-        ></v-progress-circular>
-     
+    <v-row
+      v-if="status"
+      style="height: 100%;"
+      class="d-flex justify-center align-center red--text"
+    >
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </v-row>
 
-    <v-container class="pa-0" style="height: 100%; width:100%;"  v-if="!status && !error">
+    <v-container
+      class="pa-0"
+      style="height: 100%; width:100%;"
+      v-if="!status && !error"
+    >
       <v-row class="pt-1" v-if="!status && !error">
         <v-col cols="1" class="d-flex justify-center align-center">
           <v-btn icon :to="{ path: '/categoria' }">
@@ -186,7 +193,7 @@
                       @click="registrarCues()"
                       color="#78c800"
                       fab
-                      :disabled="progreso == 100?false:true"
+                      :disabled="progreso == 100 ? false : true"
                       ><v-icon color="white">fas fa-trophy</v-icon></v-btn
                     >
                     <v-btn
@@ -209,7 +216,9 @@
         <!-- <pre>{{ $data.cuestionario }}</pre> -->
       </v-stepper>
       <v-dialog v-model="dialog" persistent max-width="290">
-        <v-card class="d-flex justify-center flex-column align-center pa-2 pt-3">
+        <v-card
+          class="d-flex justify-center flex-column align-center pa-2 pt-3"
+        >
           <v-progress-circular
             color="#4d4d87"
             size="150"
@@ -217,7 +226,24 @@
             :value="calificacion"
             >{{ calificacion }}/100</v-progress-circular
           >
-            <v-rating class="mt-2" length="4" readonly color="orange" background-color="orange lighten-3" :value="calificacion >0 && calificacion <=25 ?1:calificacion >=26 && calificacion <=50 ? 2: calificacion >=51 && calificacion <=75?3:calificacion <1 ?0:4"></v-rating>
+          <v-rating
+            class="mt-2"
+            length="4"
+            readonly
+            color="orange"
+            background-color="orange lighten-3"
+            :value="
+              calificacion > 0 && calificacion <= 25
+                ? 1
+                : calificacion >= 26 && calificacion <= 50
+                ? 2
+                : calificacion >= 51 && calificacion <= 75
+                ? 3
+                : calificacion < 1
+                ? 0
+                : 4
+            "
+          ></v-rating>
           <!-- <div id="Container" class="Container"></div> -->
           <v-card-title
             style="font-family:Dosis; font-weight:1em; font-size:26px;"
@@ -232,6 +258,7 @@
           <v-card-actions style="width:100%">
             <v-spacer></v-spacer>
             <v-btn
+              v-if="botonContinuar && !botonReintentar"
               style="width:100%;background-color:#78c800;font-family:Dosis; color:white !important;"
               color="white"
               text
@@ -240,6 +267,17 @@
               :loading="activarBoton"
               @click="$router.push('/categoria')"
               >Continuar</v-btn
+            >
+            <v-btn
+              v-if="botonContinuar && botonReintentar"
+              style="width:100%;background-color:#78c800;font-family:Dosis; color:white !important;"
+              color="white"
+              text
+              :disabled="activarBotonRetry"
+              depressed
+              :loading="activarBotonRetry"
+              @click="regisCues()"
+              >Reintentar</v-btn
             >
           </v-card-actions>
         </v-card>
@@ -251,6 +289,7 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
+import decode from "jwt-decode";
 export default {
   data() {
     return {
@@ -268,19 +307,20 @@ export default {
       cuestionario: [],
       respuestasSeleccionadas: [],
       calificacion: 0,
-      interval:{},
-      rating:0,
-      activarBoton:true,
+      interval: {},
+      rating: 0,
+      activarBoton: true,
       respuestasCorrectas: 0,
-      cuestionarioCon: [],
+      botonReintentar: false,
+      botonContinuar: true,
+      activarBotonRetry:true,
     };
   },
-  beforeRouteLeave(to,from,next){
-    if(this.dialog == true){
+  beforeRouteLeave(to, from, next) {
+    if (this.dialog == true) {
       next();
-    }
-    else{
-          Swal.fire({
+    } else {
+      Swal.fire({
         title: "¿Seguro quieres salir?",
         text: "Perderás el progreso del test.",
         icon: "warning",
@@ -288,12 +328,11 @@ export default {
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
         confirmButtonText: "Aceptar",
-        cancelButtonText:"Cancelar",
+        cancelButtonText: "Cancelar",
       }).then((result) => {
         if (result.value) {
           next();
-        }
-        else{
+        } else {
           next(false);
         }
       });
@@ -415,7 +454,6 @@ export default {
       axios
         .get("modulo/contenidoCuestPorModulo/" + this.$route.params.id)
         .then((response) => {
-          // this.cuestionarioCon = response.data.cursor;
           response.data.cursor.map((obj) => {
             var contenido = {};
             contenido.idModulo = obj.modulos._id;
@@ -433,7 +471,6 @@ export default {
             contenido.respuestaCorrecta = obj.cuestionarios.respuesta;
             contenido.respuestaseleccionada = "";
             this.cuestionario.push(contenido);
-            console.log(this.cuestionarioCon);
           });
         })
         .catch((error) => {
@@ -449,21 +486,48 @@ export default {
       this.dialog = true;
       var i = 0;
       var notaPorPregunta = 100 / this.cuestionario.length;
-      var duracion = 1400/this.cuestionario.length;
-         this.interval = setInterval(() => {
-           if(i ==this.cuestionario.length){
-             clearInterval(this.interval)
-             this.activarBoton =false;
-           }
-        else if (
+      var duracion = 1400 / this.cuestionario.length;
+      this.interval = setInterval(() => {
+        if (i == this.cuestionario.length) {
+          clearInterval(this.interval);
+          this.regisCues();
+        } else if (
           this.cuestionario[i].respuestaseleccionada ===
           this.cuestionario[i].respuestaCorrecta
         ) {
           this.calificacion += notaPorPregunta;
           this.respuestasCorrectas++;
         }
-        i ++;
-      }, duracion)
+        i++;
+      }, duracion);
+    },
+    regisCues() {
+      this.activarBotonRetry =true;
+      var usuarioActivo = decode(localStorage.tokenUser);
+      var data = {
+        calificacion: this.calificacion / 10,
+        estudiante: usuarioActivo.usuario._id,
+        modulo: this.$route.params.id,
+      };
+      var headers = {
+        headers: {
+          "x-token": localStorage.tokenUser,
+        },
+      };
+
+      axios
+        .post("inscripcion/", data, headers)
+        .then((result) => {
+          if (!result.data.ok) {
+            this.botonReintentar = true;
+            this.activarBotonRetry =false;
+          }
+          else{
+            this.activarBoton = false;
+            this.botonReintentar = false;
+          }
+        })
+        .catch((error) => ((this.botonReintentar = true),this.activarBotonRetry=false));
     },
   },
 };

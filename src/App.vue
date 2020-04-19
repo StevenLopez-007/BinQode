@@ -91,7 +91,7 @@ color:#b0b2be
       </template>
       <v-list>
         <v-list-item>
-          <v-list-item-avatar>
+          <v-list-item-avatar border>
             <img :src="avatarUser" alt="Avatar">
           </v-list-item-avatar>
           <v-list-item-content>
@@ -106,6 +106,9 @@ color:#b0b2be
           href="https://forms.gle/RKe6ZLZ5gKpJnEjd9" target="_blank" class="items-list"
         >
           <v-list-item-title class="list-items-title"><v-icon class="ma-2 iconos-list">fas fa-edit</v-icon>Feedback</v-list-item-title>
+        </v-list-item>
+        <v-list-item class="items-list">
+          <v-list-title class="list-items-title"><v-icon class="ma-2 iconos-list">fas fa-layer-group</v-icon>Modulos Completados</v-list-title>
         </v-list-item>
         <v-divider></v-divider>
         <v-list-item @click="logout()" class="items-list">
@@ -130,6 +133,7 @@ color:#b0b2be
 
 <script>
 import firebase from "firebase";
+import decode from 'jwt-decode';
 export default {
   props: {
     source: String
@@ -137,7 +141,7 @@ export default {
   data: () => ({
     drawer: null,
     Logeado:"notLoged",
-    avatarUser:"",
+    avatarUser:"https://image.flaticon.com/icons/svg/236/236831.svg",
     nameUser:"",
     emailUser:"",
     items: [
@@ -154,35 +158,48 @@ export default {
  
   methods: {
     logout() {
-      firebase
-        .auth()
-        .signOut()
-        .then(function() {
-          // Sign-out successful.
-          this.$router.push("/");
-        })
-        .catch(function(error) {
-          // An error happened.
-        });
+      // firebase
+      //   .auth()
+      //   .signOut()
+      //   .then(function() {
+      //     // Sign-out successful.
+      //     this.$router.push("/");
+      //   })
+      //   .catch(function(error) {
+      //     // An error happened.
+      //   });
+      localStorage.removeItem('tokenUser');
+      this.$router.push('/login');
     },
     ocultar(){
           var logeado;
-           firebase.auth().onAuthStateChanged((user) =>{
-             if(user){
-               var logeado;
-               console.log("si verifico y estas logueado");
-               this.Logeado = 'isloged';
+          //  firebase.auth().onAuthStateChanged((user) =>{
+          //    if(user){
+          //      var logeado;
+          //      console.log("si verifico y estas logueado");
+              //  this.Logeado = 'isloged';
                
-               this.avatarUser = user.photoURL
-               this.nameUser = user.displayName;
-               this.emailUser = user.email;
-             }
-             else{
-               console.log("si verifico y no estas logueado");
-                this.Logeado = 'notloged';
+          //      this.avatarUser = user.photoURL
+          //      this.nameUser = user.displayName;
+          //      this.emailUser = user.email;
+          //    }
+          //    else{
+          //      console.log("si verifico y no estas logueado");
+                // this.Logeado = 'notloged';
                 
-             }
-           });
+          //    }
+          //  });
+          if(localStorage.tokenUser){
+            this.Logeado ='isloged'
+            
+            var user = decode(localStorage.tokenUser)
+            // this.avatarUser = user.usuario.avatar;
+            this.nameUser = user.usuario.nombre;
+            this.emailUser = user.usuario.email;
+          }
+          else{
+            this.Logeado = 'notloged';
+          }
            
         },
      

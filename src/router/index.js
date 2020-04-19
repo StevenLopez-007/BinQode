@@ -82,52 +82,42 @@ const router = new VueRouter({
 })
 router.beforeEach((to,from,next)=>{
   if(to.matched.some(record => record.meta.libre)){
-    firebase.auth().onAuthStateChanged((user) =>{
-      if(user){
-        console.log("ya estas logueado");
-        next('/categoria')
-      }
-      else{
-        console.log("no estas logueado");
-        next();
-      }
-    })
+    // firebase.auth().onAuthStateChanged((user) =>{
+    //   if(user){
+    //     console.log("ya estas logueado");
+    //     next('/categoria')
+    //   }
+    //   else{
+    //     console.log("no estas logueado");
+    //     next();
+    //   }
+    // })
+    if(localStorage.tokenUser){
+      next('/categoria')
+    }
+    else{
+      next();
+    }
         
   }
   else if(to.matched.some(record => record.meta.login)){
-    firebase.auth().onAuthStateChanged((user)=>{
-      if(user){
-        // if(to.matched.some(record=> record.meta.admin))
-        // {
-        //   var usercurrent = firebase.auth().currentUser;
-        //   var encontrado = false;
-        //   firebase.database().ref('/admins').once('value').then((snapshot)=>{
-        //     snapshot.forEach(element => {
-        //       if(element.node_.value_ === usercurrent.email){
-        //         encontrado = true;
-        //         console.log("Eres admin");
-        //         next();
-        //       }
-        //     })
-        //   });
-        //   if(!encontrado){
-        //     console.log("No tiene permisos de Admin")
-        //     next('/categoria');
-        //   }
-
-
-        // }
-        // else{
-        //   console.log("no necesitas permisos")
-        //   next()
-        // }
-        next();
-      }
-      else{
-        console.log("No estas logueado")
-        next('/login')
-      }
-    })
+    // firebase.auth().onAuthStateChanged((user)=>{
+    //   if(user){
+        
+    //     next();
+    //   }
+    //   else{
+    //     console.log("No estas logueado")
+    //     next('/login')
+    //   }
+    // })
+    if(localStorage.tokenUser){
+      next()
+    }
+    else{
+      console.log(localStorage.tokenUser)
+      next('/login')
+    }
     
   }
   else{
