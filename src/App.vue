@@ -107,7 +107,7 @@ color:#b0b2be
         >
           <v-list-item-title class="list-items-title"><v-icon class="ma-2 iconos-list">fas fa-edit</v-icon>Feedback</v-list-item-title>
         </v-list-item>
-        <v-list-item class="items-list">
+        <v-list-item class="items-list" href="#">
           <v-list-title class="list-items-title"><v-icon class="ma-2 iconos-list">fas fa-layer-group</v-icon>Modulos Completados</v-list-title>
         </v-list-item>
         <v-divider></v-divider>
