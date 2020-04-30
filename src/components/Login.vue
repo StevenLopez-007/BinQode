@@ -37,7 +37,7 @@
  }
  .content{
    background-color: #f0efff;
-   padding-top: 12px !important;
+   /* padding-top: 12px !important; */
    height: 100%;
  }
  .titulo2{
@@ -77,7 +77,7 @@
  }
 </style>
 <template>
-  <div class="content ">
+  <div class="content mb-10">
     
     <div class="d-flex justify-center content align-center">
     <v-card class="cardLogin d-flex align-center" v-resize="windowWidth" :width="width <=500 ? width+'px':'400px'">
@@ -94,7 +94,7 @@
         <v-form ref="form" v-model="valid" >
         <v-text-field :counter="40" :rules="nameRules" v-if="register" v-model="nombre"  color="#b0b2be" label="Nombre de usuario" outlined clearable></v-text-field>
         <v-text-field :rules="emailRules" v-model="email"  color="#b0b2be" label="E-mail" outlined clearable></v-text-field>
-        <v-text-field :rules="register?passwordRules:[]" v-model="password"  color="#b0b2be" @click:append="showPassword = !showPassword" :append-icon="showPassword?'fas fa-eye':'fas fa-eye-slash'" :type="showPassword?'text':'password'" label="Contraseña" outlined></v-text-field>
+        <v-text-field @keyup.enter="loginWidth()" :rules="register?passwordRules:[]" v-model="password"  color="#b0b2be" @click:append="showPassword = !showPassword" :append-icon="showPassword?'fas fa-eye':'fas fa-eye-slash'" :type="showPassword?'text':'password'" label="Contraseña" outlined></v-text-field>
         </v-form>
         <span v-if="emailIncorrecto" class="red--text">E-mail ó contraseña incorrectos</span>
         <span v-if="error" class="red--text">Hubo error al iniciar sesión, intentalo de nuevo</span>
@@ -239,4 +239,5 @@ export default {
       },
   },
 };
+
 </script>

@@ -90,7 +90,7 @@
   color: #777;
   line-height: 2;
 }
-.tituloFooter {
+/* .tituloFooter {
   font-family: "Dosis";
   font-size: 36px;
   letter-spacing: 1px;
@@ -104,7 +104,7 @@
 .redesFooter {
   padding-left: 0 !important;
   padding-top: 20px;
-}
+} */
 
 .circulo {
   position: absolute;
@@ -138,9 +138,9 @@
     width: 90px !important;
     height: 90px !important;
   }
-  .imgFooter {
+  /* .imgFooter {
     display: none;
-  }
+  } */
 }
 @media screen and (max-width: 1050px) {
   .tituloHome {
@@ -149,9 +149,9 @@
   .imgPlayStore {
     width: 70%;
   }
-  .iconosRedes a i {
+  /* .iconosRedes a i {
     font-size: 26px !important;
-  }
+  } */
   #tituloHome3::after {
     /* display:none; */
     font-size: 30px;
@@ -228,8 +228,8 @@
 }
 </style>
 <template>
-  <div>
-    <v-row style="background-color:#e2e2fe;">
+  <div v-resize="windowWidth">
+    <v-row style="background-color:#e2e2fe;" :style="{'padding-top': width>960 ? 0:64+'px'}">
       <v-col
         cols="12"
         sm="12"
@@ -556,7 +556,7 @@
     </v-row>
 
     <!--Seccion5 ---------------------- -->
-    <v-row style="background-color:#041d31" class="d-flex justify-center" >
+    <!-- <v-row style="background-color:#041d31" class="d-flex justify-center" >
       <v-col lg="3" class="imgFooter">
         <v-img
           src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/LogosRobot%2Flogorobot8.png?alt=media&token=3a065154-5c0f-460a-9d51-4159c3674f2f"
@@ -612,7 +612,7 @@
           </div>
         </v-col>
       </v-col>
-    </v-row>
+    </v-row> -->
   </div>
 </template>
 <script>
@@ -641,8 +641,14 @@ export default {
           color: "rgb(98, 215, 107)",
           icon: "fas fa-database"
         }
-      ]
+      ],
+      width:0
     };
+  },
+  methods:{
+    windowWidth(){
+      this.width = window.outerWidth;
+    }
   }
 };
 </script>

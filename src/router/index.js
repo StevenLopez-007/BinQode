@@ -9,6 +9,7 @@ import Login from '../components/Login.vue'
 import Modulos from '../components/Modulos.vue'
 
 import firebase, { firestore } from 'firebase'
+import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -92,7 +93,7 @@ router.beforeEach((to,from,next)=>{
     //     next();
     //   }
     // })
-    if(localStorage.tokenUser){
+    if(store.getters.logedIn){
       next('/categoria')
     }
     else{
@@ -111,11 +112,10 @@ router.beforeEach((to,from,next)=>{
     //     next('/login')
     //   }
     // })
-    if(localStorage.tokenUser){
+    if(store.getters.logedIn){
       next()
     }
     else{
-      console.log(localStorage.tokenUser)
       next('/login')
     }
     

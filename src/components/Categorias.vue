@@ -49,7 +49,7 @@
 }
 .imgCat {
   height: 200px !important;
-  border-radius: 25px ;
+  /* border-radius: 25px ; */
 }
 
 @media screen and (max-width: 960px) {
@@ -59,20 +59,20 @@
   .cardCat {
     border-radius: 10px !important;
   }
-  .imgCat{
-    border-radius: 10px ;
+  .imgCat {
+    border-radius: 10px;
   }
   .descripcionCategoria {
     display: none;
   }
-  .botonInfoCat .v-btn{
+  .botonInfoCat .v-btn {
     display: none !important;
   }
   .mostrarmenos {
-  white-space: normal;
-  overflow: none;
-  text-overflow: none;
-}
+    white-space: normal;
+    overflow: none;
+    text-overflow: none;
+  }
 }
 @media screen and (max-width: 750px) {
   .tituloCat {
@@ -96,7 +96,7 @@
 @media screen and (max-width: 600px) {
   .tituloCat {
     font-size: 14px;
-    margin-top: 10px;
+    /* margin-top: 10px; */
   }
 }
 </style>
@@ -175,19 +175,46 @@
         :key="indexCat"
       >
         <v-hover v-slot:default="{ hover }">
-          <v-card style="border-radius:25px; box-shadow:none;" class="cardCat pa-2" :elevation="hover ? 6 : null">
-            <div
-               @click="toModulo(cat._id)"  style="cursor:pointer;width:100%; height:auto; background-color: transparent !important; border-radius:15px;"
+          <v-card
+            style="border-radius:25px; box-shadow:none;"
+            class="cardCat pa-0"
+            :elevation="hover ? 6 : null"
+          >
+            <!-- <v-btn fab absolute top right color="#38006b"><v-icon color="white">fas fa-play</v-icon></v-btn> -->
+            <!-- <div
+               @click="toModulo(cat._id)" class="pa-0"  style="cursor:pointer;width:100%; height:auto; background-color: transparent !important; border-radius:15px;"
+            > -->
+            <v-img
+              @click="toModulo(cat._id)"
+              style=" cursor:pointer;"
+              class="imgCat"
+              :src="imagenes[indexCat]"
             >
-              <v-img class="imgCat" :src="imagenes[indexCat]"> </v-img>
-            </div>
-            <h1 ref="tituloCategoria" class="tituloCat mostrarmenos">
+              <v-fade-transition>
+                <v-overlay v-if="hover" absolute opacity="0.60" color="#6a1b9a">
+                  <v-icon color="white" size="36">fas fa-play</v-icon>
+                </v-overlay>
+              </v-fade-transition>
+            </v-img>
+            <!-- </div> -->
+
+            <h1
+              ref="tituloCategoria"
+              class="tituloCat mostrarmenos mt-lg-2 mb-lg-0 mr-lg-0 ml-lg-0 ma-md-2 ma-sm-2 ma-2"
+            >
               {{ cat.nombre }}
             </h1>
-            <h3 ref="DesCategoria" class="descripcionCategoria mostrarmenos">
+            <h3
+              ref="DesCategoria"
+              class="descripcionCategoria mostrarmenos ml-2"
+            >
               {{ cat.descripcion }}
             </h3>
-            <div style="width:100%" class="d-flex justify-center descripcionCategoria botonInfoCat">
+
+            <div
+              style="width:100%"
+              class="d-flex justify-center descripcionCategoria botonInfoCat"
+            >
               <v-btn
                 @click="mostrarMas(indexCat)"
                 class="pa-0"
@@ -206,7 +233,7 @@
       style="position: absolute; bottom:0px; left:0px; right:0px;"
     >
       <v-col cols="12" class="d-flex justify-center">
-        <v-btn @click="cargarMas()" color="#4d4d87" style="color:white;"
+        <v-btn @click="cargarMas()" color="#4d4d87" style="color:white;" rounded
           >Mostrar +</v-btn
         >
         <v-snackbar v-model="snackbar" :timeout="timeout">
@@ -290,9 +317,11 @@ export default {
     mostrarMas(index) {
       this.menos = true;
       this.mas = false;
-      
+
       if (this.indexAnt == index) {
-        this.$refs.tituloCategoria[this.indexAnt].classList.toggle("mostrarmenos");
+        this.$refs.tituloCategoria[this.indexAnt].classList.toggle(
+          "mostrarmenos"
+        );
         this.$refs.DesCategoria[this.indexAnt].classList.toggle("mostrarmenos");
       } else {
         this.$refs.tituloCategoria[index].classList.remove("mostrarmenos");

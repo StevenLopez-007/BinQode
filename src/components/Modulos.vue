@@ -13,14 +13,13 @@
   margin-right: auto;
   border-radius: 2px;
 }
-
 .container {
   max-width: 100% !important;
 }
 .tituloModulo {
   color: rgb(62, 65, 109);
   font-weight: normal;
-  font-size: 34px;
+  font-size: 24px;
   font-family: "Ubuntu";
   text-align: start;
   border-left: 3px solid rgb(62, 65, 109);
@@ -175,24 +174,37 @@
       >
         <v-hover v-slot:default="{ hover }">
           <v-card
-            class="cardMod pa-2"
+            class="cardMod pa-0"
             :elevation="hover ? 6 : null"
             style="border-radius:25px;box-shadow:none;"
           >
             <v-img
               @click="toCuestionario(mod.id)"
-              style="border-radius:15px; cursor:pointer;"
+              style=" cursor:pointer;"
               class="imgMod"
               :src="mod.img"
             >
+              <v-fade-transition>
+                <v-overlay
+                  v-if="hover"
+                  absolute
+                  opacity="0.60"
+                  color="#6a1b9a"
+                >
+                 <v-icon color="white" size="36">fas fa-play</v-icon>
+                </v-overlay>
+              </v-fade-transition> 
             </v-img>
 
             <v-row>
-              <h1 ref="tituloMod" class="tituloModulo mostrarmenosMod">
+              <h1
+                ref="tituloMod"
+                class="tituloModulo mostrarmenosMod mt-lg-2 mb-lg-0 mr-lg-0 ml-lg-0 ma-md-2 ma-sm-2 ma-2"
+              >
                 {{ mod.nombre }}
               </h1>
 
-              <h3 ref="DesMod" class="descripcionModulo mostrarmenosMod">
+              <h3 ref="DesMod" class="descripcionModulo mostrarmenosMod pa-2">
                 {{ mod.descripcion }}
               </h3>
               <div style="width:100%" class="d-flex justify-center botonInfo">
@@ -215,7 +227,7 @@
       style="position: absolute; bottom:0px; left:0px; right:0px;"
     >
       <v-col cols="12" class="d-flex justify-center">
-        <v-btn @click="cargarMas()" color="#4d4d87" style="color:white;"
+        <v-btn @click="cargarMas()" color="#4d4d87" style="color:white;" rounded
           >Mostrar +</v-btn
         >
         <v-snackbar v-model="snackbar" :timeout="timeout">
@@ -249,6 +261,9 @@ export default {
   watch: {
     status: function() {},
   },
+  mounted () {
+      console.log(this.$vuetify.breakpoint.name)
+    },
   methods: {
     getModulos() {
       axios

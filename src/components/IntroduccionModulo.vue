@@ -94,11 +94,11 @@
                         {{ detaCon.enunciadoContenido }}
                       </h3>
                     </v-card-title>
-                    <div style="overflow:auto; max-height:350px;">
-                    <prism :language="modulo" class="ma-0" style="height:350px;">{{
+                    
+                    <prism :language="modulo" class="ma-0" style="height:60vh; overflow:auto">{{
                       detaCon.ejemploContenido
                     }}</prism>
-                    </div>
+                   
                     <!-- <pre>
                       <code :class="'language-'+ modulo" >
                         {{detaCon.ejemploContenido}}

@@ -22,6 +22,7 @@
 .stepeercontentCues {
   padding: 0px !important;
 }
+
 @media screen and (max-width: 800px) {
   .chipsColumn .v-slide-group__content {
     white-space: normal;
@@ -126,7 +127,7 @@
             >
               <v-row class="d-flex flex-column" style="height: 100%;">
                 <v-row style="width: 100%;">
-                  <v-col cols="12">
+                  <v-col cols="12" class="d-flex flex-column align-self-center">
                     <v-card
                       height="auto"
                       elevation="0"
@@ -136,7 +137,7 @@
                       <h3 class="enunciadoTitulo">
                         {{ detaCon.enunciadoContenido }}
                       </h3>
-                      <prism language="html">{{
+                      <prism language="html" style="height:50vh; overflow:auto;">{{
                         detaCon.ejemploContenido
                       }}</prism>
 
@@ -196,6 +197,9 @@
                       :disabled="progreso == 100 ? false : true"
                       ><v-icon color="white">fas fa-trophy</v-icon></v-btn
                     >
+                    <!-- <v-btn @click="registrarCuesRes()" color="#78c800" fab
+                      >RegistrarCues</v-btn
+                    > -->
                     <v-btn
                       class="botones"
                       color="#ff4f5a"
@@ -219,14 +223,16 @@
         <v-card
           class="d-flex justify-center flex-column align-center pa-2 pt-3"
         >
+        <div>
           <v-progress-circular
             color="#4d4d87"
             size="150"
             width="10"
             :value="calificacion"
-            >{{ calificacion }}/100</v-progress-circular
+            ><div class="d-flex align-center flex-column-reverse">{{ Math.round(calificacion) }}/100<img v-if="calificacion>=85" width="50px" height="50px" src="https://image.flaticon.com/icons/svg/411/411830.svg" alt=""></div></v-progress-circular
           >
-          <v-rating
+          </div>
+          <!-- <v-rating
             class="mt-2"
             length="4"
             readonly
@@ -243,7 +249,7 @@
                 ? 0
                 : 4
             "
-          ></v-rating>
+          ></v-rating> -->
           <!-- <div id="Container" class="Container"></div> -->
           <v-card-title
             style="font-family:Dosis; font-weight:1em; font-size:26px;"
@@ -253,7 +259,7 @@
           <v-card-text class="mt-2">
             <h4>Total de preguntas : {{ cuestionario.length }}</h4>
             <h4>Respuestas Correctas : {{ respuestasCorrectas }}</h4>
-            <h4>Tu calificación : {{ calificacion }}/100</h4>
+            <h4>Tu calificación : {{ Math.round(calificacion) }}/100</h4>
           </v-card-text>
           <v-card-actions style="width:100%">
             <v-spacer></v-spacer>
@@ -290,6 +296,7 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import decode from "jwt-decode";
+import store from "../store"
 export default {
   data() {
     return {
@@ -313,7 +320,9 @@ export default {
       respuestasCorrectas: 0,
       botonReintentar: false,
       botonContinuar: true,
-      activarBotonRetry:true,
+      activarBotonRetry: true,
+
+      cuestionarioRes: [],
     };
   },
   beforeRouteLeave(to, from, next) {
@@ -456,19 +465,19 @@ export default {
         .then((response) => {
           response.data.cursor.map((obj) => {
             var contenido = {};
-            contenido.idModulo = obj.modulos._id;
-            contenido.idContenido = obj.contenidos._id;
-            contenido.idCuestionario = obj.cuestionarios._id;
-            contenido.enunciadoContenido = obj.contenidos.enunciadoContenido;
-            contenido.ejemploContenido = obj.contenidos.ejemploContenido;
-            contenido.preguntaCuestionario = obj.cuestionarios.pregunta;
+            contenido.idModulo = obj.contenido.modulo;
+            contenido.idContenido = obj.contenido.id;
+            contenido.idCuestionario = obj.cuestionario._id;
+            contenido.enunciadoContenido = obj.contenido.enunciadoContenido;
+            contenido.ejemploContenido = obj.contenido.ejemploContenido;
+            contenido.preguntaCuestionario = obj.cuestionario.pregunta;
             contenido.respuestas = [
-              obj.cuestionarios.opt1,
-              obj.cuestionarios.opt2,
-              obj.cuestionarios.opt3,
+              obj.cuestionario.opt1,
+              obj.cuestionario.opt2,
+              obj.cuestionario.opt3,
             ];
             contenido.respuestasOrdenadas = [];
-            contenido.respuestaCorrecta = obj.cuestionarios.respuesta;
+            contenido.respuestaCorrecta = obj.cuestionario.respuesta;
             contenido.respuestaseleccionada = "";
             this.cuestionario.push(contenido);
           });
@@ -490,7 +499,7 @@ export default {
       this.interval = setInterval(() => {
         if (i == this.cuestionario.length) {
           clearInterval(this.interval);
-          this.regisCues();
+          // this.regisCues();
         } else if (
           this.cuestionario[i].respuestaseleccionada ===
           this.cuestionario[i].respuestaCorrecta
@@ -502,8 +511,8 @@ export default {
       }, duracion);
     },
     regisCues() {
-      this.activarBotonRetry =true;
-      var usuarioActivo = decode(localStorage.tokenUser);
+      this.activarBotonRetry = true;
+      var usuarioActivo = decode(store.state.token);
       var data = {
         calificacion: this.calificacion / 10,
         estudiante: usuarioActivo.usuario._id,
@@ -511,7 +520,7 @@ export default {
       };
       var headers = {
         headers: {
-          "x-token": localStorage.tokenUser,
+          "x-token": store.state.token,
         },
       };
 
@@ -520,14 +529,50 @@ export default {
         .then((result) => {
           if (!result.data.ok) {
             this.botonReintentar = true;
-            this.activarBotonRetry =false;
-          }
-          else{
+            this.activarBotonRetry = false;
+          } else {
             this.activarBoton = false;
             this.botonReintentar = false;
+            this.registrarCuesRes();
           }
         })
-        .catch((error) => ((this.botonReintentar = true),this.activarBotonRetry=false));
+        .catch(
+          (error) => (
+            (this.botonReintentar = true), (this.activarBotonRetry = false,console.log(error))
+          )
+        );
+    },
+    verCuesRes() {
+      this.cuestionarioRes = [];
+      var id = decode(store.state.token);
+      // this.cuestionarioRes.push(id.usuario._id)
+      this.cuestionario.forEach((element) => {
+        var cuesRes = {};
+
+        cuesRes.estudiante = id.usuario._id;
+        cuesRes.contenido = element.idContenido;
+        cuesRes.cuestionario = element.idCuestionario;
+        cuesRes.respuestasSeleccionada = element.respuestaseleccionada;
+        this.cuestionarioRes.push(cuesRes);
+      });
+    },
+    // Consulta que va revisar gerardo ///////////////////////////////////////
+    registrarCuesRes() {
+      this.verCuesRes();
+      // axios
+      //   .post("cuestionarioRes/", this.cuestionarioRes, {
+      //     headers: { "x-token": localStorage.tokenUser },
+      //   })
+      //   .then((result) => {
+      //     console.log(result);
+      //   });
+
+      axios({
+        method: "post", //put
+        url: 'cuestionarioRes/',
+        headers: { "Content-Type": "application/json","x-token": store.state.token },
+        data: this.cuestionarioRes
+      }).then(result=>{console.log(result)}).catch(error=>console.log(error))
     },
   },
 };
