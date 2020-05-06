@@ -51,7 +51,6 @@
   height: 200px !important;
   /* border-radius: 25px ; */
 }
-
 @media screen and (max-width: 960px) {
   .tituloCat {
     font-size: 26px;
@@ -98,6 +97,29 @@
     font-size: 14px;
     /* margin-top: 10px; */
   }
+  .bienvenida h1 {
+    font-size: 24px;
+    text-align: start;
+  }
+  .bienvenida {
+    height: 40vh !important;
+  }
+}
+
+.bienvenida {
+  height: 40vh;
+  /* background-color: salmon; */
+  background: linear-gradient(
+    90deg,
+    rgba(39, 39, 82, 1) 0%,
+    rgba(78, 13, 122, 1) 33%,
+    rgba(255, 0, 232, 1) 100%
+  );
+  border-bottom-left-radius: 80px;
+  box-shadow: 0px 1px 15px gray;
+}
+.bienvenida .v-text-field {
+  width: 50%;
 }
 </style>
 <template>
@@ -114,25 +136,22 @@
       </v-col>
     </v-row>
 
-    <!-- <v-row v-if="status" style="height:100%;">
-      <v-col
-        cols="12"
-        class="d-flex justify-center align-center"
-        style="height:100%;"
-      >
-        <v-progress-circular
-          indeterminate
-          color="primary"
-        ></v-progress-circular>
+    <!-- <v-row class="bienvenida d-flex justify-center align-center align-content-center">
+      <v-col lg="4" md="6" sm="8" cols="12" class="d-flex align-self-center align-center justify-center flex-column ml-5">
+        <h1 class="white--text font-weight-medium" style="font-family:Dosis" >Bienvenido/a, {{userName}}</h1>
+        <v-text-field background-color="white" rounded color="white" v-model="buscar" append-icon="fas fa-search" placeholder="Buscar categoria"></v-text-field>
       </v-col>
-    </v-row> -->
+      <v-col lg="4">
+           <img style="background-size:cover;" src="https://image.flaticon.com/icons/svg/2210/2210153.svg" alt=""> -->
+    <!-- </v-col> -->
+    <!-- </v-row> -->
 
     <v-row
       v-if="!status && !error"
       class="d-flex justify-center align-center align-md-end align-sm-end align-lg-end"
     >
       <h1 style="border:none; font-size:24px;" class="tituloCat mt-2">
-        Categorias
+        Categorias {{urlImg}}
       </h1>
     </v-row>
 
@@ -171,7 +190,7 @@
         md="5"
         sm="4"
         class="ma-lg-11 ma-sm-6  d-flex flex-wrap"
-        v-for="(cat, indexCat) in categorias"
+        v-for="(cat, indexCat) in catFilter"
         :key="indexCat"
       >
         <v-hover v-slot:default="{ hover }">
@@ -188,11 +207,11 @@
               @click="toModulo(cat._id)"
               style=" cursor:pointer;"
               class="imgCat"
-              :src="imagenes[indexCat]"
+              :src="require('../imagenes/categorias/'+cat.img+'.svg')"
             >
               <v-fade-transition>
-                <v-overlay v-if="hover" absolute opacity="0.60" color="#6a1b9a">
-                  <v-icon color="white" size="36">fas fa-play</v-icon>
+                <v-overlay v-if="hover" absolute opacity="0.60" color="#000000">
+                  <h4 class="d-flex flex-column-reverse text-center">Explorar módulos<v-icon color="white" size="36">fas fa-eye</v-icon></h4>
                 </v-overlay>
               </v-fade-transition>
             </v-img>
@@ -246,9 +265,12 @@
 <script>
 import router from "../router";
 import axios from "axios";
+import store from '../store';
+import firebase from 'firebase';
 export default {
   data: () => ({
     model: null,
+    userName:store.state.currentUser.usuario.nombre,
 
     snackbar: false,
     timeout: 2000,
@@ -256,16 +278,12 @@ export default {
     status: true,
     error: false,
     categorias: [],
-    imagenes: [
-      "https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/Categorias%2Fbase-de-datos.svg?alt=media&token=cf59da26-fc06-45eb-b06e-8ab658415907",
-      "https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/Categorias%2Fprogramador.svg?alt=media&token=f00bbcff-943e-416a-a678-8b800298dc19",
-      "https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/Categorias%2Finterfaz.svg?alt=media&token=b67518c3-42a8-40c5-85b5-4a841c07d4ae",
-    ],
+    imagenes: [],
     pagina: 1,
     indexAnt: 0,
 
-    mas: true,
-    menos: false,
+    buscar:''
+
   }),
   created() {
     this.getCategorias();
@@ -273,12 +291,23 @@ export default {
   watch: {
     status: function() {},
   },
+  computed:{
+    catFilter(){
+        return store.getters['categoriasFil'];
+    },
+    urlImg(){
+        return 
+    }
+    
+  },
   methods: {
     getCategorias() {
       axios
         .get("categoria/?pagina=1")
         .then((response) => {
-          this.categorias = response.data.categorias;
+          // this.categorias = response.data.categorias;
+
+          store.commit("bucarCat",response.data.categorias)
         })
         .catch((error) => {
           console.log(error);
@@ -286,7 +315,7 @@ export default {
         })
         .finally(() => {
           this.status = false;
-          this.categorias.length == 0 ? (this.error = true) : null;
+          store.state.catBuscar.length == 0 ? (this.error = true) :null;
         });
     },
     cargarMas() {
@@ -295,15 +324,13 @@ export default {
       axios
         .get("categoria/?pagina=" + this.pagina)
         .then((response) => {
-          if (response.data.categorias <= 0) {
+          if (response.data.categorias.length <= 0) {
             console.log("Esta pagina no tiene mas categorias");
             this.pagina--;
             this.snackbar = true;
             console.log(this.pagina);
           } else {
-            response.data.categorias.forEach((element) => {
-              me.categorias.push(element);
-            });
+            store.commit("setMoreCategorias",response.data.categorias);
           }
         })
         .catch((error) => {
@@ -315,9 +342,6 @@ export default {
       this.$router.push({ name: "Modulos", params: { id: id } });
     },
     mostrarMas(index) {
-      this.menos = true;
-      this.mas = false;
-
       if (this.indexAnt == index) {
         this.$refs.tituloCategoria[this.indexAnt].classList.toggle(
           "mostrarmenos"

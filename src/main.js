@@ -11,12 +11,9 @@ import '@fortawesome/fontawesome-free/css/all.css' // Ensure you are using css-l
 import "prismjs";
 import "./themesCode/prism-shades.css";
 import "./styles/animate.css"
-const $ = require('jquery')
-window.$ = $;
   
 import Prism from "vue-prism-component";
 import Swal from 'sweetalert2';
-import ProgressBar from 'progressbar.js'
 
 var firebaseConfig = {
   apiKey: "AIzaSyB7FFfnuq_ixg0PG7Q174zWiRweqCP17EU",
@@ -33,7 +30,7 @@ Vue.component("prism", Prism);
 
 axios.defaults.baseURL='https://b1nc0de-api.herokuapp.com/'
 Vue.config.productionTip = false;
-Vue.use(Vuetify,Swal,ProgressBar);
+Vue.use(Vuetify,Swal);
 // Initialize Firebase
 
 export default new Vuetify({

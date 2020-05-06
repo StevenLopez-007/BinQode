@@ -280,9 +280,9 @@
           </div> -->
         </v-col>
       </v-col>
-      <v-col cols="6" lg="6" class="pa-0 imagenHome">
+      <v-col cols="6" lg="6" class="pa-0 imagenHome" style="background-color:#c7cbff;">
         <v-img
-          src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/imagenhome2.jpg?alt=media&token=fdf499d9-cf05-497c-9015-7922940f9362"
+          src="../imagenes/imagenesHome/imageninicio.jpg"
         >
         </v-img>
       </v-col>
@@ -317,7 +317,7 @@
           <v-card class="cardHome">
             <v-img
               class="imgHome"
-              src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/Captura2.JPG?alt=media&token=84531dd3-61ea-4ed2-979a-7e127d947a3a"
+              src="../imagenes/imagenesHome/categorias.png"
             ></v-img>
             <h2 class="tituloSeccion2">
               <v-icon color="rgb(252, 88, 115)" class="ma-2"
@@ -351,7 +351,7 @@
           <v-card class="cardHome">
             <v-img
               class="imgHome"
-              src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/Captura1.JPG?alt=media&token=b1804dc5-878f-475d-b93e-e72cb1235a6a"
+              src="../imagenes/imagenesHome/cuestionario.png"
             ></v-img>
             <h2 class="tituloSeccion2">
               <v-icon class="ma-2" color="rgb(98, 215, 107)"
@@ -385,7 +385,7 @@
           <v-card class="cardHome">
             <v-img
               class="imgHome"
-              src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/Captura2.JPG?alt=media&token=84531dd3-61ea-4ed2-979a-7e127d947a3a"
+              src="../imagenes/imagenesHome/modulosCom.png"
             ></v-img>
             <h2 class="tituloSeccion2">
               <v-icon class="ma-2" color="#fcd839">fas fa-layer-group</v-icon>
@@ -463,7 +463,7 @@
       >
         <v-avatar size="250" class="avatarHome4">
           <v-img
-            src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/LogosRobot%2Flogorobot5.jpg?alt=media&token=ec808fb5-9f34-4da5-a598-1f1239caeea3"
+            src="../imagenes/imagenesHome/logorobotidea.jpg"
           ></v-img>
         </v-avatar>
       </v-col>
@@ -514,7 +514,7 @@
       >
         <v-avatar size="200" class="avatarHome4">
           <v-img
-            src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/LogosRobot%2Flogorobot6.jpg?alt=media&token=934db329-4e36-49d7-9d2e-d035b142f3a4"
+            src="../imagenes/imagenesHome/logorobotpremio.jpg"
           ></v-img>
         </v-avatar>
       </v-col>
@@ -538,7 +538,7 @@
       >
         <v-avatar size="200" class="avatarHome4">
           <v-img
-            src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/LogosRobot%2Flogorobot7.jpg?alt=media&token=41c78303-f975-4dd8-a692-c543c287d7d5"
+            src="../imagenes/imagenesHome/logorobotpregunta.jpg"
           ></v-img>
         </v-avatar>
       </v-col>

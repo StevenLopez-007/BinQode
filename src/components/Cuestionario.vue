@@ -6,6 +6,9 @@
 .chip {
   width: 100%;
 }
+.chip::-webkit-scrollbar {
+  display: none;
+}
 
 .chipsColumn .v-slide-group__content {
   white-space: normal;
@@ -56,7 +59,7 @@
 }
 </style>
 <template>
-  <div class="pl-2 pr-2" style="background-color: #f0efff; height: 100%;">
+  <div style="background-color: #f0efff; height: 100%;">
     <v-row
       v-if="error"
       style="height: 100%;"
@@ -80,31 +83,37 @@
       style="height: 100%; width:100%;"
       v-if="!status && !error"
     >
-      <v-row class="pt-1" v-if="!status && !error">
-        <v-col cols="1" class="d-flex justify-center align-center">
-          <v-btn icon :to="{ path: '/categoria' }">
-            <v-icon color="red darken-1">fas fa-times-circle</v-icon>
-          </v-btn>
-        </v-col>
-        <v-col cols="10" class="d-flex justify-center align-center">
-          <v-progress-linear
-            :buffer-value="progresoBuffer"
-            :value="progreso"
-            :color="colorBarra"
-            height="10"
-            style="border-radius:4px;"
-          ></v-progress-linear>
-        </v-col>
-        <v-col cols="1" class="d-flex justify-center align-center">
-          <v-btn
-            icon
-            :disabled="progreso == 100 ? false : true"
-            @click="registrarCues()"
-          >
-            <v-icon color="green">fas fa-flag</v-icon>
-          </v-btn>
-        </v-col>
-      </v-row>
+      <v-toolbar
+        color="#fafafa"
+        style="z-index:2000;position:relative"
+        elevation="3"
+      >
+        <v-row class="pt-1" v-if="!status && !error">
+          <v-col cols="1" class="d-flex justify-center align-center">
+            <v-btn icon :to="{ path: '/categoria' }">
+              <v-icon color="red darken-1">fas fa-times-circle</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col cols="10" class="d-flex justify-center align-center">
+            <v-progress-linear
+              :buffer-value="progresoBuffer"
+              :value="progreso"
+              :color="colorBarra"
+              height="10"
+              style="border-radius:4px;"
+            ></v-progress-linear>
+          </v-col>
+          <v-col cols="1" class="d-flex justify-center align-center">
+            <v-btn
+              icon
+              :disabled="progreso == 100 ? false : true"
+              @click="registrarCues()"
+            >
+              <v-icon color="green">fas fa-flag</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-toolbar>
 
       <v-stepper
         v-if="!status"
@@ -115,6 +124,7 @@
           background-color: #f0efff;
           height: calc(100% - 52px);
         "
+        class="pr-1 pl-1"
       >
         <template>
           <v-stepper-items class="stepper" style="height: 100%;">
@@ -137,9 +147,11 @@
                       <h3 class="enunciadoTitulo">
                         {{ detaCon.enunciadoContenido }}
                       </h3>
-                      <prism language="html" style="height:50vh; overflow:auto;">{{
-                        detaCon.ejemploContenido
-                      }}</prism>
+                      <prism
+                        language="html"
+                        style="height:50vh; overflow:auto; border-radius:10px;"
+                        >{{ detaCon.ejemploContenido }}</prism
+                      >
 
                       <!-- </v-card-title> -->
                     </v-card>
@@ -161,6 +173,7 @@
                             class="chip font-weight-bold"
                             color="#514e95"
                             text-color="white"
+                            style="overflow-x:auto;"
                           >
                             {{ index + 1 }}) {{ x }}
                           </v-chip>
@@ -199,6 +212,9 @@
                     >
                     <!-- <v-btn @click="registrarCuesRes()" color="#78c800" fab
                       >RegistrarCues</v-btn
+                    >
+                    <v-btn @click="verCuesRes()" color="#78c800" fab
+                      >ver</v-btn
                     > -->
                     <v-btn
                       class="botones"
@@ -223,14 +239,21 @@
         <v-card
           class="d-flex justify-center flex-column align-center pa-2 pt-3"
         >
-        <div>
-          <v-progress-circular
-            color="#4d4d87"
-            size="150"
-            width="10"
-            :value="calificacion"
-            ><div class="d-flex align-center flex-column-reverse">{{ Math.round(calificacion) }}/100<img v-if="calificacion>=85" width="50px" height="50px" src="https://image.flaticon.com/icons/svg/411/411830.svg" alt=""></div></v-progress-circular
-          >
+          <div>
+            <v-progress-circular
+              color="#4d4d87"
+              size="150"
+              width="10"
+              :value="calificacion"
+              ><div class="d-flex align-center flex-column-reverse">
+                {{ Math.round(calificacion) }}/100<img
+                  v-if="calificacion >= 85"
+                  width="50px"
+                  height="50px"
+                  src="https://image.flaticon.com/icons/svg/411/411830.svg"
+                  alt=""
+                /></div
+            ></v-progress-circular>
           </div>
           <!-- <v-rating
             class="mt-2"
@@ -296,7 +319,7 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 import decode from "jwt-decode";
-import store from "../store"
+import store from "../store";
 export default {
   data() {
     return {
@@ -467,7 +490,7 @@ export default {
             var contenido = {};
             contenido.idModulo = obj.contenido.modulo;
             contenido.idContenido = obj.contenido.id;
-            contenido.idCuestionario = obj.cuestionario._id;
+            contenido.idCuestionario = obj.cuestionario.id;
             contenido.enunciadoContenido = obj.contenido.enunciadoContenido;
             contenido.ejemploContenido = obj.contenido.ejemploContenido;
             contenido.preguntaCuestionario = obj.cuestionario.pregunta;
@@ -499,7 +522,7 @@ export default {
       this.interval = setInterval(() => {
         if (i == this.cuestionario.length) {
           clearInterval(this.interval);
-          // this.regisCues();
+          this.regisCues();
         } else if (
           this.cuestionario[i].respuestaseleccionada ===
           this.cuestionario[i].respuestaCorrecta
@@ -517,6 +540,7 @@ export default {
         calificacion: this.calificacion / 10,
         estudiante: usuarioActivo.usuario._id,
         modulo: this.$route.params.id,
+        completado:true
       };
       var headers = {
         headers: {
@@ -533,12 +557,13 @@ export default {
           } else {
             this.activarBoton = false;
             this.botonReintentar = false;
-            this.registrarCuesRes();
+            // this.registrarCuesRes();
           }
         })
         .catch(
           (error) => (
-            (this.botonReintentar = true), (this.activarBotonRetry = false,console.log(error))
+            (this.botonReintentar = true),
+            ((this.activarBotonRetry = false), console.log(error))
           )
         );
     },
@@ -552,27 +577,25 @@ export default {
         cuesRes.estudiante = id.usuario._id;
         cuesRes.contenido = element.idContenido;
         cuesRes.cuestionario = element.idCuestionario;
-        cuesRes.respuestasSeleccionada = element.respuestaseleccionada;
+        cuesRes.respuestaSeleccionada = element.respuestaseleccionada;
         this.cuestionarioRes.push(cuesRes);
       });
     },
-    // Consulta que va revisar gerardo ///////////////////////////////////////
     registrarCuesRes() {
       this.verCuesRes();
-      // axios
-      //   .post("cuestionarioRes/", this.cuestionarioRes, {
-      //     headers: { "x-token": localStorage.tokenUser },
-      //   })
-      //   .then((result) => {
-      //     console.log(result);
-      //   });
-
       axios({
         method: "post", //put
-        url: 'cuestionarioRes/',
-        headers: { "Content-Type": "application/json","x-token": store.state.token },
-        data: this.cuestionarioRes
-      }).then(result=>{console.log(result)}).catch(error=>console.log(error))
+        url: "cuestionarioRes/",
+        headers: {
+          "content-type": "application/json",
+          "x-token": store.state.token,
+        },
+        data: this.cuestionarioRes,
+      })
+        .then((result) => {
+          console.log(result);
+        })
+        .catch((error) => console.log(error));
     },
   },
 };

@@ -82,14 +82,14 @@
     <div class="d-flex justify-center content align-center">
     <v-card class="cardLogin d-flex align-center" v-resize="windowWidth" :width="width <=500 ? width+'px':'400px'">
       
-      <a id="botonBack" href="/" style="position:absolute; left:0px;top:10px; z-index:1000;" class="ml-3" > <v-icon size="30">fas fa-arrow-left</v-icon></a>
+      <a id="botonBack" @click="$router.push('/')" style="position:absolute; left:0px;top:10px; z-index:1000;" class="ml-3" > <v-icon size="30">fas fa-arrow-left</v-icon></a>
       <div class="pa-5" :style="{width: width<=500? width+'px': 400+'px'}">
-      <v-img style="height:300px;" src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/imagenlogin2.jpg?alt=media&token=7f6d19b3-c37f-4693-a8b5-b72125bc27f6"></v-img>
+      <v-img style="height:300px;" src="../imagenes/imagenesHome/imagenlogin.jpg"></v-img>
       
       <h2 class="titulo1">B1nQ0de</h2>
       <h4 class="titulo2 pa-4">{{register?'¡Creá una cuenta!':'Inicia con una cuenta'}}</h4>
-      <v-btn  color="#4d4d87" width="100%" height="50px" class="white--text  mt-1 botonGoogle"><v-icon color="white" class="ma-3">fab fa-google</v-icon>{{register?'CONECTAR':'INGRESAR'}} CON GOOGLE</v-btn>
-      <h4 class="mt-2" style="text-align:center; color:#b0b2be;" >{{register?'Ó regístrate con tu correo':'Ó continua con tu correo.'}}</h4>
+      <!-- <v-btn  color="#4d4d87" width="100%" height="50px" class="white--text  mt-1 botonGoogle"><v-icon color="white" class="ma-3">fab fa-google</v-icon>{{register?'CONECTAR':'INGRESAR'}} CON GOOGLE</v-btn> -->
+      <!-- <h4 class="mt-2" style="text-align:center; color:#b0b2be;" >{{register?'Ó regístrate con tu correo':'Ó continua con tu correo.'}}</h4> -->
         <div class="mt-2">
         <v-form ref="form" v-model="valid" >
         <v-text-field :counter="40" :rules="nameRules" v-if="register" v-model="nombre"  color="#b0b2be" label="Nombre de usuario" outlined clearable></v-text-field>
@@ -204,7 +204,7 @@ export default {
             this.$store.dispatch("guardarToken",response.data.token)
             this.emailIncorrecto = false;
               this.cargando = false;
-              this.$router.push('/categoria')
+              this.$router.go('/categoria')
           }
           else{
             console.log('Error');
@@ -220,11 +220,12 @@ export default {
               this.$store.dispatch("guardarToken",response.data.token)
               this.emailIncorrecto = false;
               this.cargando = false;
-              this.$router.push('/categoria')
+              this.$router.go('/categoria')
             }
             else{
               this.error=false;
               this.emailIncorrecto = true;
+              this.password = ''
               this.cargando = false;
             }
         }).catch( () => this.error=true,this.cargando=false,this.emailIncorrecto=false)

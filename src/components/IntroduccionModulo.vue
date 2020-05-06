@@ -64,11 +64,12 @@
         ></v-progress-circular>
       </v-col>
     </v-row>
-
+  <a id="botonBack" @click="$router.replace({name:'Modulos',params:idModulo})" style="position:absolute; left:0px;top:10px; z-index:1000;" class="ml-3" > <v-icon size="30">fas fa-times-circle</v-icon></a>
     <v-stepper
       v-if="!status && !error"
       v-model="e1"
       style="box-shadow: none; background-color: #f0efff; height: 100%;"
+      
     >
       <template>
         <v-stepper-items class="stepper" style="height: 100%;">
@@ -95,7 +96,7 @@
                       </h3>
                     </v-card-title>
                     
-                    <prism :language="modulo" class="ma-0" style="height:60vh; overflow:auto">{{
+                    <prism :language="modulo" class="ma-0" style="height:60vh; overflow:auto;border-radius:10px;">{{
                       detaCon.ejemploContenido
                     }}</prism>
                    
@@ -295,12 +296,12 @@ export default {
         title: "¿Desea comenzar el cuestionario sobre "+this.modulo2+"?",
         // text: "You won't be able to revert this!",
         // icon: "question",
-        imageUrl:"https://image.flaticon.com/icons/svg/1792/1792388.svg",
+        imageUrl:require("../imagenes/empezarCues/cuestionario.svg"),
         imageWidth:200,
         imageHeight:200,
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: "#00b248",
+        cancelButtonColor: "#ef5350",
         confirmButtonText: "Aceptar",
         cancelButtonText:"Cancelar",
       }).then((result) => {
