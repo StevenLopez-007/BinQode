@@ -45,7 +45,7 @@ const router = new VueRouter({
       }
     },
     {
-      path:'/cuestionarioCon',
+      path:'/cuestionarioCon/:id',
       name:'cuestionariocon',
       component:CuestionarioCon,
       meta:{

@@ -90,7 +90,7 @@
       >
         <v-row class="pt-1" v-if="!status && !error">
           <v-col cols="1" class="d-flex justify-center align-center">
-            <v-btn icon :to="{ path: '/categoria' }">
+            <v-btn icon @click="$router.replace('/categoria')">
               <v-icon color="red darken-1">fas fa-times-circle</v-icon>
             </v-btn>
           </v-col>
@@ -147,11 +147,11 @@
                       <h3 class="enunciadoTitulo">
                         {{ detaCon.enunciadoContenido }}
                       </h3>
-                      <prism
+                      <!-- <prism
                         language="html"
                         style="height:50vh; overflow:auto; border-radius:10px;"
                         >{{ detaCon.ejemploContenido }}</prism
-                      >
+                      > -->
 
                       <!-- </v-card-title> -->
                     </v-card>
@@ -255,25 +255,6 @@
                 /></div
             ></v-progress-circular>
           </div>
-          <!-- <v-rating
-            class="mt-2"
-            length="4"
-            readonly
-            color="orange"
-            background-color="orange lighten-3"
-            :value="
-              calificacion > 0 && calificacion <= 25
-                ? 1
-                : calificacion >= 26 && calificacion <= 50
-                ? 2
-                : calificacion >= 51 && calificacion <= 75
-                ? 3
-                : calificacion < 1
-                ? 0
-                : 4
-            "
-          ></v-rating> -->
-          <!-- <div id="Container" class="Container"></div> -->
           <v-card-title
             style="font-family:Dosis; font-weight:1em; font-size:26px;"
             >Tus Resultados</v-card-title
@@ -357,8 +338,8 @@ export default {
         text: "Perderás el progreso del test.",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
+        confirmButtonColor: "#00b248",
+        cancelButtonColor: "#ef5350",
         confirmButtonText: "Aceptar",
         cancelButtonText: "Cancelar",
       }).then((result) => {
@@ -557,7 +538,7 @@ export default {
           } else {
             this.activarBoton = false;
             this.botonReintentar = false;
-            // this.registrarCuesRes();
+            this.registrarCuesRes();
           }
         })
         .catch(

@@ -7,7 +7,6 @@
   font-family: "Dosis";
   src: url(../fonts/Dosis-Bold.ttf);
 }
-
 .container {
   max-width: 100% !important;
 }
@@ -101,26 +100,8 @@
     font-size: 24px;
     text-align: start;
   }
-  .bienvenida {
-    height: 40vh !important;
-  }
 }
 
-.bienvenida {
-  height: 40vh;
-  /* background-color: salmon; */
-  background: linear-gradient(
-    90deg,
-    rgba(39, 39, 82, 1) 0%,
-    rgba(78, 13, 122, 1) 33%,
-    rgba(255, 0, 232, 1) 100%
-  );
-  border-bottom-left-radius: 80px;
-  box-shadow: 0px 1px 15px gray;
-}
-.bienvenida .v-text-field {
-  width: 50%;
-}
 </style>
 <template>
   <v-container class="ma-0 pa-0" style="background-color:#f0efff; height:100%">
@@ -135,23 +116,12 @@
         </h1>
       </v-col>
     </v-row>
-
-    <!-- <v-row class="bienvenida d-flex justify-center align-center align-content-center">
-      <v-col lg="4" md="6" sm="8" cols="12" class="d-flex align-self-center align-center justify-center flex-column ml-5">
-        <h1 class="white--text font-weight-medium" style="font-family:Dosis" >Bienvenido/a, {{userName}}</h1>
-        <v-text-field background-color="white" rounded color="white" v-model="buscar" append-icon="fas fa-search" placeholder="Buscar categoria"></v-text-field>
-      </v-col>
-      <v-col lg="4">
-           <img style="background-size:cover;" src="https://image.flaticon.com/icons/svg/2210/2210153.svg" alt=""> -->
-    <!-- </v-col> -->
-    <!-- </v-row> -->
-
     <v-row
       v-if="!status && !error"
       class="d-flex justify-center align-center align-md-end align-sm-end align-lg-end"
     >
       <h1 style="border:none; font-size:24px;" class="tituloCat mt-2">
-        Categorias {{urlImg}}
+        Categorias
       </h1>
     </v-row>
 
@@ -199,10 +169,6 @@
             class="cardCat pa-0"
             :elevation="hover ? 6 : null"
           >
-            <!-- <v-btn fab absolute top right color="#38006b"><v-icon color="white">fas fa-play</v-icon></v-btn> -->
-            <!-- <div
-               @click="toModulo(cat._id)" class="pa-0"  style="cursor:pointer;width:100%; height:auto; background-color: transparent !important; border-radius:15px;"
-            > -->
             <v-img
               @click="toModulo(cat._id)"
               style=" cursor:pointer;"
@@ -246,9 +212,28 @@
         </v-hover>
       </v-col>
     </v-row>
+    <v-row
+      v-if="!status && !error && catFilter.length === 0"
+      style="height:80%;"
+    >
+      <v-col cols="12" class="d-flex justify-center flex-column align-center">
+        <v-avatar tile size="350">
+          <img :src="require('../imagenes/moduloVacio/modVacio.svg')" alt="" />
+        </v-avatar>
+        <div class="text-center ma-1">
+          <v-sheet
+            color="#c5cae9"
+            class="pa-1 font-weight-bold"
+            style="color:#424242;"
+            >¡Parece que no tenemos la categoria que buscas!
+            </v-sheet
+          >
+        </div>
+      </v-col>
+    </v-row>
     <!-- mostrar + -->
     <v-row
-      v-if="!status && !error"
+      v-if="!status && !error && catFilter.length>0"
       style="position: absolute; bottom:0px; left:0px; right:0px;"
     >
       <v-col cols="12" class="d-flex justify-center">
@@ -295,10 +280,6 @@ export default {
     catFilter(){
         return store.getters['categoriasFil'];
     },
-    urlImg(){
-        return 
-    }
-    
   },
   methods: {
     getCategorias() {
@@ -320,15 +301,17 @@ export default {
     },
     cargarMas() {
       let me = this;
-      this.pagina++;
+      var pagina = store.state.paginaCat;
+       store.commit("paginaCat",pagina+1)
+       console.log(store.state.paginaCat)
       axios
-        .get("categoria/?pagina=" + this.pagina)
+        .get("categoria/?pagina=" + store.state.paginaCat)
         .then((response) => {
           if (response.data.categorias.length <= 0) {
             console.log("Esta pagina no tiene mas categorias");
-            this.pagina--;
+            store.commit("paginaCat",pagina--);
             this.snackbar = true;
-            console.log(this.pagina);
+            console.log(store.state.paginaCat);
           } else {
             store.commit("setMoreCategorias",response.data.categorias);
           }

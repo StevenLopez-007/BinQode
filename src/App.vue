@@ -38,9 +38,9 @@
   top: 0px;
   z-index: 2000;
   max-height: 60px;
-  box-shadow: 0px 2px 6px 0px #00000017;
   transition: 0.2s !important;
   background-color: white !important;
+  box-shadow: 0px 2px 6px 0px #00000017 ;
 }
 .app-barfixed #login {
   transition: 0s;
@@ -109,33 +109,57 @@
     display: none;
   }
 }
-@media ascreen and (max-width: 1050px) {
+@media screen and (max-width: 1050px) {
   .iconosRedes a i {
     font-size: 26px !important;
   }
+}
+@media screen and (max-width:300px){
+  .titulo{
+    font-size: 22px;
+  }
+
 }
 </style>
 
 <template>
   <v-app id="inspire">
     <v-app-bar
+      elevation="none"
       ref="appBarSticky"
       :class="$route.name != 'Home' ? 'app-barfixed' : 'app-barabsolute'"
       v-if="['Categoria', 'Modulos', 'Home'].indexOf($route.name) > -1"
-      :style="$route.name == 'Home' ? '' : 'position:sticky;'"
+      :style="$route.name == 'Categoria' ? 'position:sticky;' : $route.name=='Modulos'?'position:relative;box-shadow:none !important;':''"
     >
-    
-      <a @click="$router.push('/')" style="text-decoration:none; color: rgb(62, 65, 109);cursor:pointer;"
+      <a
+        @click="$router.push('/')"
+        style="text-decoration:none; color: rgb(62, 65, 109);cursor:pointer;"
         ><h4 class="titulo ma-2">B1nQ0de</h4></a
       >
 
       <div class="lineaVertical"></div>
 
-      <a class="ma-2" id="login" v-if="!loggedIn" @click="$router.push('/login')">LOG IN</a>
-      
-      <div style="max-height:70%;" v-if="['Categoria','Modulos'].includes($route.name)">    
-        <v-text-field clearable v-model="buscar" @input="filtrarCat()" rounded prepend-inner-icon="fas fa-search" placeholder="Buscar"></v-text-field>
-      </div> 
+      <a
+        class="ma-2"
+        id="login"
+        v-if="!loggedIn"
+        @click="$router.push('/login')"
+        >LOG IN</a
+      >
+
+      <div
+        style="max-height:70%;"
+        v-if="['Categoria', 'Modulos'].includes($route.name)"
+      >
+        <v-text-field
+          clearable
+          v-model="buscar"
+          @input="filtrarCat()"
+          rounded
+          :prepend-inner-icon="$vuetify.breakpoint.xsOnly?'':'fas fa-search'"
+          placeholder="Buscar"
+        ></v-text-field>
+      </div>
       <!-- Desktop------------- -->
       <v-menu
         v-if="loggedIn"
@@ -151,7 +175,7 @@
             size="40"
           >
             <v-img :src="avatarUser" alt="avatar"></v-img>
-          </v-avatar> 
+          </v-avatar>
         </template>
         <v-list>
           <v-list-item>
@@ -174,20 +198,22 @@
               >Feedback</v-list-item-title
             >
           </v-list-item>
-          <v-list-item class="items-list" v-if="$route.name=='Modulos'">
+          <v-list-item class="items-list" v-if="$route.name == 'Modulos'">
             <v-list-item-title class="list-items-title"
               ><v-icon class="ma-2 iconos-list">fas fa-layer-group</v-icon
               >Modulos Completados</v-list-item-title
             >
-            <v-list-item-action ><v-switch
-              @change="$store.commit('setCompletados',!isCompletados)"
-              absolute
-              inset
-              color="green"
-              :value="isCompletados"
-              :input-value="isCompletados"
-              hide-details
-            ></v-switch></v-list-item-action>
+            <v-list-item-action
+              ><v-switch
+                @change="$store.commit('setCompletados', !isCompletados)"
+                absolute
+                inset
+                color="green"
+                :value="isCompletados"
+                :input-value="isCompletados"
+                hide-details
+              ></v-switch
+            ></v-list-item-action>
           </v-list-item>
           <v-divider></v-divider>
           <v-list-item @click="logout()" class="items-list">
@@ -262,20 +288,20 @@
               >
               <!-- <v-list-item-subtitle>Notify me about updates to apps or games that I downloaded</v-list-item-subtitle> -->
             </v-list-item>
-            <v-list-item v-if="$route.name=='Modulos'">
+            <v-list-item v-if="$route.name == 'Modulos'">
               <v-icon class="ma-3">fas fa-layer-group</v-icon>
               <v-list-item-title class="font-weight-medium text--disabled"
                 >Modulos Completados</v-list-item-title
               >
               <v-list-item-action>
                 <v-switch
-                @change="$store.commit('setCompletados',!isCompletados)"
-              absolute
-              inset
-              :value="isCompletados"
-              color="green"
-              hide-details
-            ></v-switch>
+                  @change="$store.commit('setCompletados', !isCompletados)"
+                  absolute
+                  inset
+                  :value="isCompletados"
+                  color="green"
+                  hide-details
+                ></v-switch>
               </v-list-item-action>
             </v-list-item>
             <v-divider></v-divider>
@@ -308,9 +334,7 @@
       v-if="$route.name == 'Home' || $route.name == 'Login'"
     >
       <v-col lg="3" class="imgFooter">
-        <v-img
-          src="./imagenes/imagenesHome/logorobotlampara.png"
-        ></v-img>
+        <v-img src="./imagenes/imagenesHome/logorobotlampara.png"></v-img>
       </v-col>
       <v-col
         lg="2"
@@ -378,14 +402,13 @@
 import firebase from "firebase";
 import decode from "jwt-decode";
 import store from "./store";
-import { mapMutations } from 'vuex'
+import { mapMutations } from "vuex";
 export default {
   props: {
     source: String,
     overlay: false,
   },
   data: () => ({
-    
     Logeado: "notLoged",
     avatarUser: "https://image.flaticon.com/icons/svg/236/236831.svg",
     nameUser: "",
@@ -400,7 +423,7 @@ export default {
     offsetTop: 0,
 
     dialog: false,
-    buscar:'',
+    buscar: "",
   }),
   created: function() {
     if (this.$store.getters.logedIn) {
@@ -413,14 +436,14 @@ export default {
     loggedIn() {
       return this.$store.getters.logedIn;
     },
-    isCompletados(){
+    isCompletados() {
       return this.$store.getters.completado;
-    }
+    },
   },
-  watch:{
-    $route(to,from){
-      store.commit("setBuscar",'')
-      this.buscar = '';
+  watch: {
+    $route(to, from) {
+      store.commit("setBuscar", "");
+      this.buscar = "";
     },
   },
   methods: {
@@ -448,10 +471,10 @@ export default {
         this.$refs.appBarSticky.$el.classList.add("app-barabsolute");
       }
     },
-    filtrarCat(){
-       store.commit("setBuscar",this.buscar==null?'':this.buscar)
+    filtrarCat() {
+      store.commit("setBuscar", this.buscar == null ? "" : this.buscar);
       // ...mapMutations(['setBuscar'])
-    }
+    },
     // ocultar(){
     //       //  firebase.auth().onAuthStateChanged((user) =>{
     //       //    if(user){

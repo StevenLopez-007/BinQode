@@ -80,7 +80,7 @@
             style="height: 100%;"
             class="pb-0 stepeercontentIntro"
           >
-            <v-row style="height: 100%;" class="d-flex flex-column">
+            <v-row style="height: 100%;">
               <v-row style="width: 100%; height:80%" >
                 <v-col cols="12" style="height:100%">
                   <v-card
@@ -155,7 +155,7 @@
     </v-stepper>
     <!-- OverLay -->
     <v-overlay :value="overlay" opacity="0.80">
-      <div class="d-flex flex-column align-center">
+      <div style="display:flex;flex-direction:column !important;align-items:center !important;">
         <h1
           class="pl-2"
           style="font-family: 'Dosis'; font-size: 36px; text-align: center;"
@@ -267,14 +267,13 @@ export default {
         .then((response) => {
           this.contenido = response.data.contenidosEdit;
           response.data.contenidosEdit.length == 0
-            ? console.log("No hay contenido para este modulo")
+            ? null
             : ((this.modulo = response.data.contenidosEdit[0].modulo.nombre
                 .replace(/[0-9]/, "")
                 .toLowerCase()
                 .trim()),
               (this.modulo2 = response.data.contenidosEdit[0].modulo.nombre),
               (this.overlay = true));
-          console.log(this.modulo);
         })
         .catch((error) => {
           console.log(error);

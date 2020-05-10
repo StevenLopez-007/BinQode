@@ -15,7 +15,7 @@ export default new Vuex.Store({
     modInscritos:[],
     buscar:'',
     completados:false,
-    imagenes:{}
+    paginaCat:1
   },
   getters:{
     logedIn(state){
@@ -27,30 +27,23 @@ export default new Vuex.Store({
       }
     },
     categoriasFil(state){
-      return state.catBuscar!=null?state.catBuscar.filter((cats)=>{
+      return state.catBuscar.filter((cats)=>{
         return cats.nombre.toLowerCase().match(state.buscar.toLowerCase())
-      }):null
+      })
     },
     modulosFil(state){
-      return state.modBuscar !=null?state.modBuscar.filter((mods)=>{
-          return state.completados? (state.modInscritos.some(mod=> mod.id ===mods.id))?mods.nombre.toLowerCase().match(state.buscar.toLowerCase()):null:!(state.modInscritos.some(mod=> mod.id ===mods.id))?mods.nombre.toLowerCase().match(state.buscar.toLowerCase()):null
-      }):null
+      return state.modBuscar.filter((mods)=>{
+          return state.completados? (state.modInscritos.some(mod=> state.modInscritos.length>0?mod.modulo.id ===mods.id:mod.id===mods.id))?mods.nombre.toLowerCase().match(state.buscar.toLowerCase()):null:!(state.modInscritos.some(mod=> state.modInscritos.length>0?mod.modulo.id ===mods.id:mod.id===mods.id))?mods.nombre.toLowerCase().match(state.buscar.toLowerCase()):null
+      })
+    },
+    getDatosIns:(state)=>(modulo)=>{
+      return state.modInscritos.filter(mods=>{
+        return state.completados? mods.modulo.id.match(modulo):[]
+      })
     },
     completado(state){
       return state.completados
     },
-    retornar:()=>(img)=>{
-      var urlImg =''
-      firebase
-          .storage()
-          .ref()
-          .child(`ImagenesCategorias/${img}.svg`)
-          .getDownloadURL()
-          .then((url) => {
-            urlImg = url
-          })
-          return urlImg
-    }
   },
   mutations: {
     setToken(state,token){
@@ -66,7 +59,7 @@ export default new Vuex.Store({
       state.buscar= buscar
     },
     setModulosCompletados(state,modulos){
-      state.modInscritos.push(modulos)
+      state.modInscritos =modulos
     },
     setCompletados(state,completado){
       state.completados = completado
@@ -81,8 +74,8 @@ export default new Vuex.Store({
         state.catBuscar.push(element)
       })
     },
-    setImagenes(state,nombreImg,url){
-      state.imagenes[nombreImg] = url
+    paginaCat(state,pagina){
+      state.paginaCat = pagina;
     }
   },
   actions: {
@@ -96,18 +89,18 @@ export default new Vuex.Store({
       localStorage.removeItem('tokenUser')
       router.push('/login');
     },
-    UrlsImagenes({commit,state}){
-       state.catBuscar.map(cat=>{
-        firebase
-          .storage()
-          .ref()
-          .child(`ImagenesCategorias/${cat.img}.svg`)
-          .getDownloadURL()
-          .then((url) => {
-           commit("setImagenes",cat.img)
-          })
-      })
-    }
+    // UrlsImagenes({commit,state}){
+    //    state.catBuscar.map(cat=>{
+    //     firebase
+    //       .storage()
+    //       .ref()
+    //       .child(`ImagenesCategorias/${cat.img}.svg`)
+    //       .getDownloadURL()
+    //       .then((url) => {
+    //        commit("setImagenes",cat.img)
+    //       })
+    //   })
+    // }
   },
   modules: {
   }
