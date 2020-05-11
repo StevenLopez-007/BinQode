@@ -167,7 +167,7 @@
                     >
                       <v-icon>arrow_back_ios</v-icon>
                     </v-btn>
-                    <v-btn @click="$router.replace({name:'Modulos',params:{id:$route.params.id}})" fab icon color="red darken-1"><v-icon>fas fa-times-circle</v-icon></v-btn>
+                    <v-btn @click="$router.replace({name:'Modulos',params:{id:$route.params.idCat}})" fab icon color="red darken-1"><v-icon>fas fa-times-circle</v-icon></v-btn>
                     <v-btn
                       class="botones"
                       color="#ff4f5a"

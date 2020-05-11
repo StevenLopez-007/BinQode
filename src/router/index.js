@@ -37,7 +37,7 @@ const router = new VueRouter({
       
     },
     {
-      path:'/introduccion/:id',
+      path:'/introduccion/:idCat/:id',
       name:'InstroduccionMod',
       component:InstroduccionMod,
       meta:{
@@ -45,7 +45,7 @@ const router = new VueRouter({
       }
     },
     {
-      path:'/cuestionarioCon/:id',
+      path:'/cuestionarioCon/:idCat/:id',
       name:'cuestionariocon',
       component:CuestionarioCon,
       meta:{

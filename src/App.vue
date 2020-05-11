@@ -127,12 +127,12 @@
     <v-app-bar
       elevation="none"
       ref="appBarSticky"
-      :class="$route.name != 'Home' ? 'app-barfixed' : 'app-barabsolute'"
-      v-if="['Categoria', 'Modulos', 'Home'].indexOf($route.name) > -1"
-      :style="$route.name == 'Categoria' ? 'position:sticky;' : $route.name=='Modulos'?'position:relative;box-shadow:none !important;':''"
+      :class="ruta != 'Home' ? 'app-barfixed' : 'app-barabsolute'"
+      v-if="['Categoria', 'Modulos', 'Home'].indexOf(ruta) > -1"
+      :style="ruta == 'Categoria' ? 'position:sticky;' : ruta=='Modulos'?'position:relative;box-shadow:none !important;':''"
     >
       <a
-        @click="$router.push('/')"
+        @click="ruta!='Home'?$router.push({name:'Categoria'}):null"
         style="text-decoration:none; color: rgb(62, 65, 109);cursor:pointer;"
         ><h4 class="titulo ma-2">B1nQ0de</h4></a
       >
@@ -149,7 +149,7 @@
 
       <div
         style="max-height:70%;"
-        v-if="['Categoria', 'Modulos'].includes($route.name)"
+        v-if="['Categoria', 'Modulos'].includes(ruta)"
       >
         <v-text-field
           clearable
@@ -288,7 +288,7 @@
               >
               <!-- <v-list-item-subtitle>Notify me about updates to apps or games that I downloaded</v-list-item-subtitle> -->
             </v-list-item>
-            <v-list-item v-if="$route.name == 'Modulos'">
+            <v-list-item v-if="ruta == 'Modulos'">
               <v-icon class="ma-3">fas fa-layer-group</v-icon>
               <v-list-item-title class="font-weight-medium text--disabled"
                 >Modulos Completados</v-list-item-title
@@ -325,7 +325,7 @@
       </v-dialog>
     </v-app-bar>
 
-    <v-content v-scroll="$route.name == 'Home' ? onScroll : null">
+    <v-content v-scroll="onScroll">
       <router-view></router-view>
     </v-content>
     <v-row
@@ -399,7 +399,7 @@
 </template>
 
 <script>
-import firebase from "firebase";
+// import firebase from "firebase";
 import decode from "jwt-decode";
 import store from "./store";
 import { mapMutations } from "vuex";
@@ -439,6 +439,9 @@ export default {
     isCompletados() {
       return this.$store.getters.completado;
     },
+    ruta(){
+      return this.$route.name
+    }
   },
   watch: {
     $route(to, from) {
@@ -461,6 +464,7 @@ export default {
       this.$store.dispatch("logout");
     },
     onScroll() {
+      if(this.$route.name==='Home'){
       this.offsetTop = window.scrollY;
       if (this.$refs.appBarSticky.currentScroll > 45) {
         this.$refs.appBarSticky.$el.classList.remove("app-barabsolute");
@@ -469,6 +473,7 @@ export default {
       } else {
         this.$refs.appBarSticky.$el.classList.remove("app-barfixed");
         this.$refs.appBarSticky.$el.classList.add("app-barabsolute");
+      }
       }
     },
     filtrarCat() {

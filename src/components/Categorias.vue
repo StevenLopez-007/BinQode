@@ -237,7 +237,7 @@
       style="position: absolute; bottom:0px; left:0px; right:0px;"
     >
       <v-col cols="12" class="d-flex justify-center">
-        <v-btn @click="cargarMas()" color="#4d4d87" style="color:white;" rounded
+        <v-btn :disabled="desacticarMas" @click="cargarMas()" color="#4d4d87" style="color:white;" rounded
           >Mostrar +</v-btn
         >
         <v-snackbar v-model="snackbar" :timeout="timeout">
@@ -251,11 +251,12 @@
 import router from "../router";
 import axios from "axios";
 import store from '../store';
-import firebase from 'firebase';
+// import firebase from 'firebase';
 export default {
   data: () => ({
     model: null,
     userName:store.state.currentUser.usuario.nombre,
+    desacticarMas:false,
 
     snackbar: false,
     timeout: 2000,
@@ -300,26 +301,28 @@ export default {
         });
     },
     cargarMas() {
+      this.desacticarMas = true;
       let me = this;
-      var pagina = store.state.paginaCat;
-       store.commit("paginaCat",pagina+1)
-       console.log(store.state.paginaCat)
+      var pagina = 0;
+        pagina = store.state.paginaCat;
+      //  store.commit("paginaCat",pagina+1)
+      //  console.log(store.state.paginaCat)
       axios
-        .get("categoria/?pagina=" + store.state.paginaCat)
+        .get("categoria/?pagina=" + pagina+1)
         .then((response) => {
           if (response.data.categorias.length <= 0) {
             console.log("Esta pagina no tiene mas categorias");
-            store.commit("paginaCat",pagina--);
             this.snackbar = true;
             console.log(store.state.paginaCat);
           } else {
+            store.commit("paginaCat",pagina+1)
             store.commit("setMoreCategorias",response.data.categorias);
           }
         })
         .catch((error) => {
           this.error = true;
         })
-        .finally(() => (this.status = false));
+        .finally(() => (this.status = false,this.desacticarMas=false));
     },
     toModulo(id) {
       this.$router.push({ name: "Modulos", params: { id: id } });

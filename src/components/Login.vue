@@ -107,7 +107,7 @@
   </div>
 </template>
 <script>
-import firebase from "firebase";
+// import firebase from "firebase";
 import axios from 'axios';
 import decode from 'jwt-decode'
 import store from '../store'

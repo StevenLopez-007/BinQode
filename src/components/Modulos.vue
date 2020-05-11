@@ -198,7 +198,7 @@
                   !verificarDatos
                     ? toCuestionario(mod.id)
                     : datosInscripcion(mod.id) < 10
-                    ? toCuestionario(mod.id)
+                    ? null
                     : null
                 "
                 style=" cursor:pointer;"
@@ -208,7 +208,7 @@
                 "
               >
                 <v-fade-transition
-                  v-if="verificarDatos ? datosInscripcion(mod.id) < 10 : null"
+                  v-if="verificarDatos ? datosInscripcion(mod.id) < 10 : true"
                 >
                   <v-overlay
                     v-if="hover"
@@ -254,7 +254,7 @@
                         @click="
                           $router.replace({
                             name: 'cuestionariocon',
-                            params: { id: mod.id },
+                            params: { id: mod.id,idCat:$route.params.id },
                           })
                         "
                         class="font-weight-medium"
@@ -262,13 +262,11 @@
                       >
                     </v-list-item>
                     <v-list-item
-                      v-if="
-                        verificarDatos ? datosInscripcion(mod.id) < 10 : null
-                      "
+                      v-if="verificarDatos ? datosInscripcion(mod.id) < 10 : null"
                     >
                       <v-list-item-title
                         style="cursor:pointer;"
-                        @click="toCuestionario(mod.id)"
+                        
                         class="font-weight-medium"
                         >Volver a realizar test</v-list-item-title
                       >
@@ -502,6 +500,7 @@ export default {
         name: "InstroduccionMod",
         params: {
           id: id,
+          idCat:this.$route.params.id
         },
       });
     },

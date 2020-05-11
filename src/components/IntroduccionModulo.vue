@@ -64,7 +64,7 @@
         ></v-progress-circular>
       </v-col>
     </v-row>
-  <a id="botonBack" @click="$router.replace({name:'Modulos',params:idModulo})" style="position:absolute; left:0px;top:10px; z-index:1000;" class="ml-3" > <v-icon size="30">fas fa-times-circle</v-icon></a>
+  <a id="botonBack" @click="$router.replace({name:'Modulos',params:{id:$route.params.idCat}})" style="position:absolute; left:0px;top:10px; z-index:1000;" class="ml-3" > <v-icon size="30">fas fa-times-circle</v-icon></a>
     <v-stepper
       v-if="!status && !error"
       v-model="e1"
