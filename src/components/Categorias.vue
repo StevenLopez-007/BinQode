@@ -170,7 +170,7 @@
             :elevation="hover ? 6 : null"
           >
             <v-img
-              @click="toModulo(cat._id)"
+              @click="toModulo(cat.id)"
               style=" cursor:pointer;"
               class="imgCat"
               :src="require('../imagenes/categorias/'+cat.img+'.svg')"

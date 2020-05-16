@@ -100,14 +100,14 @@
               :value="progreso"
               :color="colorBarra"
               height="10"
-              style="border-radius:4px;"
+              rounded
             ></v-progress-linear>
           </v-col>
           <v-col cols="1" class="d-flex justify-center align-center">
             <v-btn
               icon
               :disabled="progreso == 100 ? false : true"
-              @click="registrarCues()"
+              @click="progreso==100?registrarCues():null"
             >
               <v-icon color="green">fas fa-flag</v-icon>
             </v-btn>
@@ -204,7 +204,7 @@
                       ¡Seleccione una respuesta!
                     </v-snackbar>
                     <v-btn
-                      @click="registrarCues()"
+                      @click="progreso==100?registrarCues():null"
                       color="#78c800"
                       fab
                       :disabled="progreso == 100 ? false : true"
@@ -504,6 +504,7 @@ export default {
         if (i == this.cuestionario.length) {
           clearInterval(this.interval);
           this.regisCues();
+          this.registrarCuesRes();
         } else if (
           this.cuestionario[i].respuestaseleccionada ===
           this.cuestionario[i].respuestaCorrecta
@@ -521,7 +522,7 @@ export default {
         calificacion: this.calificacion / 10,
         estudiante: usuarioActivo.usuario._id,
         modulo: this.$route.params.id,
-        completado:true
+        completado: true,
       };
       var headers = {
         headers: {
@@ -532,21 +533,25 @@ export default {
       axios
         .post("inscripcion/", data, headers)
         .then((result) => {
-          if (!result.data.ok) {
-            this.botonReintentar = true;
-            this.activarBotonRetry = false;
-          } else {
-            this.activarBoton = false;
-            this.botonReintentar = false;
-            this.registrarCuesRes();
-          }
+          // if (!result.data.ok) {
+          //   this.botonReintentar = true;
+          //   this.activarBotonRetry = false;
+          // } else {
+          //   this.activarBoton = false;
+          //   this.botonReintentar = false;
+          //   this.registrarCuesRes();
+          // }
         })
-        .catch(
-          (error) => (
-            (this.botonReintentar = true),
-            ((this.activarBotonRetry = false), console.log(error))
-          )
-        );
+        .finally(() => {
+          this.activarBoton = false;
+          this.botonReintentar = false;
+        });
+      // .catch(
+      //   (error) => (
+      //     (this.botonReintentar = true),
+      //     ((this.activarBotonRetry = false), console.log(error))
+      //   )
+      // );
     },
     verCuesRes() {
       this.cuestionarioRes = [];
@@ -559,6 +564,7 @@ export default {
         cuesRes.contenido = element.idContenido;
         cuesRes.cuestionario = element.idCuestionario;
         cuesRes.respuestaSeleccionada = element.respuestaseleccionada;
+        cuesRes.modulo = this.$route.params.id
         this.cuestionarioRes.push(cuesRes);
       });
     },
@@ -574,7 +580,7 @@ export default {
         data: this.cuestionarioRes,
       })
         .then((result) => {
-          console.log(result);
+          // console.log(result);
         })
         .catch((error) => console.log(error));
     },

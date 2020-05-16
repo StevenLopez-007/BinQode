@@ -10,6 +10,11 @@ import Modulos from '../components/Modulos.vue'
 
 import firebase, { firestore } from 'firebase'
 import store from '../store'
+import axios from 'axios'
+
+// async function verificarMod(){
+//   return await axios.get('')
+// }
 
 Vue.use(VueRouter)
 
@@ -113,6 +118,9 @@ router.beforeEach((to,from,next)=>{
     //   }
     // })
     if(store.getters.logedIn){
+      // if(to.name=='Cuestionario'){
+
+      // }
       next()
     }
     else{

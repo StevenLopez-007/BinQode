@@ -174,17 +174,17 @@
             style="cursor:pointer;"
             size="40"
           >
-            <v-img :src="avatarUser" alt="avatar"></v-img>
+            <v-img :src="require(`@/imagenes/avatars/${datosUser.avatar}`)" alt="avatar"></v-img>
           </v-avatar>
         </template>
         <v-list>
           <v-list-item>
             <v-list-item-avatar border>
-              <img :src="avatarUser" alt="Avatar" />
+              <img :src="require(`@/imagenes/avatars/${datosUser.avatar}`)" alt="Avatar" />
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title>{{ nameUser }}</v-list-item-title>
-              <v-list-item-subtitle>{{ emailUser }}</v-list-item-subtitle>
+              <v-list-item-title>{{ datosUser.nombre }}</v-list-item-title>
+              <v-list-item-subtitle>{{ datosUser.email }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
           <v-divider></v-divider>
@@ -198,7 +198,7 @@
               >Feedback</v-list-item-title
             >
           </v-list-item>
-          <v-list-item class="items-list" v-if="$route.name == 'Modulos'">
+          <v-list-item class="items-list" v-if="ruta == 'Modulos'">
             <v-list-item-title class="list-items-title"
               ><v-icon class="ma-2 iconos-list">fas fa-layer-group</v-icon
               >Modulos Completados</v-list-item-title
@@ -240,7 +240,7 @@
             style="cursor:pointer;"
             size="40"
           >
-            <v-img :src="avatarUser" alt="avatar"></v-img>
+            <v-img :src="require(`@/imagenes/avatars/${datosUser.avatar}`)" alt="avatar"></v-img>
           </v-avatar>
         </template>
         <v-card>
@@ -258,11 +258,11 @@
             <!-- <v-subheader>User Controls</v-subheader> -->
             <v-list-item>
               <v-list-item-avatar border size="60">
-                <img :src="avatarUser" alt="Avatar" />
+                <img :src="require(`@/imagenes/avatars/${datosUser.avatar}`)" alt="Avatar" />
               </v-list-item-avatar>
               <v-list-item-content>
-                <v-list-item-title>{{ nameUser }}</v-list-item-title>
-                <v-list-item-subtitle>{{ emailUser }}</v-list-item-subtitle>
+                <v-list-item-title>{{ datosUser.nombre }}</v-list-item-title>
+                <v-list-item-subtitle>{{ datosUser.email }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
@@ -409,10 +409,6 @@ export default {
     overlay: false,
   },
   data: () => ({
-    Logeado: "notLoged",
-    avatarUser: "https://image.flaticon.com/icons/svg/236/236831.svg",
-    nameUser: "",
-    emailUser: "",
     items: [
       {
         title: "Feedback",
@@ -420,7 +416,6 @@ export default {
         src: "https://forms.gle/RKe6ZLZ5gKpJnEjd9",
       },
     ],
-    offsetTop: 0,
 
     dialog: false,
     buscar: "",
@@ -428,8 +423,9 @@ export default {
   created: function() {
     if (this.$store.getters.logedIn) {
       // var user = decode(store.state.token);
-      this.nameUser = store.state.currentUser.usuario.nombre;
-      this.emailUser = store.state.currentUser.usuario.email;
+      this.nameUser = this.datosUser.nombre;
+      this.emailUser = this.datosUser.email;
+      this.avatar = this.datosUser.avatar;
     }
   },
   computed: {
@@ -441,6 +437,9 @@ export default {
     },
     ruta(){
       return this.$route.name
+    },
+    datosUser(){
+      return store.state.currentUser.usuario;
     }
   },
   watch: {
@@ -465,7 +464,6 @@ export default {
     },
     onScroll() {
       if(this.$route.name==='Home'){
-      this.offsetTop = window.scrollY;
       if (this.$refs.appBarSticky.currentScroll > 45) {
         this.$refs.appBarSticky.$el.classList.remove("app-barabsolute");
         this.$refs.appBarSticky.$el.classList.add("app-barfixed");

@@ -254,7 +254,7 @@
                         @click="
                           $router.replace({
                             name: 'cuestionariocon',
-                            params: { id: mod.id,idCat:$route.params.id },
+                            params: { id: mod.id, idCat: $route.params.id },
                           })
                         "
                         class="font-weight-medium"
@@ -262,11 +262,12 @@
                       >
                     </v-list-item>
                     <v-list-item
-                      v-if="verificarDatos ? datosInscripcion(mod.id) < 10 : null"
+                      v-if="
+                        verificarDatos ? datosInscripcion(mod.id) < 10 : null
+                      "
                     >
                       <v-list-item-title
                         style="cursor:pointer;"
-                        
                         class="font-weight-medium"
                         >Volver a realizar test</v-list-item-title
                       >
@@ -275,14 +276,28 @@
                 </v-menu>
               </v-img>
             </v-hover>
-
+            <!-- <v-badge v-if="verificarDatos" inline overlap :content="datosInscripcion(mod.id)" :value="datosInscripcion(mod.id)"></v-badge> -->
             <v-row style="position:relative;">
-              <h1
-                ref="tituloMod"
-                class="tituloModulo mostrarmenosMod mt-lg-2 mb-lg-0 mr-lg-0 ml-lg-0 ma-md-2 ma-sm-2 ma-2"
-              >
-                {{ mod.nombre }}
-              </h1>
+              <!-- <v-progress-linear :striped="true" v-if="verificarDatos" :value="datosInscripcion(mod.id)*10"> -->
+              <!-- </v-progress-linear> -->
+              <div style="width:100%" class="d-flex align-center">
+                <div :style="{width:verificarDatos?'80%':'100%'}">
+                  <h1
+                    ref="tituloMod"
+                    class="tituloModulo mostrarmenosMod mt-lg-2 mb-lg-0 mr-lg-0 ml-lg-0 ma-md-2 ma-sm-2 ma-2"
+                  >
+                    {{ mod.nombre }}
+                  </h1>
+                </div>
+                <div style="width:20%" v-if="verificarDatos">
+                  <v-progress-circular
+                    rotate="270"
+                    color="rgb(62, 65, 109)"
+                    :size="$vuetify.breakpoint.xsOnly ? '25' : '32'"
+                    :value="datosInscripcion(mod.id) * 10"
+                  ></v-progress-circular>
+                </div>
+              </div>
 
               <h3 ref="DesMod" class="descripcionModulo mostrarmenosMod pa-2">
                 {{ mod.descripcion }}
@@ -433,9 +448,9 @@ export default {
     verificarDatos() {
       return !this.error && this.isCompletados && this.modulosFilter.length > 0;
     },
-    nombreCategoria(){
-      return store.state.modBuscar[0].categoria.nombre
-    }
+    nombreCategoria() {
+      return store.state.modBuscar[0].categoria.nombre;
+    },
   },
   methods: {
     getModulos() {
@@ -500,7 +515,7 @@ export default {
         name: "InstroduccionMod",
         params: {
           id: id,
-          idCat:this.$route.params.id
+          idCat: this.$route.params.id,
         },
       });
     },
