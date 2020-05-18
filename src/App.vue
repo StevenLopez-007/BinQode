@@ -132,7 +132,7 @@
       :style="ruta == 'Categoria' ? 'position:sticky;' : ruta=='Modulos'?'position:relative;box-shadow:none !important;':''"
     >
       <a
-        @click="ruta!='Home'?$router.push({name:'Categoria'}):null"
+        @click="!(['Categoria','Home'].includes(ruta))?$router.push({name:'Categoria'}):null"
         style="text-decoration:none; color: rgb(62, 65, 109);cursor:pointer;"
         ><h4 class="titulo ma-2">B1nQ0de</h4></a
       >

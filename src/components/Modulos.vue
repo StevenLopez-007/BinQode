@@ -185,22 +185,12 @@
           <v-card
             class="cardMod pa-0"
             :elevation="hover ? 6 : null"
-            style="border-radius:25px;box-shadow:none;"
-            :style="{
-              'border-bottom': isCompletados
-                ? '2px solid green'
-                : '2px solid #ef5350',
-            }"
+            style="border-radius:25px;box-shadow:none;transition:0.25s;"
+            :style="{'border-bottom': isCompletados ? '2px solid green;': '2px solid #ef5350;','transform':hover?'translateY(-10px)':'translateY(0)'}"
           >
             <v-hover v-slot:default="{ hover }">
               <v-img
-                @click="
-                  !verificarDatos
-                    ? toCuestionario(mod.id)
-                    : datosInscripcion(mod.id) < 10
-                    ? null
-                    : null
-                "
+                @click="!verificarDatos? toCuestionario(mod.id): datosInscripcion(mod.id) < 10? resetMod(mod.id): null"
                 style=" cursor:pointer;"
                 class="imgMod"
                 :src="
@@ -265,6 +255,7 @@
                       v-if="
                         verificarDatos ? datosInscripcion(mod.id) < 10 : null
                       "
+                      @click="resetMod(mod.id)"
                     >
                       <v-list-item-title
                         style="cursor:pointer;"
@@ -281,7 +272,7 @@
               <!-- <v-progress-linear :striped="true" v-if="verificarDatos" :value="datosInscripcion(mod.id)*10"> -->
               <!-- </v-progress-linear> -->
               <div style="width:100%" class="d-flex align-center">
-                <div :style="{width:verificarDatos?'80%':'100%'}">
+                <div :style="{ width: verificarDatos ? '80%' : '100%' }">
                   <h1
                     ref="tituloMod"
                     class="tituloModulo mostrarmenosMod mt-lg-2 mb-lg-0 mr-lg-0 ml-lg-0 ma-md-2 ma-sm-2 ma-2"
@@ -291,11 +282,12 @@
                 </div>
                 <div style="width:20%" v-if="verificarDatos">
                   <v-progress-circular
+                    :width="$vuetify.breakpoint.xsOnly?2.5:3"
                     rotate="270"
                     color="rgb(62, 65, 109)"
-                    :size="$vuetify.breakpoint.xsOnly ? '25' : '32'"
+                    :size="$vuetify.breakpoint.xsOnly ? '25' : '40'"
                     :value="datosInscripcion(mod.id) * 10"
-                  ></v-progress-circular>
+                  ><span :style="{'font-size':$vuetify.breakpoint.xsOnly?'xx-small':'unset'}">{{datosInscripcion(mod.id).toFixed(1)}}</span></v-progress-circular>
                 </div>
               </div>
 
@@ -368,6 +360,7 @@
 import router from "../router";
 import axios from "axios";
 import store from "../store";
+import Swal from "sweetalert2";
 export default {
   data: () => ({
     model: 1,
@@ -510,12 +503,12 @@ export default {
         })
         .finally(() => (this.status = false));
     },
-    toCuestionario(id) {
+    toCuestionario(id,idCat) {
       this.$router.replace({
         name: "InstroduccionMod",
         params: {
           id: id,
-          idCat: this.$route.params.id,
+          idCat: this.$route.params.id || idCat,
         },
       });
     },
@@ -547,6 +540,33 @@ export default {
     datosInscripcion(id) {
       var datosIns = store.getters.getDatosIns(id);
       return datosIns[0].calificacion;
+    },
+    resetMod(idMod) {
+      var idCat = this.$route.params.id
+      Swal.fire({
+        icon: "warning",
+        title: "¿Reintentar módulo?",
+        text: "¡Si aceptas, anularás tu inscripción al módulo!",
+        showCancelButton: true,
+        confirmButtonColor: "#00b248",
+        cancelButtonColor: "#ef5350",
+        confirmButtonText: "Aceptar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.value) {
+          axios
+            .get(
+              `cuestionarioRes/reiniciarModulo/${idMod}/${store.state.currentUser.usuario._id}`,{headers:{"x-token":store.state.token}}
+            )
+            .then((response) => {
+              this.toCuestionario(idMod,idCat);
+              
+            })
+            .catch((error) => {
+              this.$router.push({ name: "Categoria" });
+            });
+        }
+      });
     },
   },
 };

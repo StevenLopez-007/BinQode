@@ -7,10 +7,10 @@ import InstroduccionMod from '../components/IntroduccionModulo.vue'
 import Home from '../components/Home.vue'
 import Login from '../components/Login.vue'
 import Modulos from '../components/Modulos.vue'
+import Bienvenida from '../components/Bienvenida.vue'
 
 import firebase, { firestore } from 'firebase'
 import store from '../store'
-import axios from 'axios'
 
 // async function verificarMod(){
 //   return await axios.get('')
@@ -22,6 +22,14 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes:[
+    {
+      path:'/bienvenida',
+      name:'Bienvenida',
+      component:Bienvenida,
+      meta:{
+        libre:true
+      }
+    },
     {
       path: '/categoria',
       name: 'Categoria',
@@ -99,7 +107,9 @@ router.beforeEach((to,from,next)=>{
     //   }
     // })
     if(store.getters.logedIn){
+     
       next('/categoria')
+     
     }
     else{
       next();
@@ -118,8 +128,11 @@ router.beforeEach((to,from,next)=>{
     //   }
     // })
     if(store.getters.logedIn){
-      // if(to.name=='Cuestionario'){
-
+      // if(['Cuestionario','InstroduccionMod'].includes(to.name)){
+      //   store.getters.modInscritos(to.params.id)?next(false):next()
+      // }
+      // else{
+      //   next()
       // }
       next()
     }

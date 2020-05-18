@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import router from '../router'
 import decode from 'jwt-decode'
 import firebase from 'firebase'
+import axios from 'axios'
 
 Vue.use(Vuex)
 
@@ -15,14 +16,20 @@ export default new Vuex.Store({
     modInscritos:[],
     buscar:'',
     completados:false,
-    paginaCat:1
+    paginaCat:1,
   },
   getters:{
     logedIn(state){
       try{
-        state.currentUser=decode(localStorage.tokenUser)
+        if(localStorage.tokenUser === undefined){
+          return false
+        }
+        else{
+          state.currentUser=decode(localStorage.tokenUser)
         return state.token != null
+        }
       }catch(error){
+        
         return false
       }
     },
@@ -43,6 +50,10 @@ export default new Vuex.Store({
     },
     completado(state){
       return state.completados
+    },
+    modInscritos: (state)=>(modulo)=>{
+      let inscrito =  axios.get(`inscripcion/verificarModulo/${modulo}/${state.currentUser.usuario._id}`);
+       return inscrito.inscripcions != undefined? true:false;
     },
   },
   mutations: {
@@ -76,7 +87,7 @@ export default new Vuex.Store({
     },
     paginaCat(state,pagina){
       state.paginaCat = pagina;
-    }
+    },
   },
   actions: {
     guardarToken({commit},token){

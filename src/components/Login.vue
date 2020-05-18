@@ -337,20 +337,20 @@ export default {
             if (response.data.ok) {
               this.$store.dispatch("guardarToken", response.data.token);
               this.emailIncorrecto = false;
-              this.cargando = false;
-              this.$router.go("/categoria");
+              this.$router.replace('/bienvenida')
+              this.$router.go(1);
             } else {
               console.log("Error");
               this.emailIncorrecto = false;
               this.error = true;
-              this.cargando = false;
+              
             }
           })
           .catch((error) => {
             (this.error = true),
-              (this.cargando = false),
+              
               (this.emailIncorrecto = false);
-          });
+          }).finally(()=>this.cargando = false);
       } else {
         axios
           .post("estudiante/login", {
@@ -361,20 +361,20 @@ export default {
             if (response.data.ok) {
               this.$store.dispatch("guardarToken", response.data.token);
               this.emailIncorrecto = false;
-              this.cargando = false;
+              
               this.$router.go("/categoria");
             } else {
               this.error = false;
               this.emailIncorrecto = true;
               this.password = "";
-              this.cargando = false;
+              
             }
           })
           .catch(
             () => (this.error = true),
-            (this.cargando = false),
+            
             (this.emailIncorrecto = false)
-          );
+          ).finally(()=>this.cargando = false);
       }
     },
     windowWidth() {

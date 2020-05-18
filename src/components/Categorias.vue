@@ -165,9 +165,10 @@
       >
         <v-hover v-slot:default="{ hover }">
           <v-card
-            style="border-radius:25px; box-shadow:none;"
+            style="border-radius:25px; box-shadow:none; transition:0.25s;"
             class="cardCat pa-0"
             :elevation="hover ? 6 : null"
+            :style="{transform:hover?'translateY(-10px)':'translateY(0px)'}"
           >
             <v-img
               @click="toModulo(cat.id)"
