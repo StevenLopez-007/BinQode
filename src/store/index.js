@@ -55,6 +55,11 @@ export default new Vuex.Store({
       let inscrito =  axios.get(`inscripcion/verificarModulo/${modulo}/${state.currentUser.usuario._id}`);
        return inscrito.inscripcions != undefined? true:false;
     },
+    getProgresoporCat:(state)=>(cat)=>{
+      return state.modInscritos.filter( mods=>{
+        return mods.modulo.categoria.match(cat)
+      })
+    }
   },
   mutations: {
     setToken(state,token){

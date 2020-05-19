@@ -168,14 +168,15 @@
         offset-overflow
       >
         <template v-slot:activator="{ on }">
+          <v-progress-circular color="rgb(62, 65, 109)" :value="progresoCat()" size="48" :width="9" class="hidden-xs-only">
           <v-avatar
-            class="d-none d-sm-flex mr-2"
             v-on="on"
             style="cursor:pointer;"
             size="40"
           >
             <v-img :src="require(`@/imagenes/avatars/${datosUser.avatar}`)" alt="avatar"></v-img>
           </v-avatar>
+          </v-progress-circular>
         </template>
         <v-list>
           <v-list-item>
@@ -234,14 +235,15 @@
         transition="dialog-bottom-transition"
       >
         <template v-slot:activator="{ on }">
+          <v-progress-circular color="rgb(62, 65, 109)" :value="progresoCat()" style="min-width:48px;min-height:48px;" :width="9" class="hidden-sm-and-up">
           <v-avatar
-            class="d-flex d-sm-none mr-2"
+            class="hidden-sm-and-up"
             v-on="on"
-            style="cursor:pointer;"
             size="40"
           >
             <v-img :src="require(`@/imagenes/avatars/${datosUser.avatar}`)" alt="avatar"></v-img>
           </v-avatar>
+          </v-progress-circular>
         </template>
         <v-card>
           <v-toolbar dark color="primary">
@@ -440,7 +442,8 @@ export default {
     },
     datosUser(){
       return store.state.currentUser.usuario;
-    }
+    },
+    
   },
   watch: {
     $route(to, from) {
@@ -478,6 +481,15 @@ export default {
       store.commit("setBuscar", this.buscar == null ? "" : this.buscar);
       // ...mapMutations(['setBuscar'])
     },
+    progresoCat(){
+      var progreso =0
+      var modsIns =store.getters.getProgresoporCat(this.$route.params.id)
+      modsIns.forEach(item=>{
+        progreso+=(item.calificacion*100)/(modsIns.length*10)
+      })
+      
+      return store.state.modBuscar.length ===0 || this.ruta!='Modulos'?0:progreso.toFixed(1)/store.state.modBuscar.length
+    }
     // ocultar(){
     //       //  firebase.auth().onAuthStateChanged((user) =>{
     //       //    if(user){

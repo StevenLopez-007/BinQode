@@ -185,8 +185,8 @@
           <v-card
             class="cardMod pa-0"
             :elevation="hover ? 6 : null"
-            style="border-radius:25px;box-shadow:none;transition:0.25s;"
-            :style="{'border-bottom': isCompletados ? '2px solid green;': '2px solid #ef5350;','transform':hover?'translateY(-10px)':'translateY(0)'}"
+            style="border-radius:25px;box-shadow:none;transition:0.25s; border-bottom:2px solid rgb(62, 65, 109);"
+            :style="{'transform':hover?'translateY(-10px)':'translateY(0)'}"
           >
             <v-hover v-slot:default="{ hover }">
               <v-img
@@ -451,11 +451,13 @@ export default {
         .get("modulo/getModulosPorCategoria/" + this.$route.params.id)
         .then((response) => {
           // this.modulos = response.data.modulosEdit;
-          if (response.data.modulosEdit.length > 0) {
+          if(response.data.modulosEdit != undefined){
+          if (response.data.modulosEdit.length > 0 ) {
             // this.nombreCategoria =
             //   response.data.modulosEdit[0].categoria.nombre;
             store.commit("buscarMod", response.data.modulosEdit);
             this.getInscripciones();
+          }
           }
         })
         .catch((error) => {
