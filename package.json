@@ -35,6 +35,8 @@
     "@mdi/js": "^5.0.45",
     "@vue/cli-plugin-babel": "^4.2.0",
     "@vue/cli-service": "^4.2.0",
+    "babel-plugin-import-directory": "^1.1.0",
+    "babel-plugin-wildcard": "^6.0.0",
     "material-design-icons-iconfont": "^5.0.1",
     "node-sass": "^4.12.0",
     "sass": "^1.19.0",
@@ -46,5 +48,6 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "optionalDependencies": {}
 }

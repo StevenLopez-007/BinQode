@@ -541,6 +541,7 @@ export default {
           //   this.botonReintentar = false;
           //   this.registrarCuesRes();
           // }
+          result.data.ok?null:this.$store.dispatch("logout")
         })
         .finally(() => {
           this.activarBoton = false;
@@ -581,6 +582,7 @@ export default {
       })
         .then((result) => {
           // console.log(result);
+          result.data.ok?null:this.$store.dispatch("logout")
         })
         .catch((error) => console.log(error));
     },

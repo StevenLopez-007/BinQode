@@ -280,14 +280,16 @@
                     {{ mod.nombre }}
                   </h1>
                 </div>
-                <div style="width:20%" v-if="verificarDatos">
+                <div style="width:20%" v-if="verificarDatos" class="d-flex justify-center align-center">
                   <v-progress-circular
+                    v-if="datosInscripcion(mod.id)<10"
                     :width="$vuetify.breakpoint.xsOnly?2.5:3"
                     rotate="270"
                     color="rgb(62, 65, 109)"
                     :size="$vuetify.breakpoint.xsOnly ? '25' : '40'"
                     :value="datosInscripcion(mod.id) * 10"
                   ><span :style="{'font-size':$vuetify.breakpoint.xsOnly?'xx-small':'unset'}">{{datosInscripcion(mod.id).toFixed(1)}}</span></v-progress-circular>
+                  <img v-else src="https://image.flaticon.com/icons/svg/411/411830.svg" alt="" :width="$vuetify.breakpoint.xsOnly?'20px':'30px'" :height="$vuetify.breakpoint.xsOnly?'20px':'30px'">
                 </div>
               </div>
 
@@ -428,7 +430,8 @@ export default {
     diferentes: [],
   }),
   created() {
-    this.getModulos();
+    
+    this.getInscripciones();
   },
   watch: {},
   computed: {
@@ -456,7 +459,7 @@ export default {
             // this.nombreCategoria =
             //   response.data.modulosEdit[0].categoria.nombre;
             store.commit("buscarMod", response.data.modulosEdit);
-            this.getInscripciones();
+            
           }
           }
         })
@@ -476,8 +479,8 @@ export default {
       axios
         .get(`inscripcion/getInscrip/${store.state.currentUser.usuario._id}`)
         .then((response) => {
-          response.data.inscripcions != undefined
-            ? store.commit("setModulosCompletados", response.data.inscripcions)
+          response.data.inscripcions != undefined || response.data.inscripcions.length>0
+            ? (store.commit("setModulosCompletados", response.data.inscripcions),this.getModulos())
             : null;
         })
         .catch((error) => {
@@ -561,8 +564,7 @@ export default {
               `cuestionarioRes/reiniciarModulo/${idMod}/${store.state.currentUser.usuario._id}`,{headers:{"x-token":store.state.token}}
             )
             .then((response) => {
-              this.toCuestionario(idMod,idCat);
-              
+              response.data.ok?this.toCuestionario(idMod,idCat):this.$store.dispatch("logout")
             })
             .catch((error) => {
               this.$router.push({ name: "Categoria" });

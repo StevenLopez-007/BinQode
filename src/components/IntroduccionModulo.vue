@@ -96,7 +96,7 @@
                       </h3>
                     </v-card-title>
                     
-                    <prism :language="modulo" class="ma-0" style="height:60vh; overflow:auto;border-radius:10px;">{{
+                    <prism :language="detaCon.type==='text'?'textile':detaCon.type" class="ma-0" style="height:60vh; overflow:auto;border-radius:10px;">{{
                       detaCon.ejemploContenido
                     }}</prism>
                    
@@ -207,6 +207,13 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
+
+// async function loadcomponent (componentLang){
+//   const componentSpe = "@/prismjs/components/prism-textile"
+//   const component = await import(componentSpe)
+  
+// }
+
 export default {
   data() {
     return {
@@ -266,14 +273,16 @@ export default {
         .get("contenido/getContenidoPorModulo/" + this.$route.params.id)
         .then((response) => {
           this.contenido = response.data.contenidosEdit;
-          response.data.contenidosEdit.length == 0
-            ? null
-            : ((this.modulo = response.data.contenidosEdit[0].modulo.nombre
-                .replace(/[0-9]/, "")
-                .toLowerCase()
-                .trim()),
-              (this.modulo2 = response.data.contenidosEdit[0].modulo.nombre),
-              (this.overlay = true));
+          // response.data.contenidosEdit.length == 0
+          //   ? null
+          //   : ((this.modulo = response.data.contenidosEdit[0].modulo.nombre
+          //       .replace(/[0-9]/, "")
+          //       .toLowerCase()
+          //       .trim()),
+          //     (this.modulo2 = response.data.contenidosEdit[0].modulo.nombre)),
+              
+              (this.overlay = true);
+            //  this.$store.commit("setType",response.data.contenidosEdit[0].type)
         })
         .catch((error) => {
           console.log(error);

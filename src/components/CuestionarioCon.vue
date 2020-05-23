@@ -66,11 +66,12 @@
     <v-row
       v-if="error"
       style="height: 100%;"
-      class="d-flex justify-center align-center red--text"
+      class="d-flex justify-center align-center flex-column red--text"
     >
       <h1>
         ¡Error!
       </h1>
+      <v-btn @click="$router.replace('/categoria')" fab color="red darken-1" small style="color:white;font-size:10px;cursor:pointer">Salir</v-btn>
     </v-row>
 
     <v-row
@@ -134,7 +135,7 @@
                           
                         >
                           <v-chip
-                            v-for="(x, index) in detaCon.opciones"
+                            v-for="(x, index) in detaCon.respuestasOrdenadas"
                             :key="x"
                             class="chip font-weight-bold"
                             :color="x===detaCon.respuestaSeleccionada?'blue':'#514e95'"
@@ -204,6 +205,7 @@ export default {
       error: false,
       steps: 2,
       cuestionario: [],
+      respuestasSeleccionadas: [],
     };
   },
   watch: {
@@ -216,6 +218,9 @@ export default {
       this.e1 = 2;
       requestAnimationFrame(() => (this.e1 = 1)); // Workarounds
     },
+    status(){
+      this.ordenarPreguntas()
+    }
   },
   created: function() {
      this.getCuestionario();
@@ -258,7 +263,8 @@ export default {
              cuestionario.type = obj.contenidos.type
              cuestionario.pregunta = obj.cuestionarios.pregunta
              cuestionario.respuesta = obj.cuestionarios.respuesta
-             cuestionario.opciones = [obj.cuestionarios.opt1,obj.cuestionarios.opt2,obj.cuestionarios.opt3]
+             cuestionario.respuestas = [obj.cuestionarios.opt1,obj.cuestionarios.opt2,obj.cuestionarios.opt3]
+             cuestionario.respuestasOrdenadas=[]
             this.cuestionario.push(cuestionario);
           })
         })
@@ -270,6 +276,41 @@ export default {
           this.status = false;
           this.cuestionario.length == 0 ? (this.error = true) : null;
         });
+    },
+    generarRamdon() {
+      if (this.respuestasSeleccionadas.length != 3) {
+        while (repetido != false) {
+          var numberrandom = Math.floor(Math.random() * 3) + 0;
+          var repetido = this.comprobarnumeroGanador(numberrandom);
+        }
+        this.respuestasSeleccionadas.push(numberrandom);
+        return numberrandom;
+      } else {
+        return null;
+      }
+    },
+    comprobarnumeroGanador(numberrandom) {
+      var repetido = false;
+
+      for (var i = 0; i < this.respuestasSeleccionadas.length; i++) {
+        if (numberrandom == this.respuestasSeleccionadas[i]) {
+          repetido = true;
+        }
+      }
+      return repetido;
+    },
+    ordenarPreguntas() {
+      let me = this;
+      for (var i = 0; i < this.cuestionario.length; i++) {
+        this.respuestasSeleccionadas = [];
+        for (var j = 0; j < this.cuestionario[i].respuestas.length; j++) {
+          var respuestaOr = this.cuestionario[i].respuestas[
+            this.generarRamdon()
+          ];
+          // console.log(respuestaOr);
+          this.cuestionario[i].respuestasOrdenadas.push(respuestaOr);
+        }
+      }
     },
   },
 };

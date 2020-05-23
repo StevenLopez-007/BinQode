@@ -103,8 +103,8 @@
           <h4 class="titulo2 pa-4">
             {{ register ? "¡Creá una cuenta!" : "Inicia con una cuenta" }}
           </h4>
-          <!-- <v-btn  color="#4d4d87" width="100%" height="50px" class="white--text  mt-1 botonGoogle"><v-icon color="white" class="ma-3">fab fa-google</v-icon>{{register?'CONECTAR':'INGRESAR'}} CON GOOGLE</v-btn> -->
-          <!-- <h4 class="mt-2" style="text-align:center; color:#b0b2be;" >{{register?'Ó regístrate con tu correo':'Ó continua con tu correo.'}}</h4> -->
+          <v-btn @click="login()"  color="#4d4d87" width="100%" height="50px" class="white--text  mt-1 botonGoogle"><v-icon color="white" class="ma-3">fab fa-google</v-icon>{{register?'CONECTAR':'INGRESAR'}} CON GOOGLE</v-btn>
+          <h4 class="mt-2" style="text-align:center; color:#b0b2be;" >{{register?'Ó regístrate con tu correo':'Ó continua con tu correo.'}}</h4>
           <div class="d-flex justify-center">
             <v-dialog
               v-model="dialog"
@@ -185,6 +185,35 @@
                 label="Contraseña"
                 outlined
               ></v-text-field>
+              <!-- Phone -->
+              <v-row v-if="register">
+                <v-col cols="5" class="pa-0">
+                  <v-select
+                  color="#b0b2be"
+                  v-model="selectPais"
+                    :items="codesPhone"
+                    item-text="nombre"
+                    label="País"
+                    :hint="`${selectPais.iso3}`"
+                    persistent-hint
+                    return-object
+                  >
+                  </v-select>
+                </v-col>
+                <v-col cols="7" class="pl-2 pr-0 pt-0 pb-0">
+                  <v-text-field
+                  color="#b0b2be"
+                  v-model="selectPais.numero"
+                  :rules="phoneRules"
+                  :prefix="`+${selectPais.phone_code}`"
+                    outlined
+                    clearable
+                    label="Teléfono"
+                    class="d-flex align-center"
+                  >
+                  </v-text-field>
+                </v-col>
+              </v-row>
             </v-form>
             <span v-if="emailIncorrecto" class="red--text"
               >E-mail ó contraseña incorrectos</span
@@ -206,9 +235,7 @@
             >{{ register ? "Crear cuenta" : "Ingresar" }}</v-btn
           >
           <h4 class="mt-2" style="text-align:center; color:#b0b2be;">
-            {{
-              register ? "¿Ya tienes una cuenta?" : "¿No tienes una cuenta?"
-            }}
+            {{ register ? "¿Ya tienes una cuenta?" : "¿No tienes una cuenta?" }}
             <span
               @click="register ? (register = false) : (register = true)"
               style="color:#4d4d87; text-decoration:underline; cursor:pointer;  "
@@ -221,7 +248,7 @@
   </div>
 </template>
 <script>
-// import firebase from "firebase";
+import firebase from "firebase";
 import axios from "axios";
 import decode from "jwt-decode";
 import store from "../store";
@@ -241,17 +268,26 @@ export default {
       emailRules: [
         (v) => !!v || "E-mail es requerido",
         (v) =>
-          /^([a-z-0-9_\.\-])+\@(([a-z-0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(
+          /^([a-zA-Z0-9_\.\-])+\@(([a-z-0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(
             v
           ) || "E-mail deber ser válido",
       ],
       nameRules: [
         (v) => (v == null ? (v = "") : !!v || "El nombre es requerido"),
-        (v) =>v == null? (v = ""): v.length <= 40 || "El nombre debe ser menos de 40 carácteres",
+        (v) =>
+          v == null
+            ? (v = "")
+            : v.length <= 40 || "El nombre debe ser menos de 40 carácteres",
       ],
       passwordRules: [
         (v) => !!v || "La contraseña es requerida",
-        (v) =>this.register ? v.length >= 5 || "Contraseña demasiado corta" : v.length>=0,
+        (v) =>
+          this.register
+            ? v.length >= 5 || "Contraseña demasiado corta"
+            : v.length >= 0,
+      ],
+      phoneRules:[
+        v=> !!v || "Teléfono es requerido"
       ],
       emailIncorrecto: false,
       cargando: false,
@@ -261,67 +297,123 @@ export default {
         { src: "avatar2.svg" },
         { src: "avatar3.svg" },
       ],
+      codesPhone: [
+        {
+          nombre: "El Salvador",
+          name: "ElSalvador",
+          nom: "ElSalvador",
+          iso2: "SV",
+          iso3: "SLV",
+          phone_code: "503",
+        },
+        {
+          nombre: "Estados Unidos de América",
+          name: "UnitedStatesofAmerica",
+          nom: "États-Unisd'Amérique",
+          iso2: "US",
+          iso3: "USA",
+          phone_code: "1",
+        },
+        {
+          nombre: "Guatemala",
+          name: "Guatemala",
+          nom: "Guatemala",
+          iso2: "GT",
+          iso3: "GTM",
+          phone_code: "502",
+        },
+        {
+          nombre: "Honduras",
+          name: "Honduras",
+          nom: "Honduras",
+          iso2: "HN",
+          iso3: "HND",
+          phone_code: "504",
+        },
+        {
+          nombre: "Nicaragua",
+          name: "Nicaragua",
+          nom: "Nicaragua",
+          iso2: "NI",
+          iso3: "NIC",
+          phone_code: "505",
+        },
+        {
+          nombre: "Costa Rica",
+          name: "CostaRica",
+          nom: "CostaRica",
+          iso2: "CR",
+          iso3: "CRI",
+          phone_code: "506",
+        },
+      ],
+      selectPais:{nombre: "El Salvador",
+          name: "ElSalvador",
+          nom: "ElSalvador",
+          iso2: "SV",
+          iso3: "SLV",
+          phone_code: "503",
+          numero:''}
     };
   },
   created: function() {
-    // this.getToken();
+    this.getToken();
   },
   mounted() {
     this.windowWidth();
   },
-  watch:{
-    register(){
-      this.limpiar()
-    }
+  watch: {
+    register() {
+      this.limpiar();
+    },
   },
   methods: {
-    // login() {
-    //   const me = this;
-    //   var provider = new firebase.auth.GoogleAuthProvider();
-    //   firebase
-    //     .auth()
-    //     .signInWithRedirect(provider)
-    //     .then(function() {})
-    //     .catch(function(error) {
-    //       // Handle Errors here.
-    //       var errorCode = error.code;
-    //       var errorMessage = error.message;
-    //       // The email of the user's account used.
-    //       var email = error.email;
-    //       // The firebase.auth.AuthCredential type that was used.
-    //       var credential = error.credential;
-    //       console.log(error);
-    //       // ...
-    //     });
-    // },
-    // getToken() {
-    //   let me = this;
-    //   firebase
-    //     .auth()
-    //     .getRedirectResult()
-    //     .then(function(result) {
-    //       if (result.credential) {
-    //         // This gives you a Google Access Token. You can use it to access the Google API.
-    //         var token = result.credential.accessToken;
-    //          me.$router.go({ path: "/categoria" });
-    //         // ...
-    //       }
-    //       // The signed-in user info.
-    //       var user = result.user;
+    login() {
+      var provider = new firebase.auth.GoogleAuthProvider();
+      firebase
+        .auth()
+        .signInWithRedirect(provider)
+        .catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // The email of the user's account used.
+          var email = error.email;
+          // The firebase.auth.AuthCredential type that was used.
+          var credential = error.credential;
+          console.log(error);
+          // ...
+        });
+    },
+    getToken() {
+      let me = this;
+      firebase
+        .auth()
+        .getRedirectResult()
+        .then(function(result) {
+          // if (result.credential) {
+          //   // This gives you a Google Access Token. You can use it to access the Google API.
+          //   var token = result.credential.accessToken;
+          //    me.$router.go({ path: "/categoria" });
+          //   // ...
+          // }
+          // The signed-in user info.
+          var user = result.user;
+          console.log(user.email)
 
-    //     })
-    //     .catch(function(error) {
-    //       // Handle Errors here.
-    //       var errorCode = error.code;
-    //       var errorMessage = error.message;
-    //       // The email of the user's account used.
-    //       var email = error.email;
-    //       // The firebase.auth.AuthCredential type that was used.
-    //       var credential = error.credential;
-    //       console.log(error);
-    //       // ...
-    //     });
-    // },
+        })
+        .catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // The email of the user's account used.
+          var email = error.email;
+          // The firebase.auth.AuthCredential type that was used.
+          var credential = error.credential;
+          console.log(error);
+          // ...
+        });
+    },
     loginWidth() {
       this.cargando = true;
       if (this.register) {
@@ -331,26 +423,25 @@ export default {
             password: this.password,
             email: this.email,
             avatar: this.avatarSelected,
+            phone:`+${this.selectPais.phone_code}${this.selectPais.numero}`
           })
           .then((response) => {
             console.log(response.data.ok);
             if (response.data.ok) {
               this.$store.dispatch("guardarToken", response.data.token);
               this.emailIncorrecto = false;
-              this.$router.replace('/bienvenida')
+              this.$router.replace("/bienvenida");
               this.$router.go(1);
             } else {
               console.log("Error");
               this.emailIncorrecto = false;
               this.error = true;
-              
             }
           })
           .catch((error) => {
-            (this.error = true),
-              
-              (this.emailIncorrecto = false);
-          }).finally(()=>this.cargando = false);
+            (this.error = true), (this.emailIncorrecto = false);
+          })
+          .finally(() => (this.cargando = false));
       } else {
         axios
           .post("estudiante/login", {
@@ -361,20 +452,20 @@ export default {
             if (response.data.ok) {
               this.$store.dispatch("guardarToken", response.data.token);
               this.emailIncorrecto = false;
-              
+
               this.$router.go("/categoria");
             } else {
               this.error = false;
               this.emailIncorrecto = true;
               this.password = "";
-              
             }
           })
           .catch(
             () => (this.error = true),
-            
+
             (this.emailIncorrecto = false)
-          ).finally(()=>this.cargando = false);
+          )
+          .finally(() => (this.cargando = false));
       }
     },
     windowWidth() {
@@ -383,11 +474,11 @@ export default {
     validate() {
       this.$refs.form.validate();
     },
-    limpiar(){
-      this.nombre =''
-      this.password = ''
-      this.email =''
-    }
+    limpiar() {
+      this.nombre = "";
+      this.password = "";
+      this.email = "";
+    },
   },
 };
 </script>
