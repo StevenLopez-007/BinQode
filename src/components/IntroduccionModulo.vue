@@ -1,44 +1,4 @@
-<style>
-@font-face {
-  font-family: "Dosis";
-  src: url(../fonts/Dosis-Bold.ttf);
-}
 
-.enunciadoTituloCon {
-  font-family: "Dosis";
-  font-weight: normal;
-  font-size: 22px;
-  text-align: justify;
-  word-break: normal;
-  color: rgb(62, 65, 109);
-}
-.v-stepper__wrapper {
-  height: 100% !important;
-}
-.stepeercontentIntro {
-  padding: 0px !important;
-}
-
-@media screen and (max-width: 800px) {
-  .enunciadoTituloCon {
-    font-size: 18px;
-  }
-}
-@media screen and (max-width: 600px) {
-  .enunciadoTituloCon {
-    font-size: 16px;
-  }
-  .v-btn--fab.v-size--large {
-    width: 54px !important;
-    height: 54px !important;
-  }
-}
-@media screen and (max-width: 400px) {
-  .enunciadoTituloCon {
-    font-size: 14px;
-  }
-}
-</style>
 <template>
   <div class="pa-5" style="height: 100%; background-color: #f0efff; height: 100%;">
     <v-row v-if="error" style="height: 100%;">

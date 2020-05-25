@@ -1,13 +1,4 @@
 <style>
-@font-face {
-  font-family: "Dosis";
-  src: url(fonts/Dosis-Bold.ttf);
-}
-@font-face {
-  font-family: "Ubuntu";
-  src: url(fonts/Ubuntu-Bold.ttf);
-}
-
 .titulo {
   font-size: 26px;
   font-weight: normal;

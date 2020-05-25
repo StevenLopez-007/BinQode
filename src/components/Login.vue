@@ -1,79 +1,4 @@
-<style>
-@font-face {
-  font-family: "Dosis";
-  src: url(../fonts/Dosis-Bold.ttf);
-}
-@font-face {
-  font-family: "Ubuntu";
-  src: url(../fonts/Ubuntu-Bold.ttf);
-}
-.cardLogin {
-  width: 400px;
-  height: auto;
-  border-radius: 10px !important;
-}
-.cardLogin a {
-  color: transparent !important;
-}
-/* .cardLogin:before{
-   content: "";
-   width:150px;
-   height: 150px;
-   background-color: black;
-   position: absolute;
-   left: -100px;
-   top: -50px;
-   border-radius: 50%;
-   z-index: -1;
- } */
-.titulo1 {
-  font-weight: normal;
-  font-family: "Dosis";
-  letter-spacing: 0.6px;
-  font-size: 36px;
-  text-align: center;
-  color: #514e95;
-  border-bottom: 2px solid #514e95;
-}
-.content {
-  background-color: #f0efff;
-  /* padding-top: 12px !important; */
-  height: 100%;
-}
-.titulo2 {
-  color: #fb6e5c;
-  font-weight: normal;
-  font-size: 26px;
-  letter-spacing: 0.2px;
-  text-align: center;
-  font-family: "Dosis";
-}
-.botonGoogle {
-  font-size: 16px !important;
-  font-weight: 3em;
-  letter-spacing: 1px;
-}
-#botonBack .v-icon {
-  color: rgba(81, 78, 149, 0.15) !important;
-}
-#botonBack:hover .v-icon {
-  color: #4d4d87 !important;
-}
-#botonLogin:hover {
-  background-color: #00b248 !important;
-}
-@media screen and (max-width: 500px) {
-  .cardLogin {
-    height: 100%;
-    box-shadow: none !important;
-    border-radius: 0px !important;
-  }
-  .content {
-    height: 100%;
-    padding-top: 0px !important;
-  }
-}
-</style>
+
 <template>
   <div class="content mb-10">
     <div class="d-flex justify-center content align-center">
@@ -443,7 +368,8 @@ export default {
           avatar: this.avatarSelected,
         })
         .then((response) => {
-          this.$store.dispatch("guardarToken", response.data.token);
+          if(response.data.ok){
+            this.$store.dispatch("guardarToken", response.data.token);
           if (VueCookies.isKey(`user${nombre}`)) {
             this.$router.go()
           }
@@ -451,6 +377,7 @@ export default {
             VueCookies.set(`user${nombre}`,'firstTime',Infinity)
             this.$router.replace('/bienvenida')
             this.$router.go(1);
+          }
           }
         })
         .catch((error) => {

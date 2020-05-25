@@ -1,14 +1,6 @@
 <style>
-@font-face {
-  font-family: "Dosis";
-  src: url(../fonts/Dosis-Bold.ttf);
-}
-@media screen and (max-width: 600px) {
-  #imagenes {
-    width: 300px !important;
-    height: 300px !important;
-  }
-}
+
+
 </style>
 <template>
   <v-window

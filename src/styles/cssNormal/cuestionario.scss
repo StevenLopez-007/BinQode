@@ -1,0 +1,54 @@
+.chip {
+    width: 100%;
+  }
+  .chip::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .chipsColumn .v-slide-group__content {
+    white-space: normal;
+    flex-wrap: nowrap;
+    max-width: 100%;
+  }
+  .enunciadoTitulo {
+    font-family: "Dosis";
+    font-weight: normal;
+    font-size: 22px;
+    text-align: justify;
+    color: rgb(62, 65, 109);
+  }
+  .stepeercontentCues {
+    padding: 0px !important;
+  }
+  
+  @media screen and (max-width: 800px) {
+    .chipsColumn .v-slide-group__content {
+      white-space: normal;
+      flex-wrap: wrap;
+      max-width: 100%;
+    }
+    .enunciadoTitulo {
+      font-size: 18px;
+    }
+  }
+  @media screen and (max-width: 600px) {
+    .enunciadoTitulo {
+      font-size: 16px;
+    }
+    .v-btn--fab.v-size--large {
+      width: 54px !important;
+      height: 54px !important;
+    }
+  }
+  @media screen and (max-width: 400px) {
+    .enunciadoTitulo {
+      font-size: 14px;
+    }
+  }
+  .v-snack__content {
+    padding: 0px 6px !important;
+    justify-content: center !important;
+  }
+  .v-snack__wrapper {
+    min-width: 30% !important;
+  }

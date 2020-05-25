@@ -19,10 +19,19 @@ import "prismjs/components/prism-powershell";
 
 import "./themesCode/prism-shades.css";
 
+// estilos
+import "./styles/fonts.scss"
+import "./styles/cssNormal/bienvenida.scss"
+import "./styles/cssNormal/categorias.scss"
+import "./styles/cssNormal/cuestionario.scss"
+import "./styles/cssNormal/cuestionariocon.scss"
+import "./styles/cssNormal/home.scss"
+import "./styles/cssNormal/introduccionmodulo.scss"
+import "./styles/cssNormal/login.scss"
+import "./styles/cssNormal/modulos.scss"
+// ///////////////////
 
-import "./styles/animate.css"
 import firebase from 'firebase/app'
-  
 import Prism from "vue-prism-component";
 import Swal from 'sweetalert2';
 
