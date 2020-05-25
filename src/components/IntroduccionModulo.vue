@@ -79,7 +79,7 @@
                       elevation="0"
                       @click="previousStep(n + 1)"
                     >
-                      <v-icon>arrow_back_ios</v-icon>
+                      <v-icon>fas fa-angle-left</v-icon>
                     </v-btn>
 
                     <v-btn
@@ -103,7 +103,7 @@
                       elevation="0"
                       @click="nextStep(n + 1)"
                     >
-                      <v-icon>arrow_forward_ios</v-icon>
+                      <v-icon>fas fa-angle-right</v-icon>
                     </v-btn>
                   </div>
                 </v-col>
@@ -127,7 +127,7 @@
           sobre {{ modulo2 }}.
         </p>
         <v-btn icon @click="(overlay = false)">
-          <v-icon>mdi-close</v-icon>
+          <v-icon>fas fa-times</v-icon>
         </v-btn>
       </div>
     </v-overlay>
@@ -138,7 +138,7 @@
           Pulsa play para comenzar el cuestionario.
         </p>
         <v-btn icon @click="overlay2 = false">
-          <v-icon>mdi-check</v-icon>
+          <v-icon>fas fa-check</v-icon>
         </v-btn>
       </div>
     </v-overlay>

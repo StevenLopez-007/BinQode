@@ -1,4 +1,3 @@
-
 <template>
   <div class="content mb-10">
     <div class="d-flex justify-center content align-center">

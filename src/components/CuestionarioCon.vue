@@ -104,7 +104,7 @@
                       elevation="0"
                       @click="previousStep(n + 1)"
                     >
-                      <v-icon>arrow_back_ios</v-icon>
+                      <v-icon>fas fa-angle-left</v-icon>
                     </v-btn>
                     <v-btn @click="$router.replace({name:'Modulos',params:{id:$route.params.idCat}})" fab icon color="red darken-1"><v-icon>fas fa-times-circle</v-icon></v-btn>
                     <v-btn
@@ -116,7 +116,7 @@
                       elevation="0"
                       @click="nextStep(n + 1)"
                     >
-                      <v-icon>arrow_forward_ios</v-icon>
+                      <v-icon>fas fa-angle-right</v-icon>
                     </v-btn>
                   </v-col>
                 </v-row>
