@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '../router'
 import decode from 'jwt-decode'
-import firebase from 'firebase'
+// import firebase from 'firebase'
 import axios from 'axios'
 
 Vue.use(Vuex)

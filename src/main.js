@@ -5,7 +5,8 @@ import store from './store'
 import vuetify from './plugins/vuetify';
 import Vuetify from 'vuetify/lib'
 import axios from 'axios';
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import VueCookies from 'vue-cookies'
+// import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import '@fortawesome/fontawesome-free/css/all.css' // Ensure you are using css-loader
 
 import "prismjs";
@@ -20,7 +21,7 @@ import "./themesCode/prism-shades.css";
 
 
 import "./styles/animate.css"
-import firebase from 'firebase'
+import firebase from 'firebase/app'
   
 import Prism from "vue-prism-component";
 import Swal from 'sweetalert2';
@@ -40,8 +41,7 @@ Vue.component("prism", Prism);
 
 axios.defaults.baseURL='https://b1nc0de-api.herokuapp.com/'
 Vue.config.productionTip = false;
-Vue.use(Vuetify,Swal);
-// Initialize Firebase
+Vue.use(Vuetify,Swal,VueCookies);
 
 export default new Vuetify({
   icons: {

@@ -9,7 +9,7 @@ import Login from '../components/Login.vue'
 import Modulos from '../components/Modulos.vue'
 import Bienvenida from '../components/Bienvenida.vue'
 
-import firebase, { firestore } from 'firebase'
+// import firebase, { firestore } from 'firebase'
 import store from '../store'
 
 // async function verificarMod(){

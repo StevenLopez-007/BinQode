@@ -103,9 +103,25 @@
           <h4 class="titulo2 pa-4">
             {{ register ? "¡Creá una cuenta!" : "Inicia con una cuenta" }}
           </h4>
-          <v-btn @click="login()"  color="#4d4d87" width="100%" height="50px" class="white--text  mt-1 botonGoogle"><v-icon color="white" class="ma-3">fab fa-google</v-icon>{{register?'CONECTAR':'INGRESAR'}} CON GOOGLE</v-btn>
-          <h4 class="mt-2" style="text-align:center; color:#b0b2be;" >{{register?'Ó regístrate con tu correo':'Ó continua con tu correo.'}}</h4>
-          <div class="d-flex justify-center">
+          <v-btn
+            @click="login()"
+            color="#4d4d87"
+            width="100%"
+            height="50px"
+            class="white--text  mt-1 botonGoogle"
+            ><v-icon color="white" class="ma-3">fab fa-google</v-icon
+            >{{ register ? "CONECTAR" : "INGRESAR" }} CON GOOGLE</v-btn
+          >
+          <h4 class="mt-2" style="text-align:center; color:#b0b2be;">
+            {{
+              register
+                ? "Ó regístrate con tu correo"
+                : "Ó continua con tu correo."
+            }}
+          </h4>
+          <!-- Avatar -->
+
+          <!-- <div class="d-flex justify-center">
             <v-dialog
               v-model="dialog"
               style="width:auto;"
@@ -153,7 +169,8 @@
                 </v-container>
               </v-card>
             </v-dialog>
-          </div>
+          </div> -->
+
           <div class="mt-2">
             <v-form ref="form" v-model="valid">
               <v-text-field
@@ -189,8 +206,8 @@
               <v-row v-if="register">
                 <v-col cols="5" class="pa-0">
                   <v-select
-                  color="#b0b2be"
-                  v-model="selectPais"
+                    color="#b0b2be"
+                    v-model="selectPais"
                     :items="codesPhone"
                     item-text="nombre"
                     label="País"
@@ -202,10 +219,10 @@
                 </v-col>
                 <v-col cols="7" class="pl-2 pr-0 pt-0 pb-0">
                   <v-text-field
-                  color="#b0b2be"
-                  v-model="selectPais.numero"
-                  :rules="phoneRules"
-                  :prefix="`+${selectPais.phone_code}`"
+                    color="#b0b2be"
+                    v-model="selectPais.numero"
+                    :rules="phoneRules"
+                    :prefix="`+${selectPais.phone_code}`"
                     outlined
                     clearable
                     label="Teléfono"
@@ -225,7 +242,7 @@
           <v-btn
             :disabled="!valid"
             :loading="cargando"
-            @click="loginWidth()"
+            @click="valid ? loginWidth() : null"
             id="botonLogin"
             class="white--text"
             width="100%"
@@ -252,11 +269,12 @@ import firebase from "firebase";
 import axios from "axios";
 import decode from "jwt-decode";
 import store from "../store";
+import VueCookies from 'vue-cookies'
 // import {config} from './helpers/firebaseConfig'
 export default {
   data() {
     return {
-      avatarSelected: "avatar1.svg",
+      avatarSelected: "av-2.png",
       dialog: false,
       valid: true,
       width: 0 + "px",
@@ -286,8 +304,9 @@ export default {
             ? v.length >= 5 || "Contraseña demasiado corta"
             : v.length >= 0,
       ],
-      phoneRules:[
-        v=> !!v || "Teléfono es requerido"
+      phoneRules: [
+        (v) => !!v || "Teléfono es requerido",
+        (v) => /^([0-9])*$/.test(v) || "Teléfono Invalido",
       ],
       emailIncorrecto: false,
       cargando: false,
@@ -296,6 +315,7 @@ export default {
         { src: "avatar1.svg" },
         { src: "avatar2.svg" },
         { src: "avatar3.svg" },
+        { src: "av-2.png.svg" },
       ],
       codesPhone: [
         {
@@ -347,13 +367,15 @@ export default {
           phone_code: "506",
         },
       ],
-      selectPais:{nombre: "El Salvador",
-          name: "ElSalvador",
-          nom: "ElSalvador",
-          iso2: "SV",
-          iso3: "SLV",
-          phone_code: "503",
-          numero:''}
+      selectPais: {
+        nombre: "El Salvador",
+        name: "ElSalvador",
+        nom: "ElSalvador",
+        iso2: "SV",
+        iso3: "SLV",
+        phone_code: "503",
+        numero: "",
+      },
     };
   },
   created: function() {
@@ -399,8 +421,7 @@ export default {
           // }
           // The signed-in user info.
           var user = result.user;
-          console.log(user.email)
-
+          user != null ? me.redirectGoogle(user.email, user.displayName) : null;
         })
         .catch(function(error) {
           // Handle Errors here.
@@ -414,6 +435,28 @@ export default {
           // ...
         });
     },
+    redirectGoogle(email, nombre) {
+      axios
+        .post("estudiante/createGoogleAccount/", {
+          nombre: nombre,
+          email: email,
+          avatar: this.avatarSelected,
+        })
+        .then((response) => {
+          this.$store.dispatch("guardarToken", response.data.token);
+          if (VueCookies.isKey(`user${nombre}`)) {
+            this.$router.go()
+          }
+          else{
+            VueCookies.set(`user${nombre}`,'firstTime',Infinity)
+            this.$router.replace('/bienvenida')
+            this.$router.go(1);
+          }
+        })
+        .catch((error) => {
+          firebase.auth().signOut();
+        });
+    },
     loginWidth() {
       this.cargando = true;
       if (this.register) {
@@ -423,7 +466,7 @@ export default {
             password: this.password,
             email: this.email,
             avatar: this.avatarSelected,
-            phone:`+${this.selectPais.phone_code}${this.selectPais.numero}`
+            phone: `+${this.selectPais.phone_code}${this.selectPais.numero}`,
           })
           .then((response) => {
             console.log(response.data.ok);
@@ -478,6 +521,9 @@ export default {
       this.nombre = "";
       this.password = "";
       this.email = "";
+      this.selectPais.numero != undefined
+        ? (this.selectPais.numero = "")
+        : null;
     },
   },
 };

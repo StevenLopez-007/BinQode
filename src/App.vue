@@ -174,14 +174,14 @@
             style="cursor:pointer;"
             size="40"
           >
-            <v-img :src="require(`@/imagenes/avatars/${datosUser.avatar}`)" alt="avatar"></v-img>
+            <v-img :src="require(`@/imagenes/avatars/${datosUser.avatar}.svg`)" alt="avatar"></v-img>
           </v-avatar>
           </v-progress-circular>
         </template>
         <v-list>
           <v-list-item>
             <v-list-item-avatar border>
-              <img :src="require(`@/imagenes/avatars/${datosUser.avatar}`)" alt="Avatar" />
+              <img :src="require(`@/imagenes/avatars/${datosUser.avatar}.svg`)" alt="Avatar" />
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title>{{ datosUser.nombre }}</v-list-item-title>
@@ -241,7 +241,7 @@
             v-on="on"
             size="40"
           >
-            <v-img :src="require(`@/imagenes/avatars/${datosUser.avatar}`)" alt="avatar"></v-img>
+            <v-img :src="require(`@/imagenes/avatars/${datosUser.avatar}.svg`)" alt="avatar"></v-img>
           </v-avatar>
           </v-progress-circular>
         </template>
@@ -260,7 +260,7 @@
             <!-- <v-subheader>User Controls</v-subheader> -->
             <v-list-item>
               <v-list-item-avatar border size="60">
-                <img :src="require(`@/imagenes/avatars/${datosUser.avatar}`)" alt="Avatar" />
+                <img :src="require(`@/imagenes/avatars/${datosUser.avatar}.svg`)" alt="Avatar" />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title>{{ datosUser.nombre }}</v-list-item-title>
@@ -401,8 +401,7 @@
 </template>
 
 <script>
-// import firebase from "firebase";
-import decode from "jwt-decode";
+import firebase from "firebase";
 import store from "./store";
 import { mapMutations } from "vuex";
 export default {
@@ -464,6 +463,7 @@ export default {
       //     // An error happened.
       //   });
       this.$store.dispatch("logout");
+      firebase.auth().signOut().then(()=>{}).catch(error=>{})
     },
     onScroll() {
       if(this.$route.name==='Home'){
