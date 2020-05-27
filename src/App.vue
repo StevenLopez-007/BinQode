@@ -1,118 +1,3 @@
-<style>
-.titulo {
-  font-size: 26px;
-  font-weight: normal;
-  font-family: "Dosis";
-  letter-spacing: 0.6px;
-  cursor: pointer;
-}
-.list-items-title {
-  display: contents;
-  font-family: Dosis;
-  font-size: 18px !important;
-  cursor: pointer;
-  color: #b0b2be;
-}
-.iconos-list {
-  height: 24px !important;
-  width: 27px !important;
-  color: #b0b2be !important;
-}
-.items-list:hover .list-items-title {
-  color: rgb(103, 58, 183) !important;
-}
-.items-list:hover .iconos-list {
-  color: rgb(103, 58, 183) !important;
-}
-.app-barfixed {
-  position: fixed;
-  top: 0px;
-  z-index: 2000;
-  max-height: 60px;
-  transition: 0.2s !important;
-  background-color: white !important;
-  box-shadow: 0px 2px 6px 0px #00000017 ;
-}
-.app-barfixed #login {
-  transition: 0s;
-}
-.app-barfixed .v-toolbar__content {
-  display: flex;
-  justify-content: space-between;
-}
-.app-barabsolute #login {
-  color: white !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 140px;
-  height: 40px;
-  border-radius: 20px;
-  /* border:1px solid rgb(62, 65, 109); */
-  background-color: rgb(62, 65, 109);
-  transition: 0s !important;
-}
-.app-barabsolute {
-  position: absolute;
-  top: 0px;
-  z-index: 2000;
-  max-height: 60px;
-  box-shadow: none !important;
-  background-color: transparent !important;
-  transition: 0s !important;
-}
-.app-barabsolute .lineaVertical {
-  min-width: 1px;
-  height: 70%;
-  background-color: rgb(103, 58, 183);
-  margin: 0px 17px;
-}
-#login {
-  text-decoration: none;
-  font-family: Dosis;
-  letter-spacing: 2px;
-  color: #b0b2be;
-}
-.app-barfixed #login:hover {
-  color: rgb(103, 58, 183) !important;
-}
-.tituloFooter {
-  font-family: "Dosis";
-  font-size: 36px;
-  letter-spacing: 1px;
-  color: #f5f5f5;
-}
-.redesFooter li {
-  list-style-type: none;
-  color: white;
-  font-weight: bold;
-}
-.redesFooter {
-  padding-left: 0 !important;
-  padding-top: 20px;
-}
-#mobile-footer:before {
-  content: "\002022";
-  padding: 0 8px;
-}
-@media screen and (max-width: 1264px) {
-  .imgFooter {
-    display: none;
-  }
-}
-@media screen and (max-width: 1050px) {
-  .iconosRedes a i {
-    font-size: 26px !important;
-  }
-}
-@media screen and (max-width:300px){
-  .titulo{
-    font-size: 22px;
-  }
-
-}
-</style>
-
 <template>
   <v-app id="inspire">
     <v-app-bar
@@ -120,10 +5,20 @@
       ref="appBarSticky"
       :class="ruta != 'Home' ? 'app-barfixed' : 'app-barabsolute'"
       v-if="['Categoria', 'Modulos', 'Home'].indexOf(ruta) > -1"
-      :style="ruta == 'Categoria' ? 'position:sticky;' : ruta=='Modulos'?'position:relative;box-shadow:none !important;':''"
+      :style="
+        ruta == 'Categoria'
+          ? 'position:sticky;'
+          : ruta == 'Modulos'
+          ? 'position:relative;box-shadow:none !important;'
+          : ''
+      "
     >
       <a
-        @click="!(['Categoria','Home'].includes(ruta))?$router.push({name:'Categoria'}):null"
+        @click="
+          !['Categoria', 'Home'].includes(ruta)
+            ? $router.push({ name: 'Categoria' })
+            : null
+        "
         style="text-decoration:none; color: rgb(62, 65, 109);cursor:pointer;"
         ><h4 class="titulo ma-2">B1nQ0de</h4></a
       >
@@ -147,7 +42,9 @@
           v-model="buscar"
           @input="filtrarCat()"
           rounded
-          :prepend-inner-icon="$vuetify.breakpoint.xsOnly?'':'fas fa-search'"
+          :prepend-inner-icon="
+            $vuetify.breakpoint.xsOnly ? '' : 'fas fa-search'
+          "
           placeholder="Buscar"
         ></v-text-field>
       </div>
@@ -159,20 +56,28 @@
         offset-overflow
       >
         <template v-slot:activator="{ on }">
-          <v-progress-circular color="rgb(62, 65, 109)" :value="progresoCat()" size="48" :width="9" class="hidden-xs-only">
-          <v-avatar
-            v-on="on"
-            style="cursor:pointer;"
-            size="40"
+          <v-progress-circular
+            color="rgb(62, 65, 109)"
+            :value="progresoCat()"
+            size="48"
+            :width="9"
+            class="hidden-xs-only"
           >
-            <v-img :src="require(`@/imagenes/avatars/${datosUser.avatar}.svg`)" alt="avatar"></v-img>
-          </v-avatar>
+            <v-avatar v-on="on" style="cursor:pointer;" size="40">
+              <v-img
+                :src="require(`@/imagenes/avatars/${datosUser.avatar}.svg`)"
+                alt="avatar"
+              ></v-img>
+            </v-avatar>
           </v-progress-circular>
         </template>
         <v-list>
           <v-list-item>
             <v-list-item-avatar border>
-              <img :src="require(`@/imagenes/avatars/${datosUser.avatar}.svg`)" alt="Avatar" />
+              <img
+                :src="require(`@/imagenes/avatars/${datosUser.avatar}.svg`)"
+                alt="Avatar"
+              />
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title>{{ datosUser.nombre }}</v-list-item-title>
@@ -207,6 +112,16 @@
               ></v-switch
             ></v-list-item-action>
           </v-list-item>
+          <v-list-item
+            @click="$router.push('/perfil')"
+            target="_blank"
+            class="items-list"
+          >
+            <v-list-item-title class="list-items-title"
+              ><v-icon class="ma-2 iconos-list">fas fa-user</v-icon
+              >Perfil</v-list-item-title
+            >
+          </v-list-item>
           <v-divider></v-divider>
           <v-list-item @click="logout()" class="items-list">
             <v-list-item-title class="list-items-title"
@@ -226,20 +141,25 @@
         transition="dialog-bottom-transition"
       >
         <template v-slot:activator="{ on }">
-          <v-progress-circular color="rgb(62, 65, 109)" :value="progresoCat()" style="min-width:48px;min-height:48px;" :width="9" class="hidden-sm-and-up">
-          <v-avatar
+          <v-progress-circular
+            color="rgb(62, 65, 109)"
+            :value="progresoCat()"
+            style="min-width:48px;min-height:48px;"
+            :width="9"
             class="hidden-sm-and-up"
-            v-on="on"
-            size="40"
           >
-            <v-img :src="require(`@/imagenes/avatars/${datosUser.avatar}.svg`)" alt="avatar"></v-img>
-          </v-avatar>
+            <v-avatar class="hidden-sm-and-up" v-on="on" size="40">
+              <v-img
+                :src="require(`@/imagenes/avatars/${datosUser.avatar}.svg`)"
+                alt="avatar"
+              ></v-img>
+            </v-avatar>
           </v-progress-circular>
         </template>
         <v-card>
           <v-toolbar dark color="primary">
             <v-btn icon dark @click="dialog = false">
-              <v-icon>mdi-close</v-icon>
+              <v-icon>fas fa-times</v-icon>
             </v-btn>
             <v-toolbar-title>Cuenta</v-toolbar-title>
             <v-spacer></v-spacer>
@@ -251,11 +171,16 @@
             <!-- <v-subheader>User Controls</v-subheader> -->
             <v-list-item>
               <v-list-item-avatar border size="60">
-                <img :src="require(`@/imagenes/avatars/${datosUser.avatar}.svg`)" alt="Avatar" />
+                <img
+                  :src="require(`@/imagenes/avatars/${datosUser.avatar}.svg`)"
+                  alt="Avatar"
+                />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title>{{ datosUser.nombre }}</v-list-item-title>
-                <v-list-item-subtitle>{{ datosUser.email }}</v-list-item-subtitle>
+                <v-list-item-subtitle>{{
+                  datosUser.email
+                }}</v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
@@ -296,6 +221,12 @@
                   hide-details
                 ></v-switch>
               </v-list-item-action>
+            </v-list-item>
+            <v-list-item @click="$router.push('/perfil')">
+              <v-icon class="ma-3">fas fa-user</v-icon>
+              <v-list-item-title class="font-weight-medium text--disabled"
+                >Perfil</v-list-item-title
+              >
             </v-list-item>
             <v-divider></v-divider>
             <v-list-item @click="logout()">
@@ -427,18 +358,18 @@ export default {
     isCompletados() {
       return this.$store.getters.completado;
     },
-    ruta(){
-      return this.$route.name
+    ruta() {
+      return this.$route.name;
     },
-    datosUser(){
+    datosUser() {
       return store.state.currentUser.usuario;
     },
-    
   },
   watch: {
     $route(to, from) {
       store.commit("setBuscar", "");
       this.buscar = "";
+      this.dialog = false;
     },
   },
   methods: {
@@ -454,33 +385,39 @@ export default {
       //     // An error happened.
       //   });
       this.$store.dispatch("logout");
-      firebase.auth().signOut().then(()=>{}).catch(error=>{})
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {})
+        .catch((error) => {});
     },
     onScroll() {
-      if(this.$route.name==='Home'){
-      if (this.$refs.appBarSticky.currentScroll > 45) {
-        this.$refs.appBarSticky.$el.classList.remove("app-barabsolute");
-        this.$refs.appBarSticky.$el.classList.add("app-barfixed");
-        // console.log(this.$refs.appBarSticky.$el.setAttribute('style','transform:trnas'));
-      } else {
-        this.$refs.appBarSticky.$el.classList.remove("app-barfixed");
-        this.$refs.appBarSticky.$el.classList.add("app-barabsolute");
-      }
+      if (this.$route.name === "Home") {
+        if (this.$refs.appBarSticky.currentScroll > 45) {
+          this.$refs.appBarSticky.$el.classList.remove("app-barabsolute");
+          this.$refs.appBarSticky.$el.classList.add("app-barfixed");
+          // console.log(this.$refs.appBarSticky.$el.setAttribute('style','transform:trnas'));
+        } else {
+          this.$refs.appBarSticky.$el.classList.remove("app-barfixed");
+          this.$refs.appBarSticky.$el.classList.add("app-barabsolute");
+        }
       }
     },
     filtrarCat() {
       store.commit("setBuscar", this.buscar == null ? "" : this.buscar);
       // ...mapMutations(['setBuscar'])
     },
-    progresoCat(){
-      var progreso =0
-      var modsIns =store.getters.getProgresoporCat(this.$route.params.id)
-      modsIns.forEach(item=>{
-        progreso+=(item.calificacion*100)/(modsIns.length*10)
-      })
-      
-      return store.state.modBuscar.length ===0 || this.ruta!='Modulos'?0:progreso.toFixed(1)/store.state.modBuscar.length
-    }
+    progresoCat() {
+      var progreso = 0;
+      var modsIns = store.getters.getProgresoporCat(this.$route.params.id);
+      modsIns.forEach((item) => {
+        progreso += (item.calificacion * 100) / (modsIns.length * 10);
+      });
+
+      return store.state.modBuscar.length === 0 || this.ruta != "Modulos"
+        ? 0
+        : progreso.toFixed(1) / store.state.modBuscar.length;
+    },
     // ocultar(){
     //       //  firebase.auth().onAuthStateChanged((user) =>{
     //       //    if(user){

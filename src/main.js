@@ -25,11 +25,12 @@ import "./styles/fonts.scss"
 import "./styles/stylesmin/bienvenida.min.scss"
 import "./styles/stylesmin/categorias.min.scss"
 import "./styles/stylesmin/cuestionario.min.scss"
-// import "./styles/stylesmin/cuestionariocon.min.scss"
 import "./styles/stylesmin/home.min.scss"
 import "./styles/stylesmin/introduccionmodulo.min.scss"
 import "./styles/stylesmin/login.min.scss"
 import "./styles/stylesmin/modulos.min.scss"
+import "./styles/stylesmin/app.min.scss"
+import "./styles/stylesmin/perfil.min.scss"
 // ///////////////////
 
 import firebase from 'firebase/app'

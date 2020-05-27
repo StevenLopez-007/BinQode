@@ -8,6 +8,7 @@ import Home from '../components/Home.vue'
 import Login from '../components/Login.vue'
 import Modulos from '../components/Modulos.vue'
 import Bienvenida from '../components/Bienvenida.vue'
+import Perfil from '../components/Perfil.vue'
 
 // import firebase, { firestore } from 'firebase'
 import store from '../store'
@@ -91,6 +92,14 @@ const router = new VueRouter({
       login:true
     }
     },
+    {
+      path:'/perfil',
+      name:'Perfil',
+      component:Perfil,
+      meta:{
+        login:true
+      }
+    }
     
   ]
 })

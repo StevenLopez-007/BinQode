@@ -43,6 +43,11 @@ export default new Vuex.Store({
           return state.completados? (state.modInscritos.some(mod=> state.modInscritos.length>0?mod.modulo.id ===mods.id:mod.id===mods.id))?mods.nombre.toLowerCase().match(state.buscar.toLowerCase()):null:!(state.modInscritos.some(mod=> state.modInscritos.length>0?mod.modulo.id ===mods.id:mod.id===mods.id))?mods.nombre.toLowerCase().match(state.buscar.toLowerCase()):null
       })
     },
+    modsInsFil:(state)=>(buscarMod,notaUp)=>{
+      return state.modInscritos.sort((a,b)=> notaUp?b.calificacion-a.calificacion:a.calificacion-b.calificacion).filter(mod=>{
+        return mod.modulo.nombre.toLowerCase().match(buscarMod)
+      })
+    },
     getDatosIns:(state)=>(modulo)=>{
       return state.modInscritos.filter(mods=>{
         return state.completados? mods.modulo.id.match(modulo):[]

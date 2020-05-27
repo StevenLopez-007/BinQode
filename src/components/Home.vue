@@ -1,6 +1,9 @@
 <template>
   <div v-resize="windowWidth">
-    <v-row style="background-color:#e2e2fe;" :style="{'padding-top': width>960 ? 0:64+'px'}">
+    <v-row
+      style="background-color:#e2e2fe;"
+      :style="{ 'padding-top': width > 960 ? 0 : 64 + 'px' }"
+    >
       <v-col
         cols="12"
         sm="12"
@@ -51,11 +54,13 @@
           </div> -->
         </v-col>
       </v-col>
-      <v-col cols="6" lg="6" class="pa-0 imagenHome" style="background-color:#c7cbff;">
-        <v-img
-          src="../imagenes/imagenesHome/imageninicio.jpg"
-        >
-        </v-img>
+      <v-col
+        cols="6"
+        lg="6"
+        class="pa-0 imagenHome"
+        style="background-color:#c7cbff;"
+      >
+        <v-img src="../imagenes/imagenesHome/imageninicio.jpg"> </v-img>
       </v-col>
     </v-row>
     <!-- ------------ -->
@@ -169,7 +174,6 @@
           </v-card>
         </v-col>
       </v-col>
-      
     </v-row>
     <!-- Seccion3-------------------------------- -->
     <v-row>
@@ -233,9 +237,7 @@
         class="d-flex justify-lg-end justify-md-center justify-sm-center justify-center"
       >
         <v-avatar size="250" class="avatarHome4">
-          <v-img
-            src="../imagenes/imagenesHome/logorobotidea.jpg"
-          ></v-img>
+          <v-img src="../imagenes/imagenesHome/logorobotidea.jpg"></v-img>
         </v-avatar>
       </v-col>
       <v-col lg="9" class="d-flex align-center">
@@ -270,8 +272,8 @@
             </h1>
             <p class="descripcionHome4 mt-7">
               Al finalizar un módulo obtendrás una calificacion en base a las
-              respuestas que acertaste, pero recuerda una calificación no define tu
-              inteligencia.
+              respuestas que acertaste, pero recuerda una calificación no define
+              tu inteligencia.
             </p>
           </div>
         </v-col>
@@ -284,9 +286,7 @@
         class="d-flex justify-lg-start justify-md-center justify-sm-center justify-center"
       >
         <v-avatar size="200" class="avatarHome4">
-          <v-img
-            src="../imagenes/imagenesHome/logorobotpremio.jpg"
-          ></v-img>
+          <v-img src="../imagenes/imagenesHome/logorobotpremio.jpg"></v-img>
         </v-avatar>
       </v-col>
     </v-row>
@@ -308,9 +308,7 @@
         class="d-flex justify-lg-end justify-md-center justify-sm-center justify-center"
       >
         <v-avatar size="200" class="avatarHome4">
-          <v-img
-            src="../imagenes/imagenesHome/logorobotpregunta.jpg"
-          ></v-img>
+          <v-img src="../imagenes/imagenesHome/logorobotpregunta.jpg"></v-img>
         </v-avatar>
       </v-col>
       <v-col lg="9" class="d-flex align-center">
@@ -318,8 +316,8 @@
           <div class="ml-3">
             <h1 class="tituloHome4">Revisa tus módulos completados</h1>
             <p class="descripcionHome4 mt-7">
-              Puedes revisar tu historial de módulos, puedes ver las respuestas que
-              seleccionaste y tu calificación obtenida en los cuestionarios
+              Puedes revisar tu historial de módulos, puedes ver las respuestas
+              que seleccionaste y tu calificación obtenida en los cuestionarios
             </p>
           </div>
         </v-col>
@@ -387,6 +385,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
@@ -396,30 +395,75 @@ export default {
           descripcion:
             "Prueba tus dotes en el diseño web con los difrerentes módulos reservados para esta área",
           color: "rgb(252, 88, 115)",
-          icon: "fab fa-css3"
+          icon: "fab fa-css3",
         },
         {
           titulo: "Programación",
           descripcion:
             "Módulos donde pondrás en práctica y aprenderás lo básico pero importante sobre los distintos lenguajes de programación que hemos reservado para  tí.",
           color: "purple darken-1",
-          icon: "fas fa-code"
+          icon: "fas fa-code",
         },
         {
           titulo: "Bases de Datos",
           descripcion:
             "Si el desarrollo web ni programacion de alguna otra área es lo tuyo, entonces prueba las bases de datos, elige entre la variedad de módulos.",
           color: "rgb(98, 215, 107)",
-          icon: "fas fa-database"
-        }
+          icon: "fas fa-database",
+        },
       ],
-      width:0
+      width: 0,
     };
   },
-  methods:{
-    windowWidth(){
+  created: function() {
+    // this.location();
+  },
+  methods: {
+    windowWidth() {
       this.width = window.outerWidth;
-    }
-  }
+    },
+    // location() {
+    //   let me = this;
+    //   var options = {
+    //     enableHighAccuracy: true,
+    //     timeout: 6000,
+    //     maximumAge: 0,
+    //   };
+
+    //   navigator.geolocation.getCurrentPosition(success, error, options);
+    //   function success(position) {
+    //     var coordenadas = position.coords;
+
+    //     // console.log("Tu posición actual es:");
+    //     // console.log("Latitud : " + coordenadas.latitude);
+    //     // console.log("Longitud: " + coordenadas.longitude);
+    //     // console.log("Más o menos " + coordenadas.accuracy + " metros.");
+
+    //     var url = `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=S0vEAFNgbpLtsvwIZlzuc6vBJmUbDNqE&q=${coordenadas.latitude}%2C${coordenadas.longitude}&language=en-us&details=true&toplevel=false`;
+
+    //     axios
+    //       .get(url)
+    //       .then((response) => {
+    //         me.tiempo(response.data.Details.Key);
+    //         // console.log(response.data.Details.Key)
+    //       })
+    //       .catch((error) => console.log(error));
+    //   }
+    //   function error(error) {
+    //     console.warn("ERROR(" + error.code + "): " + error.message);
+    //   }
+    // },
+    // tiempo(keyCode) {
+    //   var url = `http://dataservice.accuweather.com/forecasts/v1/daily/1day/${keyCode}?apikey=S0vEAFNgbpLtsvwIZlzuc6vBJmUbDNqE&language=en-us&details=true&metric=false`;
+    //   axios
+    //     .get(url)
+    //     .then((response) => {
+    //       console.log(response.data.DailyForecasts[0].Sun);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    // },
+  },
 };
 </script>
