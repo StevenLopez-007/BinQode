@@ -31,11 +31,15 @@ import "./styles/stylesmin/login.min.scss"
 import "./styles/stylesmin/modulos.min.scss"
 import "./styles/stylesmin/app.min.scss"
 import "./styles/stylesmin/perfil.min.scss"
+
+import "./styles/darkTheme/darktheme.css"
+// import "./styles/perfil.scss"
 // ///////////////////
 
 import firebase from 'firebase/app'
 import Prism from "vue-prism-component";
 import Swal from 'sweetalert2';
+// import '@sweetalert2/theme-dark/dark.scss';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB7FFfnuq_ixg0PG7Q174zWiRweqCP17EU",
@@ -53,6 +57,8 @@ Vue.component("prism", Prism);
 axios.defaults.baseURL='https://b1nc0de-api.herokuapp.com/'
 Vue.config.productionTip = false;
 Vue.use(Vuetify,Swal,VueCookies);
+
+localStorage.setItem('darkTheme',true)
 
 export default new Vuetify({
   icons: {

@@ -369,11 +369,11 @@ export default {
         .then((response) => {
           if(response.data.ok){
             this.$store.dispatch("guardarToken", response.data.token);
-          if (VueCookies.isKey(`user${nombre}`)) {
+          if (VueCookies.isKey(`user${email}`)) {
             this.$router.go()
           }
           else{
-            VueCookies.set(`user${nombre}`,'firstTime',Infinity)
+            VueCookies.set(`user${email}`,'firstTime',Infinity)
             this.$router.replace('/bienvenida')
             this.$router.go(1);
           }

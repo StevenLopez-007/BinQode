@@ -1,0 +1,23 @@
+.primaryColorDark{
+    background-color: #4f5b62 !important;
+}
+.secondaryColorDark{
+    background-color: #263238 !important;
+}
+.tercerColorDark{
+    background-color: #102027 !important;
+}
+/* .boxShadowDark{
+
+} */
+.tituloDark{
+    color:#bdbdbd!important
+}
+.subtitleDark{
+    color: #aa00ff !important;
+}
+.darkPerfil{
+    background: rgb(109,167,191);
+    background: linear-gradient(308deg, rgba(109,167,191,1) 0%, rgba(51,131,166,1) 35%, rgba(0,40,61,1) 100%);  
+    box-shadow: 0 3px 5px 0#102027 !important; 
+}

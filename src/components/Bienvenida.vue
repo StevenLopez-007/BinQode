@@ -1,13 +1,21 @@
 <style>
-
-
+.window-arrow .v-icon{
+  font-size: 18px !important;
+}
+@media screen and (max-width: 600px){
+  .window-arrow .v-icon{
+    font-size: 10px !important;
+  }
+}
 </style>
 <template>
   <v-window
     v-model="onboarding"
     :show-arrows="$vuetify.breakpoint.smAndUp"
-    class="fill-height"
+    class="fill-height window-arrow"
     :touch="{ left: () => next(), right: () => prev() }"
+    prev-icon="fas fa-chevron-left"
+    next-icon="fas fa-chevron-right"
   >
     <v-window-item
       v-for="(item, n) in length"
@@ -90,7 +98,7 @@
           icon
           @click="toggle"
         >
-          <v-icon size="14">mdi-record</v-icon>
+          <v-icon size="10">fas fa-circle</v-icon>
         </v-btn>
       </v-item>
       <v-item v-slot="{ active, toggle }">
@@ -100,7 +108,7 @@
           icon
           @click="toggle"
         >
-          <v-icon size="14">mdi-record</v-icon>
+          <v-icon size="10">fas fa-circle</v-icon>
         </v-btn>
       </v-item>
     </v-item-group>
@@ -108,6 +116,7 @@
 </template>
 <script>
 import store from '../store'
+
 export default {
   data() {
     return {

@@ -1,6 +1,6 @@
 
 <template>
-  <div style="background-color: #f0efff; height: 100%;">
+  <div :class="darkTheme?'secondaryColorDark':''"  style="background-color: #f0efff; height: 100%;">
     <v-row
       v-if="error"
       style="height: 100%;"
@@ -25,7 +25,7 @@
       v-if="!status && !error"
     >
       <v-toolbar
-        color="#fafafa"
+        :color="!darkTheme?'#fafafa':'#102027'"
         style="z-index:2000;position:relative"
         elevation="3"
       >
@@ -66,6 +66,7 @@
           height: calc(100% - 52px);
         "
         class="pr-1 pl-1"
+        :class="darkTheme?'secondaryColorDark':''"
       >
         <template>
           <v-stepper-items class="stepper" style="height: 100%;">
@@ -83,9 +84,10 @@
                       height="auto"
                       elevation="0"
                       style="background-color: #f0efff;"
+                      :class="darkTheme?'secondaryColorDark':''"
                     >
                       <!-- <v-card-title class="Medium 20sp pt-0 pb-2 enunciadoTitulo"> -->
-                      <h3 class="enunciadoTitulo">
+                      <h3 :class="darkTheme?'tituloDark':''" class="enunciadoTitulo">
                         {{ detaCon.enunciadoContenido }}
                       </h3>
                       <!-- <prism
@@ -98,7 +100,7 @@
                     </v-card>
                     <v-row class="mt-8">
                       <v-col cols="12">
-                        <h3 class="enunciadoTitulo">
+                        <h3 :class="darkTheme?'subtitleDark':''"  class="enunciadoTitulo">
                           Pregunta: <br />
                           {{ detaCon.preguntaCuestionario }}
                         </h3>
@@ -148,6 +150,7 @@
                       @click="progreso==100?registrarCues():null"
                       color="#78c800"
                       fab
+                      :dark="darkTheme"
                       :disabled="progreso == 100 ? false : true"
                       ><v-icon color="white">fas fa-trophy</v-icon></v-btn
                     >
@@ -176,13 +179,14 @@
         </template>
         <!-- <pre>{{ $data.cuestionario }}</pre> -->
       </v-stepper>
-      <v-dialog v-model="dialog" persistent max-width="290">
-        <v-card
+      <v-dialog  v-model="dialog" persistent max-width="290">
+        <v-card 
           class="d-flex justify-center flex-column align-center pa-2 pt-3"
+          :class="darkTheme?'secondaryColorDark':''"
         >
           <div>
             <v-progress-circular
-              color="#4d4d87"
+              :color="!darkTheme?'#4d4d87':'#aa00ff'"
               size="150"
               width="10"
               :value="calificacion"
@@ -198,13 +202,14 @@
           </div>
           <v-card-title
             style="font-family:Dosis; font-weight:1em; font-size:26px;"
+            :class="darkTheme?'tituloDark':''"
             >Tus Resultados</v-card-title
           >
-          <hr style="height:0px; border:1px solid black;width:100%" />
+          <hr :style="{'border':darkTheme?'1px solid #bdbdbd':'border:1px solid black'}" style="height:0px;width:100%;" />
           <v-card-text class="mt-2">
-            <h4>Total de preguntas : {{ cuestionario.length }}</h4>
-            <h4>Respuestas Correctas : {{ respuestasCorrectas }}</h4>
-            <h4>Tu calificación : {{ Math.round(calificacion) }}/100</h4>
+            <h4 :class="darkTheme?'subtitleDark':''">Total de preguntas : {{ cuestionario.length }}</h4>
+            <h4 :class="darkTheme?'subtitleDark':''">Respuestas Correctas : {{ respuestasCorrectas }}</h4>
+            <h4 :class="darkTheme?'subtitleDark':''">Tu calificación : {{ Math.round(calificacion) }}/100</h4>
           </v-card-text>
           <v-card-actions style="width:100%">
             <v-spacer></v-spacer>
@@ -329,6 +334,9 @@ export default {
         ? "orange"
         : "green";
     },
+    darkTheme(){
+      return this.$store.getters.darkTheme;
+    }
   },
   created: function() {
     this.getCuestionario();

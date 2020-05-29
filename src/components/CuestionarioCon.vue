@@ -1,6 +1,6 @@
 
 <template>
-  <div style="background-color: #f0efff; height: 100%;">
+  <div :class="darkTheme?'secondaryColorDark':''" style="background-color: #f0efff; height: 100%;">
     <v-row
       v-if="error"
       style="height: 100%;"
@@ -34,6 +34,7 @@
           height:100%;
         "
         class="pr-1 pl-1"
+        :class="darkTheme?'secondaryColorDark':''"
       >
         <template>
           <v-stepper-items class="stepper" style="height: 100%;">
@@ -51,8 +52,9 @@
                       height="auto"
                       elevation="0"
                       style="background-color: #f0efff;"
+                      :class="darkTheme?'secondaryColorDark':''"
                     >
-                      <h3 class="enunciadoTitulo">
+                      <h3 :class="darkTheme?'tituloDark':''" class="enunciadoTitulo">
                         {{ detaCon.enunciadoContenido }}
                       </h3>
                       <prism
@@ -64,7 +66,7 @@
                     </v-card>
                     <v-row class="mt-8">
                       <v-col cols="12">
-                        <h3 class="enunciadoTitulo">
+                        <h3 :class="darkTheme?'subtitleDark':''" class="enunciadoTitulo">
                           Pregunta: <br />
                           {{ detaCon.pregunta }}
                         </h3>
@@ -162,6 +164,9 @@ export default {
   },
   created: function() {
      this.getCuestionario();
+  },
+  computed:{
+    darkTheme(){return this.$store.getters.darkTheme}
   },
   methods: {
     onInput(val) {

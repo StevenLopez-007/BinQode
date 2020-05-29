@@ -1,6 +1,6 @@
 
 <template>
-  <v-container class="ma-0 pa-0" style="background-color:#f0efff; height:100%">
+  <v-container class="ma-0 pa-0" :class="darkTheme?'primaryColorDark':''" style="background-color:#f0efff; height:100%">
     <v-row v-if="error" style="height:100%;">
       <v-col
         cols="12"
@@ -16,7 +16,7 @@
       v-if="!status && !error"
       class="d-flex justify-center align-center align-md-end align-sm-end align-lg-end"
     >
-      <h1 style="border:none; font-size:24px;" class="tituloCat mt-2">
+      <h1 style="border:none; font-size:24px;" class="tituloCat mt-2" :class="darkTheme?'tituloDark':''">
         Categorias
       </h1>
     </v-row>
@@ -63,12 +63,13 @@
           <v-card
             style="border-radius:25px; box-shadow:none; transition:0.25s;"
             class="cardCat pa-0"
+            :class="darkTheme?'secondaryColorDark':''"
             :elevation="hover ? 6 : null"
             :style="{transform:hover?'translateY(-10px)':'translateY(0px)'}"
           >
             <v-img
               @click="toModulo(cat.id)"
-              style=" cursor:pointer;"
+              style=" cursor:pointer; background-color:white !important;"
               class="imgCat"
               :src="require('../imagenes/categorias/'+cat.img+'.svg')"
             >
@@ -83,12 +84,14 @@
             <h1
               ref="tituloCategoria"
               class="tituloCat mostrarmenos mt-lg-2 mb-lg-0 mr-lg-0 ml-lg-0 ma-md-2 ma-sm-2 ma-2"
+              :class="darkTheme?'tituloDark':''"
             >
               {{ cat.nombre }}
             </h1>
             <h3
               ref="DesCategoria"
               class="descripcionCategoria mostrarmenos ml-2"
+              :class="darkTheme?'subtitleDark':''"
             >
               {{ cat.descripcion }}
             </h3>
@@ -100,6 +103,7 @@
               <v-btn
                 @click="mostrarMas(indexCat)"
                 class="pa-0"
+                :class="darkTheme?'tituloDark':''"
                 text
                 style="font-size:12px;color:rgb(62, 65, 109);"
                 >Info</v-btn
@@ -119,8 +123,9 @@
         </v-avatar>
         <div class="text-center ma-1">
           <v-sheet
-            color="#c5cae9"
+            :color="darkTheme?'#4f5b62':'#c5cae9'"
             class="pa-1 font-weight-bold"
+            :class="darkTheme?'tituloDark':''"
             style="color:#424242;"
             >¡Parece que no tenemos la categoria que buscas!
             </v-sheet
@@ -131,10 +136,10 @@
     <!-- mostrar + -->
     <v-row
       v-if="!status && !error && catFilter.length>0"
-      style="position: absolute; bottom:0px; left:0px; right:0px;"
+      
     >
       <v-col cols="12" class="d-flex justify-center">
-        <v-btn :disabled="desacticarMas" @click="cargarMas()" color="#4d4d87" style="color:white;" rounded
+        <v-btn :disabled="desacticarMas" @click="cargarMas()" color="#4d4d87" style="color:white;position: absolute; bottom:0px; left:0px; right:0px;margin:auto;" rounded
           >Mostrar +</v-btn
         >
         <v-snackbar v-model="snackbar" :timeout="timeout">
@@ -178,6 +183,9 @@ export default {
     catFilter(){
         return store.getters['categoriasFil'];
     },
+    darkTheme(){
+      return store.getters.darkTheme;
+    }
   },
   methods: {
     getCategorias() {

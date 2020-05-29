@@ -1,6 +1,6 @@
 
 <template>
-  <div class="pa-5" style="height: 100%; background-color: #f0efff; height: 100%;">
+  <div class="pa-5" :class="darkTheme?'secondaryColorDark':''" style="height: 100%; background-color: #f0efff; height: 100%;">
     <v-row v-if="error" style="height: 100%;">
       <v-col
         cols="12"
@@ -24,11 +24,12 @@
         ></v-progress-circular>
       </v-col>
     </v-row>
-  <a id="botonBack" @click="$router.replace({name:'Modulos',params:{id:$route.params.idCat}})" style="position:absolute; left:0px;top:10px; z-index:1000;" class="ml-3" > <v-icon size="30">fas fa-times-circle</v-icon></a>
+  <a :id="!darkTheme?'botonBack':''" @click="$router.replace({name:'Modulos',params:{id:$route.params.idCat}})" style="position:absolute; left:0px;top:10px; z-index:1000;" class="ml-3" > <v-icon :class="darkTheme?'tituloDark':''"  size="30">fas fa-times-circle</v-icon></a>
     <v-stepper
       v-if="!status && !error"
       v-model="e1"
       style="box-shadow: none; background-color: #f0efff; height: 100%;"
+      :class="darkTheme?'secondaryColorDark':''"
       
     >
       <template>
@@ -47,11 +48,12 @@
                     height="100%"
                     elevation="0"
                     style="background-color: #f0efff;"
+                    :class="darkTheme?'secondaryColorDark':''"
                   >
                     <v-card-title
                       class="Medium 20sp pt-0 pb-2 px-0 enunciadoTitulo"
                     >
-                      <h3 class="enunciadoTituloCon">
+                      <h3 :class="darkTheme?'tituloDark':''" class="enunciadoTituloCon">
                         {{ detaCon.enunciadoContenido }}
                       </h3>
                     </v-card-title>
@@ -205,6 +207,11 @@ export default {
         this.e1 = val;
       }
     },
+  },
+  computed:{
+    darkTheme(){
+      return this.$store.getters.darkTheme
+    }
   },
 
   methods: {

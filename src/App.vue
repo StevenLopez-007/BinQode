@@ -3,7 +3,10 @@
     <v-app-bar
       elevation="none"
       ref="appBarSticky"
-      :class="ruta != 'Home' ? 'app-barfixed' : 'app-barabsolute'"
+      :class="[
+        ruta != 'Home' ? 'app-barfixed' : 'app-barabsolute',
+        darkTheme && ruta!='Home' ? 'tercerColorDark' : '',
+      ]"
       v-if="['Categoria', 'Modulos', 'Home'].indexOf(ruta) > -1"
       :style="
         ruta == 'Categoria'
@@ -20,7 +23,9 @@
             : null
         "
         style="text-decoration:none; color: rgb(62, 65, 109);cursor:pointer;"
-        ><h4 class="titulo ma-2">B1nQ0de</h4></a
+        ><h4 class="titulo ma-2" :class="darkTheme && ruta!='Home' ? 'tituloDark' : ''">
+          B1nQ0de
+        </h4></a
       >
 
       <div class="lineaVertical"></div>
@@ -38,6 +43,7 @@
         v-if="['Categoria', 'Modulos'].includes(ruta)"
       >
         <v-text-field
+          :dark="darkTheme == true || false"
           clearable
           v-model="buscar"
           @input="filtrarCat()"
@@ -57,7 +63,7 @@
       >
         <template v-slot:activator="{ on }">
           <v-progress-circular
-            color="rgb(62, 65, 109)"
+            :color="!darkTheme?'rgb(62, 65, 109)':'#bdbdbd'"
             :value="progresoCat()"
             size="48"
             :width="9"
@@ -71,7 +77,7 @@
             </v-avatar>
           </v-progress-circular>
         </template>
-        <v-list>
+        <v-list :class="darkTheme ? 'secondaryColorDark' : ''">
           <v-list-item>
             <v-list-item-avatar border>
               <img
@@ -80,8 +86,12 @@
               />
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title>{{ datosUser.nombre }}</v-list-item-title>
-              <v-list-item-subtitle>{{ datosUser.email }}</v-list-item-subtitle>
+              <v-list-item-title :class="darkTheme ? 'tituloDark' : ''">{{
+                datosUser.nombre
+              }}</v-list-item-title>
+              <v-list-item-subtitle :class="darkTheme ? 'subtitleDark' : ''">{{
+                datosUser.email
+              }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
           <v-divider></v-divider>
@@ -108,6 +118,23 @@
                 color="green"
                 :value="isCompletados"
                 :input-value="isCompletados"
+                hide-details
+              ></v-switch
+            ></v-list-item-action>
+          </v-list-item>
+          <v-list-item class="items-list">
+            <v-list-item-title class="list-items-title"
+              ><v-icon class="ma-2 iconos-list">fas fa-moon</v-icon>Modo
+              Oscuro</v-list-item-title
+            >
+            <v-list-item-action
+              ><v-switch
+                @change="$store.commit('setDarkTheme', !darkTheme)"
+                absolute
+                inset
+                color="green"
+                :value="darkTheme"
+                :input-value="darkTheme"
                 hide-details
               ></v-switch
             ></v-list-item-action>
@@ -156,8 +183,12 @@
             </v-avatar>
           </v-progress-circular>
         </template>
-        <v-card>
-          <v-toolbar dark color="primary">
+        <v-card :class="darkTheme ? 'secondaryColorDark' : ''">
+          <v-toolbar
+            dark
+            :color="!darkTheme ? 'primary' : ''"
+            :class="darkTheme ? 'tercerColorDark' : ''"
+          >
             <v-btn icon dark @click="dialog = false">
               <v-icon>fas fa-times</v-icon>
             </v-btn>
@@ -167,7 +198,11 @@
             <v-btn dark text @click="dialog = false">Save</v-btn>
           </v-toolbar-items> -->
           </v-toolbar>
-          <v-list subheader class="mt-6">
+          <v-list
+            subheader
+            class="mt-6"
+            :class="darkTheme ? 'secondaryColorDark' : ''"
+          >
             <!-- <v-subheader>User Controls</v-subheader> -->
             <v-list-item>
               <v-list-item-avatar border size="60">
@@ -177,16 +212,21 @@
                 />
               </v-list-item-avatar>
               <v-list-item-content>
-                <v-list-item-title>{{ datosUser.nombre }}</v-list-item-title>
-                <v-list-item-subtitle>{{
-                  datosUser.email
-                }}</v-list-item-subtitle>
+                <v-list-item-title :class="darkTheme ? 'tituloDark' : ''">{{
+                  datosUser.nombre
+                }}</v-list-item-title>
+                <v-list-item-subtitle
+                  :class="darkTheme ? 'subtitleDark' : ''"
+                  >{{ datosUser.email }}</v-list-item-subtitle
+                >
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title>Información</v-list-item-title>
-                <v-list-item-subtitle
+                <v-list-item-title :class="darkTheme ? 'tituloDark' : ''"
+                  >Información</v-list-item-title
+                >
+                <v-list-item-subtitle :class="darkTheme ? 'subtitleDark' : ''"
                   >Tu cuenta de BinQode está vinculada
                   correctamente</v-list-item-subtitle
                 >
@@ -194,21 +234,35 @@
             </v-list-item>
           </v-list>
           <v-divider></v-divider>
-          <v-list two-line subheader>
-            <v-subheader>Opciones</v-subheader>
+          <v-list
+            two-line
+            subheader
+            :class="darkTheme ? 'secondaryColorDark' : ''"
+          >
+            <v-subheader :class="darkTheme ? 'tituloDark' : ''"
+              >Opciones</v-subheader
+            >
             <v-list-item
               href="https://forms.gle/RKe6ZLZ5gKpJnEjd9"
               target="_blank"
             >
-              <v-icon class="ma-3">fas fa-edit</v-icon>
-              <v-list-item-title class="font-weight-medium text--disabled"
+              <v-icon class="ma-3" :class="darkTheme ? 'tituloDark' : ''"
+                >fas fa-edit</v-icon
+              >
+              <v-list-item-title
+                :class="[darkTheme ? 'tituloDark' : 'text--disabled']"
+                class="font-weight-medium "
                 >FeedBack</v-list-item-title
               >
               <!-- <v-list-item-subtitle>Notify me about updates to apps or games that I downloaded</v-list-item-subtitle> -->
             </v-list-item>
             <v-list-item v-if="ruta == 'Modulos'">
-              <v-icon class="ma-3">fas fa-layer-group</v-icon>
-              <v-list-item-title class="font-weight-medium text--disabled"
+              <v-icon :class="darkTheme ? 'tituloDark' : ''" class="ma-3"
+                >fas fa-layer-group</v-icon
+              >
+              <v-list-item-title
+                :class="[darkTheme ? 'tituloDark' : 'text--disabled']"
+                class="font-weight-medium "
                 >Modulos Completados</v-list-item-title
               >
               <v-list-item-action>
@@ -222,16 +276,43 @@
                 ></v-switch>
               </v-list-item-action>
             </v-list-item>
+            <v-list-item>
+              <v-list-item-title
+                :class="[darkTheme ? 'tituloDark' : 'text--disabled']"
+                ><v-icon :class="darkTheme ? 'tituloDark' : ''" class="ma-3"
+                  >fas fa-moon</v-icon
+                >Modo Oscuro</v-list-item-title
+              >
+              <v-list-item-action
+                ><v-switch
+                  @change="$store.commit('setDarkTheme', !darkTheme)"
+                  absolute
+                  inset
+                  color="green"
+                  :value="darkTheme"
+                  :input-value="darkTheme"
+                  hide-details
+                ></v-switch
+              ></v-list-item-action>
+            </v-list-item>
             <v-list-item @click="$router.push('/perfil')">
-              <v-icon class="ma-3">fas fa-user</v-icon>
-              <v-list-item-title class="font-weight-medium text--disabled"
+              <v-icon :class="darkTheme ? 'tituloDark' : ''" class="ma-3"
+                >fas fa-user</v-icon
+              >
+              <v-list-item-title
+                :class="[darkTheme ? 'tituloDark' : 'text--disabled']"
+                class="font-weight-medium"
                 >Perfil</v-list-item-title
               >
             </v-list-item>
             <v-divider></v-divider>
             <v-list-item @click="logout()">
-              <v-icon class="ma-3">fas fa-lock</v-icon>
-              <v-list-item-title class="font-weight-medium text--disabled"
+              <v-icon :class="darkTheme ? 'tituloDark' : ''" class="ma-3"
+                >fas fa-lock</v-icon
+              >
+              <v-list-item-title
+                :class="[darkTheme ? 'tituloDark' : 'text--disabled']"
+                class="font-weight-medium "
                 >Cerrar Sesión</v-list-item-title
               >
             </v-list-item>
@@ -239,11 +320,17 @@
           <div
             style="position:fixed; bottom:0;width:100%; background-color:white;"
             class="d-flex flex-row justify-center"
+            :class="darkTheme ? 'secondaryColorDark' : ''"
           >
-            <v-card-subtitle class="pa-0">&copy;BinQode App</v-card-subtitle>
-            <v-card-subtitle class="pa-0" id="mobile-footer">{{
-              new Date().getFullYear()
-            }}</v-card-subtitle>
+            <v-card-subtitle class="pa-0" :class="darkTheme ? 'tituloDark' : ''"
+              >&copy;BinQode App</v-card-subtitle
+            >
+            <v-card-subtitle
+              class="pa-0"
+              :class="darkTheme ? 'tituloDark' : ''"
+              id="mobile-footer"
+              >{{ new Date().getFullYear() }}</v-card-subtitle
+            >
           </div>
         </v-card>
       </v-dialog>
@@ -363,6 +450,9 @@ export default {
     },
     datosUser() {
       return store.state.currentUser.usuario;
+    },
+    darkTheme() {
+      return store.getters.darkTheme;
     },
   },
   watch: {

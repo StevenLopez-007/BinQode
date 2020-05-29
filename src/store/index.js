@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '../router'
 import decode from 'jwt-decode'
+import VueCookies from 'vue-cookies'
 // import firebase from 'firebase'
 import axios from 'axios'
 
@@ -17,8 +18,12 @@ export default new Vuex.Store({
     buscar:'',
     completados:false,
     paginaCat:1,
+    darkTheme:localStorage.darkTheme=='true'|| false,
   },
   getters:{
+    darkTheme(state){
+      return state.darkTheme
+    },
     logedIn(state){
       try{
         if(localStorage.tokenUser === undefined){
@@ -98,6 +103,9 @@ export default new Vuex.Store({
     paginaCat(state,pagina){
       state.paginaCat = pagina;
     },
+    setDarkTheme(state,darkTheme){
+      state.darkTheme = darkTheme
+    }
   },
   actions: {
     guardarToken({commit},token){

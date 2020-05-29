@@ -1,6 +1,6 @@
 
 <template>
-  <v-container class="ma-0 pa-0" style="background-color:#f0efff; height:100%">
+  <v-container class="ma-0 pa-0" :class="darkTheme?'primaryColorDark':''" style="background-color:#f0efff; height:100%">
     <v-row v-if="error" style="height:100%;">
       <v-col
         cols="12"
@@ -51,11 +51,11 @@
       background-color="#fffff"
       show-arrows
     >
-      <v-tab @click="$store.commit('setCompletados', true)">Completados</v-tab>
-      <v-tab @click="$store.commit('setCompletados', false)"
+      <v-tab :class="darkTheme?'tercerColorDark subtitleDark':''" @click="$store.commit('setCompletados', true)">Completados</v-tab>
+      <v-tab :class="darkTheme?'tercerColorDark subtitleDark':''" @click="$store.commit('setCompletados', false)"
         >No completados</v-tab
       >
-      <v-tabs-slider color="rgb(62, 65, 109)"></v-tabs-slider>
+      <v-tabs-slider :color="!darkTheme?'rgb(62, 65, 109)':'#aa00ff '"></v-tabs-slider>
     </v-tabs>
 
     <v-row
@@ -64,7 +64,7 @@
     >
       <h1
         style="border:none; font-size:24px !important; text-align:center;word-break:break-word !important;"
-        class="tituloModulo mt-2"
+        class="tituloModulo mt-2" :class="darkTheme?'tituloDark':''"
       >
         Modulos de {{ nombreCategoria }}
       </h1>
@@ -87,6 +87,7 @@
         <v-hover v-slot:default="{ hover }">
           <v-card
             class="cardMod pa-0"
+            :class="darkTheme?'secondaryColorDark':''"
             :elevation="hover ? 6 : null"
             style="border-radius:25px;box-shadow:none;transition:0.25s; border-bottom:2px solid rgb(62, 65, 109);"
             :style="{'transform':hover?'translateY(-10px)':'translateY(0)'}"
@@ -140,7 +141,7 @@
                       ></v-btn
                     >
                   </template>
-                  <v-list>
+                  <v-list :class="darkTheme?'secondaryColorDark':''">
                     <v-list-item>
                       <v-list-item-title
                         style="cursor:pointer;"
@@ -151,6 +152,7 @@
                           })
                         "
                         class="font-weight-medium"
+                        :class="darkTheme?'tituloDark':''"
                         >Ver detalle</v-list-item-title
                       >
                     </v-list-item>
@@ -163,6 +165,7 @@
                       <v-list-item-title
                         style="cursor:pointer;"
                         class="font-weight-medium"
+                        :class="darkTheme?'tituloDark':''"
                         >Volver a realizar test</v-list-item-title
                       >
                     </v-list-item>
@@ -179,6 +182,7 @@
                   <h1
                     ref="tituloMod"
                     class="tituloModulo mostrarmenosMod mt-lg-2 mb-lg-0 mr-lg-0 ml-lg-0 ma-md-2 ma-sm-2 ma-2"
+                    :class="darkTheme?'tituloDark':''"
                   >
                     {{ mod.nombre }}
                   </h1>
@@ -188,7 +192,7 @@
                     v-if="datosInscripcion(mod.id)<10"
                     :width="$vuetify.breakpoint.xsOnly?2.5:3"
                     rotate="270"
-                    color="rgb(62, 65, 109)"
+                    :color="!darkTheme?'rgb(62, 65, 109)':'#bdbdbd'"
                     :size="$vuetify.breakpoint.xsOnly ? '25' : '40'"
                     :value="datosInscripcion(mod.id) * 10"
                   ><span :style="{'font-size':$vuetify.breakpoint.xsOnly?'xx-small':'unset'}">{{datosInscripcion(mod.id).toFixed(1)}}</span></v-progress-circular>
@@ -196,13 +200,14 @@
                 </div>
               </div>
 
-              <h3 ref="DesMod" class="descripcionModulo mostrarmenosMod pa-2">
+              <h3 ref="DesMod" class="descripcionModulo mostrarmenosMod pa-2" :class="darkTheme?'subtitleDark':''">
                 {{ mod.descripcion }}
               </h3>
               <div style="width:100%" class="d-flex justify-center botonInfo">
                 <v-btn
                   @click="mostrarMas(indexMod)"
                   class="pa-0"
+                  :class="darkTheme?'tituloDark':''"
                   text
                   style="font-size:12px;color:rgb(62, 65, 109);"
                   >Info</v-btn
@@ -223,8 +228,9 @@
         </v-avatar>
         <div class="text-center ma-1">
           <v-sheet
-            color="#c5cae9"
+            :color="darkTheme?'#4f5b62':'#c5cae9'"
             class="pa-1 font-weight-bold"
+            :class="darkTheme?'tituloDark':''"
             style="color:#424242;"
             >{{
               isCompletados && $store.state.buscar.length > 0
@@ -333,7 +339,6 @@ export default {
     diferentes: [],
   }),
   created() {
-    
     this.getInscripciones();
   },
   watch: {},
@@ -350,6 +355,9 @@ export default {
     nombreCategoria() {
       return store.state.modBuscar[0].categoria.nombre;
     },
+    darkTheme(){
+      return store.getters.darkTheme
+    }
   },
   methods: {
     getModulos() {
