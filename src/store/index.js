@@ -104,6 +104,7 @@ export default new Vuex.Store({
       state.paginaCat = pagina;
     },
     setDarkTheme(state,darkTheme){
+      localStorage.setItem("darkTheme",darkTheme)
       state.darkTheme = darkTheme
     }
   },

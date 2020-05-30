@@ -1,14 +1,24 @@
 
 <template>
   <div :class="darkTheme?'secondaryColorDark':''"  style="background-color: #f0efff; height: 100%;">
-    <v-row
-      v-if="error"
-      style="height: 100%;"
-      class="d-flex justify-center align-center red--text"
-    >
-      <h1>
-        ¡Error!
-      </h1>
+    <v-row v-if="error" style="height:80%;">
+      <v-col
+        cols="12"
+        class="d-flex justify-center flex-column align-center"
+      >
+      <v-avatar tile size="350">
+          <img :src="require('../imagenes/moduloVacio/error.svg')" alt="" />
+      </v-avatar>
+      <div class="text-center ma-1">
+        <v-shet :color="darkTheme?'#4f5b62':'#c5cae9'"
+            class="pa-1 font-weight-bold"
+            :class="darkTheme?'tituloDark':''"
+            style="color:#424242;">¡Ocurrío algún error!
+            
+        </v-shet>
+        <v-btn @click="$router.replace('/categoria')" fab color="red darken-1" small style="color:white;font-size:10px;cursor:pointer">Salir</v-btn>
+      </div>
+      </v-col>
     </v-row>
 
     <v-row

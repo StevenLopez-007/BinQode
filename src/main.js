@@ -58,7 +58,7 @@ axios.defaults.baseURL='https://b1nc0de-api.herokuapp.com/'
 Vue.config.productionTip = false;
 Vue.use(Vuetify,Swal,VueCookies);
 
-localStorage.setItem('darkTheme',true)
+
 
 export default new Vuetify({
   icons: {
