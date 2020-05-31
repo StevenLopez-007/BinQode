@@ -9,6 +9,8 @@ import Login from '../components/Login.vue'
 import Modulos from '../components/Modulos.vue'
 import Bienvenida from '../components/Bienvenida.vue'
 import Perfil from '../components/Perfil.vue'
+import ChangePassword from '../components/ChangePassword.vue'
+import ResetPassword from '../components/ResetPassword.vue'
 
 // import firebase, { firestore } from 'firebase'
 import store from '../store'
@@ -23,6 +25,22 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes:[
+    {
+      path:'/changePass',
+      name:'ChangePassword',
+      component:ChangePassword,
+      meta:{
+        login:true
+      }
+    },
+    {
+      path:'/resetPass',
+      name:'ResetPassword',
+      component:ResetPassword,
+      meta:{
+        login:true
+      }
+    },
     {
       path:'/bienvenida',
       name:'Bienvenida',

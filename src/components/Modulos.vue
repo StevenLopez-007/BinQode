@@ -10,12 +10,12 @@
           <img :src="require('../imagenes/moduloVacio/error.svg')" alt="" />
       </v-avatar>
       <div class="text-center ma-1">
-        <v-shet :color="darkTheme?'#4f5b62':'#c5cae9'"
+        <v-sheet :color="darkTheme?'#4f5b62':'#c5cae9'"
             class="pa-1 font-weight-bold"
             :class="darkTheme?'tituloDark':''"
             style="color:#424242;">¡Ocurrío algún error!
             
-        </v-shet>
+        </v-sheet>
         <v-btn @click="$router.replace('/categoria')" fab color="red darken-1" small style="color:white;font-size:10px;cursor:pointer">Salir</v-btn>
       </div>
       </v-col>
@@ -64,7 +64,7 @@
       <v-tab :class="darkTheme?'tercerColorDark subtitleDark':''" @click="$store.commit('setCompletados', false)"
         >No completados</v-tab
       >
-      <v-tabs-slider :color="!darkTheme?'rgb(62, 65, 109)':'#aa00ff '"></v-tabs-slider>
+      <v-tabs-slider :color="!darkTheme?'rgb(62, 65, 109)':'#aa4b6b '"></v-tabs-slider>
     </v-tabs>
 
     <v-row
@@ -98,7 +98,7 @@
             class="cardMod pa-0"
             :class="darkTheme?'secondaryColorDark':''"
             :elevation="hover ? 6 : null"
-            style="border-radius:25px;box-shadow:none;transition:0.25s; border-bottom:2px solid rgb(62, 65, 109);"
+            style="border-radius:25px;box-shadow:none;transition:0.25s; border-bottom:2px solid #aa4b6b;"
             :style="{'transform':hover?'translateY(-10px)':'translateY(0)'}"
           >
             <v-hover v-slot:default="{ hover }">
@@ -161,7 +161,7 @@
                           })
                         "
                         class="font-weight-medium"
-                        :class="darkTheme?'tituloDark':''"
+                        :class="darkTheme?'subtitleDark':''"
                         >Ver detalle</v-list-item-title
                       >
                     </v-list-item>
@@ -174,7 +174,7 @@
                       <v-list-item-title
                         style="cursor:pointer;"
                         class="font-weight-medium"
-                        :class="darkTheme?'tituloDark':''"
+                        :class="darkTheme?'subtitleDark':''"
                         >Volver a realizar test</v-list-item-title
                       >
                     </v-list-item>
@@ -201,7 +201,7 @@
                     v-if="datosInscripcion(mod.id)<10"
                     :width="$vuetify.breakpoint.xsOnly?2.5:3"
                     rotate="270"
-                    :color="!darkTheme?'rgb(62, 65, 109)':'#bdbdbd'"
+                    color="#aa4b6b"
                     :size="$vuetify.breakpoint.xsOnly ? '25' : '40'"
                     :value="datosInscripcion(mod.id) * 10"
                   ><span :style="{'font-size':$vuetify.breakpoint.xsOnly?'xx-small':'unset'}">{{datosInscripcion(mod.id).toFixed(1)}}</span></v-progress-circular>
@@ -218,7 +218,7 @@
                   class="pa-0"
                   :class="darkTheme?'tituloDark':''"
                   text
-                  style="font-size:12px;color:rgb(62, 65, 109);"
+                  style="font-size:12px;color:#aa4b6b;"
                   >Info</v-btn
                 >
               </div>

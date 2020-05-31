@@ -124,7 +124,7 @@
                             :key="x"
                             :value="x"
                             class="chip font-weight-bold"
-                            color="#514e95"
+                            color="#aa4b6b"
                             text-color="white"
                             style="overflow-x:auto;"
                           >
@@ -196,7 +196,7 @@
         >
           <div>
             <v-progress-circular
-              :color="!darkTheme?'#4d4d87':'#aa00ff'"
+              color="#aa4b6b"
               size="150"
               width="10"
               :value="calificacion"

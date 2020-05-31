@@ -63,7 +63,7 @@
       >
         <template v-slot:activator="{ on }">
           <v-progress-circular
-            :color="!darkTheme?'rgb(62, 65, 109)':'#bdbdbd'"
+            color="#aa4b6b"
             :value="progresoCat()"
             size="48"
             :width="9"

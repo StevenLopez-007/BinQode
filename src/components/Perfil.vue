@@ -29,11 +29,11 @@
             <v-card color="white" elevation="2" style="border-radius:10px;">
                 <div :class="darkTheme?'secondaryColorDark':''" class="d-flex flex-nowrap justify-space-between align-center">
                     <div  style="width:85%">
-                    <v-card-title :class="darkTheme?'tituloDark':''" style="color:rgb(62, 65, 109);font-family:Dosis !important;" v-text="mod.modulo.nombre" class="headline"></v-card-title>
+                    <v-card-title :class="darkTheme?'tituloDark':''" style="color:#aa4b6b;font-family:Dosis !important;" v-text="mod.modulo.nombre" class="headline"></v-card-title>
                     <v-card-subtitle :class="darkTheme?'subtitleDark':''" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" v-text="mod.modulo.descripcion"></v-card-subtitle>
                     </div>
                     <div style="width:15%" class="ma-2 d-flex align-center justify-center">
-                    <v-progress-circular  :value="(mod.calificacion)*10" :color="!darkTheme?'rgb(62, 65, 109)':'#aa00ff'">
+                    <v-progress-circular  :value="(mod.calificacion)*10" :color="!darkTheme?'rgb(62, 65, 109)':'#aa4b6b'">
 
                     </v-progress-circular>
                     </div>

@@ -10,12 +10,12 @@
           <img :src="require('../imagenes/moduloVacio/error.svg')" alt="" />
       </v-avatar>
       <div class="text-center ma-1">
-        <v-shet :color="darkTheme?'#4f5b62':'#c5cae9'"
+        <v-sheet :color="darkTheme?'#4f5b62':'#c5cae9'"
             class="pa-1 font-weight-bold"
             :class="darkTheme?'tituloDark':''"
             style="color:#424242;">¡Ocurrío algún error!
             
-        </v-shet>
+        </v-sheet>
         <v-btn @click="$router.replace('/categoria')" fab color="red darken-1" small style="color:white;font-size:10px;cursor:pointer">Salir</v-btn>
       </div>
       </v-col>
@@ -87,7 +87,7 @@
                             v-for="(x, index) in detaCon.respuestasOrdenadas"
                             :key="x"
                             class="chip font-weight-bold"
-                            :color="x===detaCon.respuestaSeleccionada?'blue':'#514e95'"
+                            :color="x===detaCon.respuestaSeleccionada?'blue':'#aa4b6b'"
                             text-color="white"
                             style="overflow-x:auto;"
                           >

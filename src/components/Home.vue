@@ -15,7 +15,7 @@
           <div class="d-flex justify-sm-center justify-md-start justify-center">
             <v-avatar size="100" class="ma-1 avatarHome">
               <img
-                src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/logorobot2.jpg?alt=media&token=29fe8256-7433-4e18-a4d2-3ad9a4ef2280"
+                src="../../public/icon.png"
                 alt=""
               />
             </v-avatar>

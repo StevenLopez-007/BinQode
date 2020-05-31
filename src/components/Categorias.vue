@@ -113,7 +113,7 @@
                 class="pa-0"
                 :class="darkTheme?'tituloDark':''"
                 text
-                style="font-size:12px;color:rgb(62, 65, 109);"
+                style="font-size:12px;color:#aa4b6b;"
                 >Info</v-btn
               >
             </div>
@@ -147,7 +147,7 @@
       
     >
       <v-col cols="12" class="d-flex justify-center">
-        <v-btn :disabled="desacticarMas" @click="cargarMas()" color="#4d4d87" style="color:white;position: absolute; bottom:0px; left:0px; right:0px;margin:auto;" rounded
+        <v-btn :disabled="desacticarMas" @click="cargarMas()" color="#aa4b6b" style="color:white;position: absolute; bottom:0px; left:0px; right:0px;margin:auto;" rounded
           >Mostrar +</v-btn
         >
         <v-snackbar v-model="snackbar" :timeout="timeout">
