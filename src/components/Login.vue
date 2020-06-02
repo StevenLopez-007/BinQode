@@ -172,7 +172,7 @@
             width="100%"
             height="50px"
             style="border-radius: 24px; transition:0.25s;"
-            color="#00e676"
+            color="#aa4b6b"
             >{{ register ? "Crear cuenta" : "Ingresar" }}</v-btn
           >
           <h4 class="mt-2" style="text-align:center; color:#b0b2be;">

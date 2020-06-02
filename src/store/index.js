@@ -22,6 +22,12 @@ export default new Vuex.Store({
   },
   getters:{
     darkTheme(state){
+      if(state.darkTheme){
+        document.body.classList.add("swalDark")
+      }
+      else{
+        document.body.classList.remove('swalDark')
+      }
       return state.darkTheme
     },
     logedIn(state){

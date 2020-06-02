@@ -73,7 +73,7 @@
             class="cardCat pa-0"
             :class="darkTheme?'secondaryColorDark':''"
             :elevation="hover ? 6 : null"
-            :style="{transform:hover?'translateY(-10px)':'translateY(0px)'}"
+            :style="{transform:hover?'scale(1.05)':'scale(1)'}"
           >
             <v-img
               @click="toModulo(cat.id)"

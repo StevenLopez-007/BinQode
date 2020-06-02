@@ -478,7 +478,7 @@ export default {
       this.activarBotonRetry = true;
       var usuarioActivo = decode(store.state.token);
       var data = {
-        calificacion: this.calificacion / 10,
+        calificacion: this.calificacion / 100,
         estudiante: usuarioActivo.usuario._id,
         modulo: this.$route.params.id,
         completado: true,

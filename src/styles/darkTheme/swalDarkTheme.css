@@ -1,0 +1,10 @@
+.swalDark .swal2-container .swal2-popup{
+    background: #000000 !important;
+    color:#bdbdbd !important;
+}
+.swalDark .swal2-container .swal2-popup .swal2-header .swal2-title{
+    color:#bdbdbd !important;
+}
+.swalDark .swal2-container .swal2-popup .swal2-content{
+    color:#bdbdbd !important;
+}

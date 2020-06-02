@@ -64,7 +64,7 @@
         <template v-slot:activator="{ on }">
           <v-progress-circular
             color="#aa4b6b"
-            :value="progresoCat()"
+            :value="progresoCat"
             size="48"
             :width="9"
             class="hidden-xs-only"
@@ -170,7 +170,7 @@
         <template v-slot:activator="{ on }">
           <v-progress-circular
             color="rgb(62, 65, 109)"
-            :value="progresoCat()"
+            :value="progresoCat"
             style="min-width:48px;min-height:48px;"
             :width="9"
             class="hidden-sm-and-up"
@@ -454,6 +454,19 @@ export default {
     darkTheme() {
       return store.getters.darkTheme;
     },
+    progresoCat(){
+      // console.log("llamado")
+      var progreso = 0;
+      var modsIns = store.getters.getProgresoporCat(this.$route.params.id);
+      modsIns.forEach((item) => {
+        // console.log(item.calificacion)
+        progreso += (item.calificacion * 1000) / (modsIns.length * 10);
+      });
+      
+      return store.state.modBuscar.length === 0 || this.ruta != "Modulos"
+        ? 0
+        : progreso.toFixed(1) / store.state.modBuscar.length;
+    }
   },
   watch: {
     $route(to, from) {
@@ -497,17 +510,9 @@ export default {
       store.commit("setBuscar", this.buscar == null ? "" : this.buscar);
       // ...mapMutations(['setBuscar'])
     },
-    progresoCat() {
-      var progreso = 0;
-      var modsIns = store.getters.getProgresoporCat(this.$route.params.id);
-      modsIns.forEach((item) => {
-        progreso += (item.calificacion * 100) / (modsIns.length * 10);
-      });
-
-      return store.state.modBuscar.length === 0 || this.ruta != "Modulos"
-        ? 0
-        : progreso.toFixed(1) / store.state.modBuscar.length;
-    },
+    // progresoCat() {
+      
+    // },
     // ocultar(){
     //       //  firebase.auth().onAuthStateChanged((user) =>{
     //       //    if(user){

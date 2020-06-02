@@ -99,11 +99,11 @@
             :class="darkTheme?'secondaryColorDark':''"
             :elevation="hover ? 6 : null"
             style="border-radius:25px;box-shadow:none;transition:0.25s; border-bottom:2px solid #aa4b6b;"
-            :style="{'transform':hover?'translateY(-10px)':'translateY(0)'}"
+            :style="{transform:hover?'scale(1.05)':'scale(1)'}"
           >
             <v-hover v-slot:default="{ hover }">
               <v-img
-                @click="!verificarDatos? toCuestionario(mod.id): datosInscripcion(mod.id) < 10? resetMod(mod.id): null"
+                @click="!verificarDatos? toCuestionario(mod.id): datosInscripcion(mod.id) >=0? resetMod(mod.id): null"
                 style=" cursor:pointer;"
                 class="imgMod"
                 :src="
@@ -111,7 +111,7 @@
                 "
               >
                 <v-fade-transition
-                  v-if="verificarDatos ? datosInscripcion(mod.id) < 10 : true"
+                  v-if="verificarDatos ? datosInscripcion(mod.id) >=0 : true"
                 >
                   <v-overlay
                     v-if="hover"
@@ -167,7 +167,7 @@
                     </v-list-item>
                     <v-list-item
                       v-if="
-                        verificarDatos ? datosInscripcion(mod.id) < 10 : null
+                        verificarDatos ? datosInscripcion(mod.id) >=0 : null
                       "
                       @click="resetMod(mod.id)"
                     >
@@ -198,13 +198,13 @@
                 </div>
                 <div style="width:20%" v-if="verificarDatos" class="d-flex justify-center align-center">
                   <v-progress-circular
-                    v-if="datosInscripcion(mod.id)<10"
+                    v-if="datosInscripcion(mod.id)<1"
                     :width="$vuetify.breakpoint.xsOnly?2.5:3"
                     rotate="270"
                     color="#aa4b6b"
                     :size="$vuetify.breakpoint.xsOnly ? '25' : '40'"
-                    :value="datosInscripcion(mod.id) * 10"
-                  ><span :style="{'font-size':$vuetify.breakpoint.xsOnly?'xx-small':'unset'}">{{datosInscripcion(mod.id).toFixed(1)}}</span></v-progress-circular>
+                    :value="datosInscripcion(mod.id) * 100"
+                  ><span :style="{'font-size':$vuetify.breakpoint.xsOnly?'xx-small':'unset'}">{{(datosInscripcion(mod.id).toFixed(1)*100)}}</span></v-progress-circular>
                   <img v-else src="https://image.flaticon.com/icons/svg/411/411830.svg" alt="" :width="$vuetify.breakpoint.xsOnly?'20px':'30px'" :height="$vuetify.breakpoint.xsOnly?'20px':'30px'">
                 </div>
               </div>
@@ -471,7 +471,7 @@ export default {
       Swal.fire({
         icon: "warning",
         title: "¿Reintentar módulo?",
-        text: "¡Si aceptas, anularás tu inscripción al módulo!",
+        text: this.datosInscripcion(idMod)>=1?'Ya tienes el 100% de este módulo, ¿Seguro quieres anular tu inscripción?':'¡Si aceptas, anularás tu inscripción al módulo!',
         showCancelButton: true,
         confirmButtonColor: "#00b248",
         cancelButtonColor: "#ef5350",

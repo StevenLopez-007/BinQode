@@ -33,13 +33,13 @@ import "./styles/stylesmin/app.min.scss"
 import "./styles/stylesmin/perfil.min.scss"
 
 import "./styles/darkTheme/darktheme.css"
+import "./styles/darkTheme/swalDarkTheme.css"
 // import "./styles/perfil.scss"
 // ///////////////////
 
 import firebase from 'firebase/app'
 import Prism from "vue-prism-component";
 import Swal from 'sweetalert2';
-// import '@sweetalert2/theme-dark/dark.scss';
 
 var firebaseConfig = {
   apiKey: "AIzaSyB7FFfnuq_ixg0PG7Q174zWiRweqCP17EU",
