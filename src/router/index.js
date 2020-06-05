@@ -10,14 +10,12 @@ import Modulos from '../components/Modulos.vue'
 import Bienvenida from '../components/Bienvenida.vue'
 import Perfil from '../components/Perfil.vue'
 import ChangePassword from '../components/ChangePassword.vue'
-import ResetPassword from '../components/ResetPassword.vue'
+import Contacto from '../components/Contacto.vue'
+import Equipo from '../components/Equipo.vue'
 
-// import firebase, { firestore } from 'firebase'
 import store from '../store'
+import decode from 'jwt-decode'
 
-// async function verificarMod(){
-//   return await axios.get('')
-// }
 
 Vue.use(VueRouter)
 
@@ -26,19 +24,27 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes:[
     {
-      path:'/changePass/:token',
-      name:'ChangePassword',
+      path:'/resetPassword/:token',
+      name:'ResetPassword',
       component:ChangePassword,
       meta:{
-        login:true
+        libre:true
       }
     },
     {
-      path:'/resetPass',
-      name:'ResetPassword',
-      component:ResetPassword,
+      path:'/contacto',
+      name:'Contacto',
+      component:Contacto,
       meta:{
-        login:true
+        libre:true
+      }
+    },
+    {
+      path:'/equipo',
+      name:'Equipo',
+      component:Equipo,
+      meta:{
+        libre:true
       }
     },
     {
@@ -123,44 +129,29 @@ const router = new VueRouter({
 })
 router.beforeEach((to,from,next)=>{
   if(to.matched.some(record => record.meta.libre)){
-    // firebase.auth().onAuthStateChanged((user) =>{
-    //   if(user){
-    //     console.log("ya estas logueado");
-    //     next('/categoria')
-    //   }
-    //   else{
-    //     console.log("no estas logueado");
-    //     next();
-    //   }
-    // })
     if(store.getters.logedIn){
      
       next('/categoria')
      
     }
     else{
-      next();
+      if(to.name =='ResetPassword')
+      {
+        try{
+          decode(to.params.token)
+          next()
+        }catch(error){
+          next('/')
+        }
+      }
+      else{
+        next();
+      }
     }
         
   }
   else if(to.matched.some(record => record.meta.login)){
-    // firebase.auth().onAuthStateChanged((user)=>{
-    //   if(user){
-        
-    //     next();
-    //   }
-    //   else{
-    //     console.log("No estas logueado")
-    //     next('/login')
-    //   }
-    // })
     if(store.getters.logedIn){
-      // if(['Cuestionario','InstroduccionMod'].includes(to.name)){
-      //   store.getters.modInscritos(to.params.id)?next(false):next()
-      // }
-      // else{
-      //   next()
-      // }
       next()
     }
     else{

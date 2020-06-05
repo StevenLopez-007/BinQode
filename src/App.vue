@@ -3,11 +3,8 @@
     <v-app-bar
       elevation="none"
       ref="appBarSticky"
-      :class="[
-        ruta != 'Home' ? 'app-barfixed' : 'app-barabsolute',
-        darkTheme && ruta!='Home' ? 'tercerColorDark' : '',
-      ]"
-      v-if="['Categoria', 'Modulos', 'Home'].indexOf(ruta) > -1"
+      :class="[['Categoria','Modulos'].includes(ruta) ? 'app-barfixed' : 'app-barabsolute',darkTheme && (['Categoria','Modulos'].includes(ruta)) ? 'tercerColorDark' : '',]"
+      v-if="['Categoria', 'Modulos', 'Home','Equipo','Contacto'].indexOf(ruta) > -1"
       :style="
         ruta == 'Categoria'
           ? 'position:sticky;'
@@ -23,7 +20,7 @@
             : null
         "
         style="text-decoration:none; color: rgb(62, 65, 109);cursor:pointer;"
-        ><h4 class="titulo ma-2" :class="darkTheme && ruta!='Home' ? 'tituloDark' : ''">
+        ><h4 class="titulo ma-2" :class="darkTheme && (['Categoria','Modulos'].includes(ruta)) ? 'tituloDark' : ''">
           B1nQ0de
         </h4></a
       >
@@ -342,7 +339,7 @@
     <v-row
       style="background-color:#041d31"
       class="d-flex justify-center"
-      v-if="$route.name == 'Home' || $route.name == 'Login'"
+      v-if="['Home'].includes(ruta)"
     >
       <v-col lg="3" class="imgFooter">
         <v-img src="./imagenes/imagenesHome/logorobotlampara.png"></v-img>
@@ -388,10 +385,8 @@
       >
         <h3 style="color:white;">Sobre Nosotros</h3>
         <ul class="redesFooter">
-          <li class="mt-3">¿Quiénes Somos?</li>
-          <li class="mt-3">Equipo</li>
-          <li class="mt-3">Trabajo</li>
-          <li class="mt-3">Contáctanos</li>
+          <li style="cursor:pointer;" class="mt-3" @click="ruta!='Equipo'?$router.push('/equipo'):null">Equipo</li>
+          <li style="cursor:pointer;" class="mt-3" @click="ruta!='Equipo'?$router.push('/equipo'):null">Contáctanos</li>
         </ul>
       </v-col>
       <v-col cols="12" class="d-flex justify-center">
@@ -495,7 +490,7 @@ export default {
         .catch((error) => {});
     },
     onScroll() {
-      if (this.$route.name === "Home") {
+      if (['Home','Equipo'].includes(this.ruta)) {
         if (this.$refs.appBarSticky.currentScroll > 45) {
           this.$refs.appBarSticky.$el.classList.remove("app-barabsolute");
           this.$refs.appBarSticky.$el.classList.add("app-barfixed");

@@ -1,0 +1,20 @@
+#tituloContacto{
+    font-family: Dosis-semi;
+    font-size: 48px;
+    color:#aa4b6b;
+}
+.cursorTyped{
+    animation: cursorAnimation 0.7s infinite;
+}
+
+@keyframes cursorAnimation{
+    0%{
+        opacity: 1;
+    }
+    50%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}

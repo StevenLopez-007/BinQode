@@ -155,6 +155,7 @@
         </v-snackbar>
       </v-col>
     </v-row>
+    <!-- <pre>{{$store.getters['categoriasFil']}}</pre> -->
   </v-container>
 </template>
 <script>

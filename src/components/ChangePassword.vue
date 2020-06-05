@@ -12,7 +12,7 @@
 }
 </style>
 <template>
-  <div style="background-color:rgb(240, 239, 255);height:100vh;" v-resize="onResize">
+  <div style="background-color:rgb(240, 239, 255);height:100vh;" >
     <v-toolbar>
       <v-avatar size="55">
         <img src="../imagenes/icon.png" />
@@ -31,11 +31,15 @@
         class="d-flex justify-center align-center flex-column justify-space-between"
          style="background-color:rgb(240, 239, 255);"
       >
-        <h1 class="text-center tituloReset">
+        <h1 v-if="!succes" class="text-center tituloReset">
           Volver a establecer contraseña
         </h1>
-        <p class="mb-12 text-center">Ingresa tu nueva contraseña y luego confirmala.</p>
-        <v-form v-model="validate" ref="form" style="width:100%;" class="d-flex justify-center flex-column align-center">
+        <h1 v-if="succes" class="text-center tituloReset">
+          ¡Se ha restablecido tu contraseña con exito!
+        </h1>
+        <h2 v-if="succes" class="mt-5" style="font-family:Dosis;" >Ir a Login <v-btn @click="$router.replace('/login')" color="#aa4b6b" rounded style="color:white;font-family:Dosis;">OK</v-btn></h2>
+        <p v-if="!succes" class="mb-12 text-center">Ingresa tu nueva contraseña y luego confirmala.</p>
+        <v-form v-if="!succes" v-model="validate" ref="form" style="width:100%;" class="d-flex justify-center flex-column align-center">
           <v-text-field
             clearable
             :type="showPasswordNew ? 'text' : 'password'"
@@ -59,7 +63,10 @@
             solo
             label="Confirmar Contraseña"
           ></v-text-field>
+          <span v-if="error && !contraNot" class="red--text">¡Ups!, ocurrió un error, vuelve a intentarlo</span>
+          <span v-if="!error && contraNot" class="red--text">Las contraseñas no coinciden, vuelve a ingresarlas</span>
           <v-btn
+          :loading="cargando"
             @click="Submit()"
             width="250"
             height="50"
@@ -75,6 +82,8 @@
 </template>
 <script>
 import Vue from "vue";
+import axios from 'axios'
+import decode from 'jwt-decode'
 // import { VueReCaptcha } from "vue-recaptcha-v3";
 // Vue.use(VueReCaptcha, { siteKey: "6LftKP8UAAAAAFyn3w1cTjIgoizkGLxDB_d5GxBd" });
 export default {
@@ -83,6 +92,10 @@ export default {
       newContra: "",
       confirmContra: "",
       validate: true,
+      error:false,
+      succes:false,
+      cargando:false,
+      contraNot:false,
       newContraRules: [
         (v) => !!v || "Ingresa tu nueva contraseña",
         (v) => v.length > 4 || "Contraseña demasiado corta",
@@ -93,10 +106,11 @@ export default {
     };
   },
   mounted() {
-    this.onResize();
+    // this.onResize();
   },
   methods: {
     Submit() {
+      this.cargando =true;
       if (this.$refs.form.validate()) {
         // if (this.newContra === this.confirmContra) {
         //   this.$recaptcha("contactus").then((token) => {
@@ -106,12 +120,28 @@ export default {
         //   this.newContra = "";
         //   this.confirmContra = "";
         // }
+        if(this.newContra ===this.confirmContra){
+          var id = decode(this.$route.params.token)
+          axios.post(`estudiante/resetPassword/${id.usuario.id}`,{password:this.newContra},{headers:{'x-token':this.$route.params.token}})
+          .then(result=>{
+            result.data.ok?(this.succes=true)(this.$router.params.token = ''):this.error=true
+          })
+          .catch((error)=>{this.error=true})
+          .finally(()=>this.cargando=false)
+        }
+        else{
+           this.newContra = "";
+           this.confirmContra = "";
+          this.contraNot=true;
+          this.error=false;
+          this.cargando=false
+        }
       }
     },
-    onResize(){
-        const instance =this.$recaptchaInstance;
-        this.$vuetify.breakpoint.xsOnly?instance.hideBadge():instance.showBadge()
-    }
+    // onResize(){
+    //     const instance =this.$recaptchaInstance;
+    //     this.$vuetify.breakpoint.xsOnly?instance.hideBadge():instance.showBadge()
+    // }
   },
 };
 </script>
