@@ -124,6 +124,7 @@
               >
               </v-progress-circular>
               <img
+              v-else
                 src="https://image.flaticon.com/icons/svg/411/411830.svg"
                 alt=""
                 :width="$vuetify.breakpoint.xsOnly ? '20px' : '30px'"
@@ -155,6 +156,7 @@ import axios from "axios";
 import VueCookies from "vue-cookies";
 import moment from "moment";
 import Swal from "sweetalert2";
+import "../styles/stylesmin/perfil.min.scss"
 export default {
   data() {
     return {
@@ -202,7 +204,7 @@ export default {
     },
     ordenar() {
       this.$refs.flechaIcon.$el.classList.toggle("flechaUp");
-      if (this.$refs.flechaIcon.$el.classList[7] != undefined) {
+      if (this.$refs.flechaIcon.$el.classList[8] != undefined) {
         this.textOr = "-Nota";
         this.notaUP = false;
       } else {

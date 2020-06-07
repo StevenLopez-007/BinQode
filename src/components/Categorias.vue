@@ -162,6 +162,7 @@
 import router from "../router";
 import axios from "axios";
 import store from '../store';
+import "../styles/stylesmin/categorias.min.scss"
 // import firebase from 'firebase';
 export default {
   data: () => ({

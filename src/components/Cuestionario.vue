@@ -257,6 +257,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import decode from "jwt-decode";
 import store from "../store";
+import "../styles/stylesmin/cuestionario.min.scss"
 export default {
   data() {
     return {
@@ -462,8 +463,16 @@ export default {
       this.interval = setInterval(() => {
         if (i == this.cuestionario.length) {
           clearInterval(this.interval);
-          this.regisCues();
-          this.registrarCuesRes();
+          store.getters.modInscritos(this.$route.params.id).
+          then((result)=>{
+              if(!result){
+                this.regisCues();
+                this.registrarCuesRes();
+              }
+              else{
+                this.$router.replace('/categoria')
+              }
+            })
         } else if (
           this.cuestionario[i].respuestaseleccionada ===
           this.cuestionario[i].respuestaCorrecta

@@ -281,6 +281,7 @@ import router from "../router";
 import axios from "axios";
 import store from "../store";
 import Swal from "sweetalert2";
+import "../styles/stylesmin/modulos.min.scss"
 export default {
   data: () => ({
     model: 1,

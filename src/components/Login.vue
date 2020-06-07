@@ -349,6 +349,7 @@ import axios from "axios";
 import decode from "jwt-decode";
 import store from "../store";
 import VueCookies from "vue-cookies";
+import "../styles/stylesmin/login.min.scss"
 // import {config} from './helpers/firebaseConfig'
 export default {
   data() {

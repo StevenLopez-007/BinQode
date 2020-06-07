@@ -10,7 +10,6 @@ import Modulos from '../components/Modulos.vue'
 import Bienvenida from '../components/Bienvenida.vue'
 import Perfil from '../components/Perfil.vue'
 import ChangePassword from '../components/ChangePassword.vue'
-import Contacto from '../components/Contacto.vue'
 import Equipo from '../components/Equipo.vue'
 
 import store from '../store'
@@ -27,14 +26,6 @@ const router = new VueRouter({
       path:'/resetPassword/:token',
       name:'ResetPassword',
       component:ChangePassword,
-      meta:{
-        libre:true
-      }
-    },
-    {
-      path:'/contacto',
-      name:'Contacto',
-      component:Contacto,
       meta:{
         libre:true
       }
@@ -152,7 +143,19 @@ router.beforeEach((to,from,next)=>{
   }
   else if(to.matched.some(record => record.meta.login)){
     if(store.getters.logedIn){
-      next()
+      if(['Cuestionario','InstroduccionMod'].includes(to.name)){
+          store.getters.modInscritos(to.params.id).then((result)=>{
+            if(!result){
+              next();
+            }
+            else{
+              next('/categoria')
+            }
+          })
+      }
+      else{
+        next();
+      }
     }
     else{
       next('/login')

@@ -22,34 +22,22 @@ import "./themesCode/prism-shades.css";
 // estilos
 import "./styles/fonts.scss"
 
-import "./styles/stylesmin/bienvenida.min.scss"
-import "./styles/stylesmin/categorias.min.scss"
-import "./styles/stylesmin/cuestionario.min.scss"
-import "./styles/stylesmin/home.min.scss"
-import "./styles/stylesmin/introduccionmodulo.min.scss"
-import "./styles/stylesmin/login.min.scss"
-import "./styles/stylesmin/modulos.min.scss"
-import "./styles/stylesmin/app.min.scss"
-import "./styles/stylesmin/perfil.min.scss"
-
 import "./styles/darkTheme/darktheme.css"
 import "./styles/darkTheme/swalDarkTheme.css"
-// import "./styles/perfil.scss"
-// ///////////////////
 
 import firebase from 'firebase/app'
 import Prism from "vue-prism-component";
 import Swal from 'sweetalert2';
 
-var firebaseConfig = {
-  apiKey: "AIzaSyB7FFfnuq_ixg0PG7Q174zWiRweqCP17EU",
-  authDomain: "binqode.firebaseapp.com",
-  databaseURL: "https://binqode.firebaseio.com",
-  projectId: "binqode",
-  storageBucket: "binqode.appspot.com",
-  messagingSenderId: "451851274451",
-  appId: "1:451851274451:web:4e27b6e9135a7c84b5ac26",
-  measurementId: "G-CPPRMHR01W"
+const firebaseConfig = {
+  apiKey: "AIzaSyBv_EyBYl1NrVVDboo-fXb33INQkxJfPks",
+  authDomain: "usuariosb1nq0de.firebaseapp.com",
+  databaseURL: "https://usuariosb1nq0de.firebaseio.com",
+  projectId: "usuariosb1nq0de",
+  storageBucket: "usuariosb1nq0de.appspot.com",
+  messagingSenderId: "167354227550",
+  appId: "1:167354227550:web:5a966e91bd8bba24eecdcf",
+  measurementId: "G-J80PK4Q4V9"
 };
 firebase.initializeApp(firebaseConfig);
 Vue.component("prism", Prism);

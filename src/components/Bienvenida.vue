@@ -116,7 +116,7 @@
 </template>
 <script>
 import store from '../store'
-
+import "../styles/stylesmin/bienvenida.min.scss"
 export default {
   data() {
     return {

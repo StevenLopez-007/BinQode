@@ -11,7 +11,7 @@
         md="6"
         class="d-flex  justify-lg-center align-lg-center  justify-sm-center align-sm-center justify-center"
       >
-        <v-col cols="12" lg="6" md="6" sm="6">
+        <v-col cols="12" lg="6" md="6" sm="6" class="d-flex justify-center flex-column align-center">
           <div class="d-flex justify-sm-center justify-md-start justify-center">
             <v-avatar size="100" class="ma-1 avatarHome">
               <img
@@ -20,17 +20,18 @@
               />
             </v-avatar>
           </div>
+          <div>
           <h1 class="tituloHome">
-            Refuerza tus conocimientos básicos en la programación
+            {{palabra}}<span ref="typedCursor">|</span>
           </h1>
-          <div class="mt-3 ">
-            <a href="#"
-              ><img
-                class="imgPlayStore"
-                src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/google-play-badge.png?alt=media&token=82ffb9aa-4829-45dd-9ddb-75ea71a709a5"
-                alt=""
-            /></a>
           </div>
+          <v-col cols="4" sm="5" md="10" lg="12">
+            <a href="#">
+            <v-img src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/google-play-badge.png?alt=media&token=82ffb9aa-4829-45dd-9ddb-75ea71a709a5">
+
+            </v-img>
+            </a>
+          </v-col>
           <!-- <div class="d-flex justify-space-around mt-4">
             <div class="iconosRedes">
               <a href="#"
@@ -386,6 +387,7 @@
 </template>
 <script>
 import axios from "axios";
+import "../styles/stylesmin/home.min.scss"
 export default {
   data() {
     return {
@@ -413,57 +415,59 @@ export default {
         },
       ],
       width: 0,
+      palabra: "Refuerza tus conocimientos básicos en la programación",
+      palabras: ["¡Unete a la comunidad B1nQ0de ahora!",
+                 "¡Aprende junto con B1nQ0de!","Refuerza tus conocimientos básicos en la programación"],
+      intervalEl: {},
+      intervalEs: {},
+      numeroPalabra: 0,
     };
   },
-  created: function() {
-    // this.location();
+  mounted(){
+    this.eliminarPalabra();
+  },
+  beforeDestroy(){
+    clearInterval(this.intervalEs)
+    clearInterval(this.intervalEl)
   },
   methods: {
     windowWidth() {
       this.width = window.outerWidth;
     },
-    // location() {
-    //   let me = this;
-    //   var options = {
-    //     enableHighAccuracy: true,
-    //     timeout: 6000,
-    //     maximumAge: 0,
-    //   };
-
-    //   navigator.geolocation.getCurrentPosition(success, error, options);
-    //   function success(position) {
-    //     var coordenadas = position.coords;
-
-    //     // console.log("Tu posición actual es:");
-    //     // console.log("Latitud : " + coordenadas.latitude);
-    //     // console.log("Longitud: " + coordenadas.longitude);
-    //     // console.log("Más o menos " + coordenadas.accuracy + " metros.");
-
-    //     var url = `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=S0vEAFNgbpLtsvwIZlzuc6vBJmUbDNqE&q=${coordenadas.latitude}%2C${coordenadas.longitude}&language=en-us&details=true&toplevel=false`;
-
-    //     axios
-    //       .get(url)
-    //       .then((response) => {
-    //         me.tiempo(response.data.Details.Key);
-    //         // console.log(response.data.Details.Key)
-    //       })
-    //       .catch((error) => console.log(error));
-    //   }
-    //   function error(error) {
-    //     console.warn("ERROR(" + error.code + "): " + error.message);
-    //   }
-    // },
-    // tiempo(keyCode) {
-    //   var url = `http://dataservice.accuweather.com/forecasts/v1/daily/1day/${keyCode}?apikey=S0vEAFNgbpLtsvwIZlzuc6vBJmUbDNqE&language=en-us&details=true&metric=false`;
-    //   axios
-    //     .get(url)
-    //     .then((response) => {
-    //       console.log(response.data.DailyForecasts[0].Sun);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //     });
-    // },
+     eliminarPalabra() {
+      this.$refs.typedCursor.classList.remove("cursorTyped");
+      var palabrasize = this.palabra.length;
+      var contador = 1;
+      this.intervalEl = setInterval(() => {
+        if (contador > palabrasize) {
+          clearInterval(this.intervalEl);
+          this.escribirPalabra();
+        } else {
+          this.palabra = this.palabra.slice(0, -1);
+          contador++;
+        }
+      }, 70);
+    },
+    escribirPalabra() {
+      var palabrasize = this.palabras[this.numeroPalabra].length;
+      var palabra = this.palabras[this.numeroPalabra];
+      var contador = 0;
+      this.intervalEs = setInterval(() => {
+        if (contador == palabrasize) {
+          clearInterval(this.intervalEs);
+          this.numeroPalabra == this.palabras.length - 1
+            ? (this.numeroPalabra = 0)
+            : this.numeroPalabra++;
+          this.$refs.typedCursor.classList.add("cursorTyped");
+          setTimeout(() => {
+            this.eliminarPalabra();
+          }, 3000);
+        } else {
+          this.palabra += palabra[contador];
+          contador++;
+        }
+      }, 70);
+    },
   },
 };
 </script>

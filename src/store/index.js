@@ -67,9 +67,11 @@ export default new Vuex.Store({
     completado(state){
       return state.completados
     },
-    modInscritos: (state)=>(modulo)=>{
-      let inscrito =  axios.get(`inscripcion/verificarModulo/${modulo}/${state.currentUser.usuario._id}`);
-       return inscrito.inscripcions != undefined? true:false;
+     modInscritos: (state)=>(modulo)=>{
+      return axios.get(`inscripcion/verificarModulo/${modulo}/${state.currentUser.usuario._id}`)
+      .then(result=>{
+        return result.data.inscripcions != undefined? true:false; 
+      });
     },
     getProgresoporCat:(state)=>(cat)=>{
       return state.modInscritos.filter( mods=>{

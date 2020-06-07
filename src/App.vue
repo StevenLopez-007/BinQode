@@ -14,11 +14,7 @@
       "
     >
       <a
-        @click="
-          !['Categoria', 'Home'].includes(ruta)
-            ? $router.push({ name: 'Categoria' })
-            : null
-        "
+        @click="!['Home','Categoria'].includes(ruta)?$router.push({name:rutaHome}):null"
         style="text-decoration:none; color: rgb(62, 65, 109);cursor:pointer;"
         ><h4 class="titulo ma-2" :class="darkTheme && (['Categoria','Modulos'].includes(ruta)) ? 'tituloDark' : ''">
           B1nQ0de
@@ -408,6 +404,7 @@
 import firebase from "firebase";
 import store from "./store";
 import { mapMutations } from "vuex";
+import "@/styles/stylesmin/app.min.scss"
 export default {
   props: {
     source: String,
@@ -461,6 +458,14 @@ export default {
       return store.state.modBuscar.length === 0 || this.ruta != "Modulos"
         ? 0
         : progreso.toFixed(1) / store.state.modBuscar.length;
+    },
+    rutaHome(){
+      switch(this.ruta){
+        
+        case 'Equipo': return 'Home'
+        case 'Modulos': return 'Categoria'
+
+      }
     }
   },
   watch: {
@@ -503,43 +508,7 @@ export default {
     },
     filtrarCat() {
       store.commit("setBuscar", this.buscar == null ? "" : this.buscar);
-      // ...mapMutations(['setBuscar'])
     },
-    // progresoCat() {
-      
-    // },
-    // ocultar(){
-    //       //  firebase.auth().onAuthStateChanged((user) =>{
-    //       //    if(user){
-    //       //      var logeado;
-    //       //      console.log("si verifico y estas logueado");
-    //           //  this.Logeado = 'isloged';
-
-    //       //      this.avatarUser = user.photoURL
-    //       //      this.nameUser = user.displayName;
-    //       //      this.emailUser = user.email;
-    //       //    }
-    //       //    else{
-    //       //      console.log("si verifico y no estas logueado");
-    //             // this.Logeado = 'notloged';
-
-    //       //    }
-    //       //  });
-    //       if(localStorage.tokenUser){
-    //         this.Logeado ='isloged'
-
-    //         try{
-    //         var user = decode(localStorage.tokenUser)
-    //         // this.avatarUser = user.usuario.avatar;
-    //         this.nameUser = user.usuario.nombre;
-    //         this.emailUser = user.usuario.email;
-    //         }catch(error){this.logout()}
-    //       }
-    //       else{
-    //         this.Logeado = 'notloged';
-    //       }
-
-    //     },
   },
 };
 </script>

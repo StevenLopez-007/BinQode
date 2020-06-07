@@ -178,13 +178,7 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
-
-// async function loadcomponent (componentLang){
-//   const componentSpe = "@/prismjs/components/prism-textile"
-//   const component = await import(componentSpe)
-  
-// }
-
+import "../styles/stylesmin/introduccionmodulo.min.scss"
 export default {
   data() {
     return {

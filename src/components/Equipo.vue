@@ -168,7 +168,7 @@ export default {
       tab: null,
       palabra: "diseñado",
       palabras: ["diseñado", "desarrollado", "y mantenido"],
-      interval: {},
+      intervalEl: {},
       intervalEs: {},
       numeroPalabra: 0,
     };
@@ -176,8 +176,13 @@ export default {
   mounted() {
     this.eliminarPalabra();
   },
+  beforeDestroy(){
+    clearInterval(this.intervalEs)
+    clearInterval(this.intervalEl)
+  },
   methods: {
     eliminarPalabra() {
+      try{
       this.$refs.typedCursor.classList.remove("cursorTyped");
       var palabrasize = this.palabra.length;
       var contador = 1;
@@ -190,8 +195,10 @@ export default {
           contador++;
         }
       }, 110);
+      }catch(error){}
     },
     escribirPalabra() {
+      try{
       var palabrasize = this.palabras[this.numeroPalabra].length;
       var palabra = this.palabras[this.numeroPalabra];
       var contador = 0;
@@ -210,6 +217,7 @@ export default {
           contador++;
         }
       }, 110);
+      }catch(error){}
     },
   },
 };
