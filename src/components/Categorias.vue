@@ -10,12 +10,12 @@
           <img :src="require('../imagenes/moduloVacio/error.svg')" alt="" />
       </v-avatar>
       <div class="text-center ma-1">
-        <v-shet :color="darkTheme?'#4f5b62':'#c5cae9'"
+        <v-sheet :color="darkTheme?'#4f5b62':'#c5cae9'"
             class="pa-1 font-weight-bold"
             :class="darkTheme?'tituloDark':''"
             style="color:#424242;">¡Ocurrío algún error!
             
-        </v-shet>
+        </v-sheet>
       </div>
       </v-col>
     </v-row>
@@ -80,6 +80,7 @@
               style=" cursor:pointer; background-color:white !important;"
               class="imgCat"
               :src="require('../imagenes/categorias/'+cat.img+'.svg')"
+              contain
             >
               <v-fade-transition>
                 <v-overlay v-if="hover" absolute opacity="0.60" color="#000000">

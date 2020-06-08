@@ -21,7 +21,7 @@
           >
             <v-window-item class="fill-height">
               <div
-                class="fill-height d-flex align-center justify-center flex-column"
+                class=" pt-8 fill-height d-flex align-center justify-start flex-column"
               >
                 <div style="width:100%;height:auto;" class="mb-8">
                   <a
@@ -38,8 +38,6 @@
                   >
                     B1nQ0de
                   </h1>
-                  <!-- <v-img src="../imagenes/imagenesHome/imagenlogin2.svg">
-                  </v-img> -->
                   <div style="width:100%;" class="d-flex justify-center">
                     <v-avatar size="200">
                       <img src="../imagenes/icon1.png" alt="" />
@@ -73,7 +71,7 @@
                   "
                   style="text-align:center; color:#aa4b6b;text-decoration:underline;cursor:pointer"
                 >
-                  Olvide mi contraseña
+                  Olvide mi contraseña 
                 </h5>
               </div>
             </v-window-item>
@@ -107,6 +105,7 @@
               class="d-flex justify-center"
               :value="register ? 1 : 0"
               color="#aa4b6b"
+              style="background:white;"
             >
               <v-tab
                 @click="
@@ -308,7 +307,6 @@
               <v-btn
                 v-if="!resetPassword"
                 :disabled="!valid"
-                :loading="cargando"
                 @click="valid ? loginWidth() : null"
                 id="botonLogin"
                 class="white--text mb-4"
@@ -322,7 +320,6 @@
               <v-btn
                 v-if="resetPassword && !success"
                 :disabled="!valid"
-                :loading="cargando"
                 @click="valid ? enviarEmail() : null"
                 id="botonLogin"
                 class="white--text mb-4"
@@ -341,6 +338,12 @@
         </v-col>
       </v-row>
     </div>
+    <v-dialog style="z-index:3000 !important;" persistent width="300" v-model="dialogGoogle">
+      <v-card color="#aa4b6b">
+        <v-card-text class="white--text text-center font-weight-medium pa-4">Por favor, espere...</v-card-text>
+       <v-progress-linear indeterminate color="white"></v-progress-linear>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
@@ -354,6 +357,7 @@ import "../styles/stylesmin/login.min.scss"
 export default {
   data() {
     return {
+      dialogGoogle:false,
       onboarding: 0,
       avatarSelected: "av-2.png",
       dialog: false,
@@ -368,9 +372,7 @@ export default {
       emailRules: [
         (v) => !!v || "E-mail es requerido",
         (v) =>
-          /^([a-zA-Z0-9_\.\-])+\@(([a-z-0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(
-            v
-          ) || "E-mail deber ser válido",
+          /^([a-zA-Z0-9_\.\-])+\@([a-z-0-9\-]+\.)+([a-zA-Z0-9]{2,4})+$/.test(v) || "E-mail deber ser válido",
       ],
       nameRules: [
         (v) => (v == null ? (v = "") : !!v || "El nombre es requerido"),
@@ -463,8 +465,8 @@ export default {
     };
   },
   created: function() {
-    this.getToken();
-  },
+      this.getToken();
+    },
   mounted() {
     this.windowWidth();
   },
@@ -480,15 +482,6 @@ export default {
         .auth()
         .signInWithRedirect(provider)
         .catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // The email of the user's account used.
-          var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
-          console.log(error);
-          // ...
         });
     },
     getToken() {
@@ -497,26 +490,10 @@ export default {
         .auth()
         .getRedirectResult()
         .then(function(result) {
-          // if (result.credential) {
-          //   // This gives you a Google Access Token. You can use it to access the Google API.
-          //   var token = result.credential.accessToken;
-          //    me.$router.go({ path: "/categoria" });
-          //   // ...
-          // }
-          // The signed-in user info.
           var user = result.user;
-          user != null ? me.redirectGoogle(user.email, user.displayName) : null;
+          user != null ? (me.redirectGoogle(user.email, user.displayName))(me.dialogGoogle=true) : null;
         })
         .catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // The email of the user's account used.
-          var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
-          console.log(error);
-          // ...
         });
     },
     redirectGoogle(email, nombre) {
@@ -540,10 +517,12 @@ export default {
         })
         .catch((error) => {
           firebase.auth().signOut();
+          this.dialogGoogle=false
         });
     },
     loginWidth() {
       this.cargando = true;
+      this.dialogGoogle=true;
       if (this.register) {
         axios
           .post("estudiante/create", {
@@ -569,7 +548,7 @@ export default {
           .catch((error) => {
             (this.error = true), (this.emailIncorrecto = false);
           })
-          .finally(() => (this.cargando = false));
+          .finally(() => (this.cargando = false)(this.dialogGoogle=false));
       } else {
         axios
           .post("estudiante/login", {
@@ -593,7 +572,7 @@ export default {
 
             (this.emailIncorrecto = false)
           )
-          .finally(() => (this.cargando = false));
+          .finally(() => (this.cargando = false)(this.dialogGoogle=false));
       }
     },
     windowWidth() {
@@ -620,6 +599,7 @@ export default {
     enviarEmail() {
       if (this.resetPassword) {
         this.cargando = true;
+        this.dialogGoogle=true;
         var datosEmail = {
           to: this.email,
           subject: "Cambio de contraseña",
@@ -634,7 +614,7 @@ export default {
                   (this.success = true)
                 );
           })
-          .finally(() => (this.cargando = false));
+          .finally(() => (this.cargando = false)(this.dialogGoogle=false));
       }
     },
   },

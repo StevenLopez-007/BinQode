@@ -477,16 +477,6 @@ export default {
   },
   methods: {
     logout() {
-      // firebase
-      //   .auth()
-      //   .signOut()
-      //   .then(function() {
-      //     // Sign-out successful.
-      //     this.$router.push("/");
-      //   })
-      //   .catch(function(error) {
-      //     // An error happened.
-      //   });
       this.$store.dispatch("logout");
       firebase
         .auth()

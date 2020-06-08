@@ -47,6 +47,17 @@
         </v-row>
 
         <v-row class="d-flex justify-center">
+          <v-col lg="6" md="6" sm="0" cols="0" class="d-flex align-center justify-center">
+            
+            <v-img
+              height="500"
+              contain
+              src="../imagenes/imagenesEquipo/team.svg"
+              class="hidden-sm-and-down"
+            >
+            </v-img>
+
+          </v-col>
           <v-col lg="5">
             <div class="mt-2 mt-sm-2 mt-md-8 mt-lg-12 d-flex justify-center">
               <v-list style="background:transparent;" class="listaMiembros">
@@ -129,14 +140,6 @@
                 </v-list-item>
               </v-list>
             </div>
-          </v-col>
-          <v-col lg="6" md="6" sm="0" cols="0" class="d-flex align-center ">
-            <v-img
-              id="robot"
-              src="../imagenes/imagenesHome/bot.gif"
-              class="hidden-sm-and-down"
-            >
-            </v-img>
           </v-col>
         </v-row>
       </v-tab-item>

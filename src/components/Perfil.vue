@@ -5,7 +5,7 @@
         <v-icon @click="$router.replace('/categoria')" color="white"
           >fas fa-arrow-left</v-icon
         >
-        ¡Feliz {{ dia }}, {{ datosUser.nombre }}!
+        ¡Feliz {{ dias[new Date().getDay()], }}, {{ datosUser.nombre }}!
       </h1>
       <v-avatar
         :size="$vuetify.breakpoint.xsOnly ? '130' : '200'"
@@ -154,7 +154,6 @@
 import store from "../store";
 import axios from "axios";
 import VueCookies from "vue-cookies";
-import moment from "moment";
 import Swal from "sweetalert2";
 import "../styles/stylesmin/perfil.min.scss"
 export default {
@@ -164,9 +163,7 @@ export default {
       switch1: false,
       textOr: "+Nota",
       notaUP: true,
-      dia: moment()
-        .lang("es")
-        .format("dddd"),
+      dias:['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
       // bannerColor:{text:`Feliz ${moment().format('dddd')}`}
     };
   },
