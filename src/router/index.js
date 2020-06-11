@@ -8,7 +8,8 @@ import Home from '../components/Home.vue'
 import Login from '../components/Login.vue'
 import Modulos from '../components/Modulos.vue'
 import Bienvenida from '../components/Bienvenida.vue'
-import Perfil from '../components/Perfil.vue'
+// import Perfil from '../components/Perfil.vue'
+import Perfil2 from '../components/Perfil2.vue'
 import ChangePassword from '../components/ChangePassword.vue'
 import Equipo from '../components/Equipo.vue'
 
@@ -107,10 +108,18 @@ const router = new VueRouter({
       login:true
     }
     },
+    // {
+    //   path:'/perfil',
+    //   name:'Perfil',
+    //   component:Perfil,
+    //   meta:{
+    //     login:true
+    //   }
+    // },
     {
       path:'/perfil',
       name:'Perfil',
-      component:Perfil,
+      component:Perfil2,
       meta:{
         login:true
       }
