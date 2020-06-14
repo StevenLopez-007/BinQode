@@ -71,7 +71,7 @@
                   "
                   style="text-align:center; color:#aa4b6b;text-decoration:underline;cursor:pointer"
                 >
-                  Olvide mi contraseña 
+                  Olvide mi contraseña
                 </h5>
               </div>
             </v-window-item>
@@ -338,10 +338,17 @@
         </v-col>
       </v-row>
     </div>
-    <v-dialog style="z-index:3000 !important;" persistent width="300" v-model="dialogGoogle">
+    <v-dialog
+      style="z-index:3000 !important;"
+      persistent
+      width="300"
+      v-model="dialogGoogle"
+    >
       <v-card color="#aa4b6b">
-        <v-card-text class="white--text text-center font-weight-medium pa-4">Por favor, espere...</v-card-text>
-       <v-progress-linear indeterminate color="white"></v-progress-linear>
+        <v-card-text class="white--text text-center font-weight-medium pa-4"
+          >Por favor, espere...</v-card-text
+        >
+        <v-progress-linear indeterminate color="white"></v-progress-linear>
       </v-card>
     </v-dialog>
   </div>
@@ -352,12 +359,12 @@ import axios from "axios";
 import decode from "jwt-decode";
 import store from "../store";
 import VueCookies from "vue-cookies";
-import "../styles/stylesmin/login.min.scss"
+import "../styles/stylesmin/login.min.scss";
 // import {config} from './helpers/firebaseConfig'
 export default {
   data() {
     return {
-      dialogGoogle:false,
+      dialogGoogle: false,
       onboarding: 0,
       avatarSelected: "av-2.png",
       dialog: false,
@@ -372,7 +379,9 @@ export default {
       emailRules: [
         (v) => !!v || "E-mail es requerido",
         (v) =>
-          /^([a-zA-Z0-9_\.\-])+\@([a-z-0-9\-]+\.)+([a-zA-Z0-9]{2,4})+$/.test(v) || "E-mail deber ser válido",
+          /^([a-zA-Z0-9_\.\-])+\@([a-z-0-9\-]+\.)+([a-zA-Z0-9]{2,4})+$/.test(
+            v
+          ) || "E-mail deber ser válido",
       ],
       nameRules: [
         (v) => (v == null ? (v = "") : !!v || "El nombre es requerido"),
@@ -465,8 +474,8 @@ export default {
     };
   },
   created: function() {
-      this.getToken();
-    },
+    this.getToken();
+  },
   mounted() {
     this.windowWidth();
   },
@@ -481,8 +490,7 @@ export default {
       firebase
         .auth()
         .signInWithRedirect(provider)
-        .catch(function(error) {
-        });
+        .catch(function(error) {});
     },
     getToken() {
       let me = this;
@@ -491,10 +499,14 @@ export default {
         .getRedirectResult()
         .then(function(result) {
           var user = result.user;
-          user != null ? (me.redirectGoogle(user.email, user.displayName))(me.dialogGoogle=true) : null;
+          user != null
+            ? me.redirectGoogle(
+                user.email,
+                user.displayName
+              )((me.dialogGoogle = true))
+            : null;
         })
-        .catch(function(error) {
-        });
+        .catch(function(error) {});
     },
     redirectGoogle(email, nombre) {
       axios
@@ -507,6 +519,7 @@ export default {
           if (response.data.ok) {
             this.$store.dispatch("guardarToken", response.data.token);
             if (VueCookies.isKey(`user${email}`)) {
+              localStorage.setItem("loginSuccess",true)
               this.$router.go();
             } else {
               VueCookies.set(`user${email}`, "firstTime", Infinity);
@@ -517,12 +530,12 @@ export default {
         })
         .catch((error) => {
           firebase.auth().signOut();
-          this.dialogGoogle=false
+          this.dialogGoogle = false;
         });
     },
     loginWidth() {
       this.cargando = true;
-      this.dialogGoogle=true;
+      this.dialogGoogle = true;
       if (this.register) {
         axios
           .post("estudiante/create", {
@@ -533,14 +546,12 @@ export default {
             phone: `+${this.selectPais.phone_code}${this.selectPais.numero}`,
           })
           .then((response) => {
-            console.log(response.data.ok);
             if (response.data.ok) {
               this.$store.dispatch("guardarToken", response.data.token);
               this.emailIncorrecto = false;
               this.$router.replace("/bienvenida");
               this.$router.go(1);
             } else {
-              console.log("Error");
               this.emailIncorrecto = false;
               this.error = true;
             }
@@ -548,7 +559,7 @@ export default {
           .catch((error) => {
             (this.error = true), (this.emailIncorrecto = false);
           })
-          .finally(() => (this.cargando = false)(this.dialogGoogle=false));
+          .finally(() => (this.cargando = false)((this.dialogGoogle = false)));
       } else {
         axios
           .post("estudiante/login", {
@@ -558,8 +569,8 @@ export default {
           .then((response) => {
             if (response.data.ok) {
               this.$store.dispatch("guardarToken", response.data.token);
+              localStorage.setItem("loginSuccess",true)
               this.emailIncorrecto = false;
-
               this.$router.go("/categoria");
             } else {
               this.error = false;
@@ -567,12 +578,14 @@ export default {
               this.password = "";
             }
           })
-          .catch(
-            () => (this.error = true),
-
-            (this.emailIncorrecto = false)
-          )
-          .finally(() => (this.cargando = false)(this.dialogGoogle=false));
+          .catch((error) => {
+            this.error = true;
+            this.emailIncorrecto = false;
+          })
+          .finally(() => {
+            this.cargando = false;
+            this.dialogGoogle = false;
+          });
       }
     },
     windowWidth() {
@@ -599,7 +612,7 @@ export default {
     enviarEmail() {
       if (this.resetPassword) {
         this.cargando = true;
-        this.dialogGoogle=true;
+        this.dialogGoogle = true;
         var datosEmail = {
           to: this.email,
           subject: "Cambio de contraseña",
@@ -614,7 +627,7 @@ export default {
                   (this.success = true)
                 );
           })
-          .finally(() => (this.cargando = false)(this.dialogGoogle=false));
+          .finally(() => (this.cargando = false)((this.dialogGoogle = false)));
       }
     },
   },

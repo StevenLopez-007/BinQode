@@ -60,8 +60,8 @@
       background-color="#fffff"
       show-arrows
     >
-      <v-tab :class="darkTheme?'tercerColorDark subtitleDark':''" @click="$store.commit('setCompletados', true)">Completados</v-tab>
-      <v-tab :class="darkTheme?'tercerColorDark subtitleDark':''" @click="$store.commit('setCompletados', false)"
+      <v-tab style="transition:0.2s" :class="darkTheme?'tercerColorDark subtitleDark':''" @click="$store.commit('setCompletados', true)">Completados</v-tab>
+      <v-tab style="transition:0.2s" :class="darkTheme?'tercerColorDark subtitleDark':''" @click="$store.commit('setCompletados', false)"
         >No completados</v-tab
       >
       <v-tabs-slider :color="!darkTheme?'rgb(62, 65, 109)':'#aa4b6b '"></v-tabs-slider>
@@ -292,57 +292,6 @@ export default {
     status: true,
     error: false,
     modulos: [],
-    modulosCompletados: [
-      {
-        id: "5e5c0fcfafda8328a0d3c190",
-        // "completado":true,
-        nombre: "CSS",
-        img: "css.png",
-        descripcion:
-          "CSS3 es un lenguaje de diseño gráfico para definir y crear la presentación de un documento estructurado escrito en un lenguaje de marcado.",
-        categoria: {
-          estado: false,
-          _id: "5e5c0e7cafda8328a0d3c18d",
-          nombre: "Desarrollo Web",
-          img: "web.png",
-          descripcion: "Todo los módulos relacionados al Desarrollo Web. ",
-          __v: 0,
-        },
-      },
-      {
-        id: "5e5c0f8cafda8328a0d3c18f",
-        // "completado":true,
-        nombre: "HTML ",
-        img: "html.png",
-        descripcion:
-          "HTML 5 es la quinta revisión importante del lenguaje básico de la World Wide Web.",
-        categoria: {
-          estado: false,
-          _id: "5e5c0e7cafda8328a0d3c18d",
-          nombre: "Desarrollo Web",
-          img: "web.png",
-          descripcion: "Todo los módulos relacionados al Desarrollo Web. ",
-          __v: 0,
-        },
-      },
-      {
-        id: "5e5c2ab679217d212874dcda",
-        // "completado":true,
-        nombre: "MySQL",
-        img: "database.png",
-        descripcion:
-          "MySQL es un sistema de gestión de bases de datos relacional desarrollado bajo licencia dual: Licencia pública general/Licencia comercial por Oracle Corporation.",
-        categoria: {
-          estado: false,
-          _id: "5e5c2a6b79217d212874dcd9",
-          nombre: "Base de datos",
-          img: "db.png",
-          descripcion:
-            "Una base de datos es un conjunto de datos pertenecientes a un mismo contexto y almacenados sistemáticamente para su posterior uso.",
-          __v: 0,
-        },
-      },
-    ],
     // nombreCategoria: "",
     pagina: 1,
     indexAnt: 0,
@@ -391,9 +340,6 @@ export default {
         .finally(() => {
           this.status = false;
           store.state.modBuscar.length == 0 ? (this.error = true) : null;
-          // : this.modulosCompletados.forEach((element) => {
-          //     store.commit("setModulosCompletados", element);
-          //   });
         });
     },
     getInscripciones() {

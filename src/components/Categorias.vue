@@ -1,30 +1,35 @@
-
 <template>
-  <v-container class="ma-0 pa-0" :class="darkTheme?'primaryColorDark':''" style="background-color:#f0efff; height:100%">
+  <v-container
+    class="ma-0 pa-0"
+    :class="darkTheme ? 'primaryColorDark' : ''"
+    style="background-color:#f0efff; height:100%"
+  >
     <v-row v-if="error" style="height:80%;">
-      <v-col
-        cols="12"
-        class="d-flex justify-center flex-column align-center"
-      >
-      <v-avatar tile size="350">
+      <v-col cols="12" class="d-flex justify-center flex-column align-center">
+        <v-avatar tile size="350">
           <img :src="require('../imagenes/moduloVacio/error.svg')" alt="" />
-      </v-avatar>
-      <div class="text-center ma-1">
-        <v-sheet :color="darkTheme?'#4f5b62':'#c5cae9'"
+        </v-avatar>
+        <div class="text-center ma-1">
+          <v-sheet
+            :color="darkTheme ? '#4f5b62' : '#c5cae9'"
             class="pa-1 font-weight-bold"
-            :class="darkTheme?'tituloDark':''"
-            style="color:#424242;">¡Ocurrío algún error!
-            
-        </v-sheet>
-      </div>
+            :class="darkTheme ? 'tituloDark' : ''"
+            style="color:#424242;"
+            >¡Ocurrío algún error!
+          </v-sheet>
+        </div>
       </v-col>
     </v-row>
-    
+
     <v-row
       v-if="!status && !error"
       class="d-flex justify-center align-center align-md-end align-sm-end align-lg-end"
     >
-      <h1 style="border:none; font-size:24px;" class="tituloCat mt-2" :class="darkTheme?'tituloDark':''">
+      <h1
+        style="border:none; font-size:24px;"
+        class="tituloCat mt-2"
+        :class="darkTheme ? 'tituloDark' : ''"
+      >
         Categorias
       </h1>
     </v-row>
@@ -71,20 +76,24 @@
           <v-card
             style="border-radius:25px; box-shadow:none; transition:0.25s;"
             class="cardCat pa-0"
-            :class="darkTheme?'secondaryColorDark':''"
+            :class="darkTheme ? 'secondaryColorDark' : ''"
             :elevation="hover ? 6 : null"
-            :style="{transform:hover?'scale(1.05)':'scale(1)'}"
+            :style="{ transform: hover ? 'scale(1.05)' : 'scale(1)' }"
           >
             <v-img
               @click="toModulo(cat.id)"
               style=" cursor:pointer; background-color:white !important;"
               class="imgCat"
-              :src="require('../imagenes/categorias/'+cat.img+'.svg')"
+              :src="require('../imagenes/categorias/' + cat.img + '.svg')"
               contain
             >
               <v-fade-transition>
                 <v-overlay v-if="hover" absolute opacity="0.60" color="#000000">
-                  <h4 class="d-flex flex-column-reverse text-center">Explorar módulos<v-icon color="white" size="36">fas fa-eye</v-icon></h4>
+                  <h4 class="d-flex flex-column-reverse text-center">
+                    Explorar módulos<v-icon color="white" size="36"
+                      >fas fa-eye</v-icon
+                    >
+                  </h4>
                 </v-overlay>
               </v-fade-transition>
             </v-img>
@@ -93,14 +102,14 @@
             <h1
               ref="tituloCategoria"
               class="tituloCat mostrarmenos mt-lg-2 mb-lg-0 mr-lg-0 ml-lg-0 ma-md-2 ma-sm-2 ma-2"
-              :class="darkTheme?'tituloDark':''"
+              :class="darkTheme ? 'tituloDark' : ''"
             >
               {{ cat.nombre }}
             </h1>
             <h3
               ref="DesCategoria"
               class="descripcionCategoria mostrarmenos ml-2"
-              :class="darkTheme?'subtitleDark':''"
+              :class="darkTheme ? 'subtitleDark' : ''"
             >
               {{ cat.descripcion }}
             </h3>
@@ -112,7 +121,7 @@
               <v-btn
                 @click="mostrarMas(indexCat)"
                 class="pa-0"
-                :class="darkTheme?'tituloDark':''"
+                :class="darkTheme ? 'tituloDark' : ''"
                 text
                 style="font-size:12px;color:#aa4b6b;"
                 >Info</v-btn
@@ -132,23 +141,24 @@
         </v-avatar>
         <div class="text-center ma-1">
           <v-sheet
-            :color="darkTheme?'#4f5b62':'#c5cae9'"
+            :color="darkTheme ? '#4f5b62' : '#c5cae9'"
             class="pa-1 font-weight-bold"
-            :class="darkTheme?'tituloDark':''"
+            :class="darkTheme ? 'tituloDark' : ''"
             style="color:#424242;"
             >¡Parece que no tenemos la categoria que buscas!
-            </v-sheet
-          >
+          </v-sheet>
         </div>
       </v-col>
     </v-row>
     <!-- mostrar + -->
-    <v-row
-      v-if="!status && !error && catFilter.length>0"
-      
-    >
+    <v-row v-if="!status && !error && catFilter.length > 0">
       <v-col cols="12" class="d-flex justify-center">
-        <v-btn :disabled="desacticarMas" @click="cargarMas()" color="#aa4b6b" style="color:white;position: absolute; bottom:0px; left:0px; right:0px;margin:auto;" rounded
+        <v-btn
+          :disabled="desacticarMas"
+          @click="cargarMas()"
+          color="#aa4b6b"
+          style="color:white;position: absolute; bottom:0px; left:0px; right:0px;margin:auto;"
+          rounded
           >Mostrar +</v-btn
         >
         <v-snackbar v-model="snackbar" :timeout="timeout">
@@ -162,14 +172,15 @@
 <script>
 import router from "../router";
 import axios from "axios";
-import store from '../store';
-import "../styles/stylesmin/categorias.min.scss"
+import store from "../store";
+import "../styles/stylesmin/categorias.min.scss";
 // import firebase from 'firebase';
+import Swal from "sweetalert2";
 export default {
   data: () => ({
     model: null,
-    userName:store.state.currentUser.usuario.nombre,
-    desacticarMas:false,
+    userName: store.state.currentUser.usuario.nombre,
+    desacticarMas: false,
 
     snackbar: false,
     timeout: 2000,
@@ -181,22 +192,36 @@ export default {
     pagina: 1,
     indexAnt: 0,
 
-    buscar:''
-
+    buscar: "",
   }),
   created() {
     this.getCategorias();
   },
+  mounted() {
+    if(localStorage.loginSuccess && localStorage.loginSuccess != undefined){
+      Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3500,
+      timerProgressBar: true,
+    }).fire({
+      icon: "success",
+      title: `¡Hola!, ${store.state.currentUser.usuario.nombre}`,
+    });
+      localStorage.removeItem("loginSuccess")
+    }
+  },
   watch: {
     status: function() {},
   },
-  computed:{
-    catFilter(){
-        return store.getters['categoriasFil'];
+  computed: {
+    catFilter() {
+      return store.getters["categoriasFil"];
     },
-    darkTheme(){
+    darkTheme() {
       return store.getters.darkTheme;
-    }
+    },
   },
   methods: {
     getCategorias() {
@@ -205,7 +230,7 @@ export default {
         .then((response) => {
           // this.categorias = response.data.categorias;
 
-          store.commit("bucarCat",response.data.categorias)
+          store.commit("bucarCat", response.data.categorias);
         })
         .catch((error) => {
           console.log(error);
@@ -213,32 +238,32 @@ export default {
         })
         .finally(() => {
           this.status = false;
-          store.state.catBuscar.length == 0 ? (this.error = true) :null;
+          store.state.catBuscar.length == 0 ? (this.error = true) : null;
         });
     },
     cargarMas() {
       this.desacticarMas = true;
       let me = this;
       var pagina = 0;
-        pagina = store.state.paginaCat;
+      pagina = store.state.paginaCat;
       //  store.commit("paginaCat",pagina+1)
       //  console.log(store.state.paginaCat)
       axios
-        .get("categoria/?pagina=" + pagina+1)
+        .get("categoria/?pagina=" + pagina + 1)
         .then((response) => {
           if (response.data.categorias.length <= 0) {
-            console.log("Esta pagina no tiene mas categorias");
+            
             this.snackbar = true;
-            console.log(store.state.paginaCat);
+            
           } else {
-            store.commit("paginaCat",pagina+1)
-            store.commit("setMoreCategorias",response.data.categorias);
+            store.commit("paginaCat", pagina + 1);
+            store.commit("setMoreCategorias", response.data.categorias);
           }
         })
         .catch((error) => {
           this.error = true;
         })
-        .finally(() => (this.status = false,this.desacticarMas=false));
+        .finally(() => ((this.status = false), (this.desacticarMas = false)));
     },
     toModulo(id) {
       this.$router.push({ name: "Modulos", params: { id: id } });

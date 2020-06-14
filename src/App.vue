@@ -105,6 +105,7 @@
             >
             <v-list-item-action
               ><v-switch
+                :dark="darkTheme"
                 @change="$store.commit('setCompletados', !isCompletados)"
                 absolute
                 inset

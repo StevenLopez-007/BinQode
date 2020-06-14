@@ -5,7 +5,7 @@
     style="height:100%;background:#f0efff;"
   >
     <v-row class="bannerPerfil d-flex ">
-      <v-icon style="position:absolute;top:10px; left:10px; cursor:pointer;z-index:3;" @click="$router.replace('/categoria')" color="white"
+      <v-icon style="position:absolute;top:10px; left:10px; cursor:pointer;z-index:200;" @click="$router.replace('/categoria')" color="white"
           >fas fa-arrow-left</v-icon
         >
       <v-col lg="12" class="infoUser d-flex justify-start">
@@ -89,17 +89,17 @@
               <v-list-item-avatar style="border-radius:2px;" tile :size="$vuetify.breakpoint.xsOnly?60:100">
                 <img
                   :src="
-                    require(`../imagenes/modulos/imagenesModulospng/${mod.modulo.img}`)
+                    require(`../imagenes/modulos/imagenesModulospng/${mod.mod.img}`)
                   "
                   alt=""
                 />
               </v-list-item-avatar>
               <v-list-item-content>
                 <v-list-item-title :class="darkTheme?'subtitleDark':''" style="font-family:Dosis-semi">{{
-                  mod.modulo.nombre
+                  mod.mod.nombre
                 }}</v-list-item-title>
                 <v-list-item-subtitle :class="darkTheme?'tituloDark':''" style="font-family:Dosis-medium">{{
-                  mod.modulo.descripcion
+                  mod.mod.descripcion
                 }}</v-list-item-subtitle>
                 <div v-if="!$vuetify.breakpoint.xsOnly">
                   <v-list-item-action
@@ -107,8 +107,8 @@
                       $router.push({
                         name: 'cuestionariocon',
                         params: {
-                          id: mod.modulo.id,
-                          idCat: mod.modulo.categoria,
+                          id: mod.mod.id,
+                          idCat: mod.mod.categoria,
                         },
                       })
                     "
@@ -121,8 +121,8 @@
                   <v-list-item-action
                     @click="
                       resetMod(
-                        mod.modulo.id,
-                        mod.modulo.categoria,
+                        mod.mod.id,
+                        mod.mod.categoria,
                         mod.calificacion
                       )
                     "
@@ -133,6 +133,7 @@
                   </v-list-item-action>
                 </div>
                 <v-progress-linear
+                  style="flex:unset;"
                   class="ma-2"
                   color="#aa4b6b"
                   rounded
@@ -161,8 +162,8 @@
                           $router.push({
                             name: 'cuestionariocon',
                             params: {
-                              id: mod.modulo.id,
-                              idCat: mod.modulo.categoria,
+                              id: mod.mod.id,
+                              idCat: mod.mod.categoria,
                             },
                           })
                         "
@@ -176,8 +177,8 @@
                         :class="darkTheme ? 'subtitleDark' : ''"
                         @click="
                           resetMod(
-                            mod.modulo.id,
-                            mod.modulo.categoria,
+                            mod.mod.id,
+                            mod.mod.categoria,
                             mod.calificacion
                           )
                         "
