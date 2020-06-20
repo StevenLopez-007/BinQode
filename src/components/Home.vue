@@ -26,7 +26,7 @@
           </h1>
           </div>
           <v-col cols="4" sm="5" md="10" lg="12">
-            <a href="#">
+            <a href="https://play.google.com/store/apps/details?id=com.b1nq0de.apptr" target="_blank">
             <v-img src="https://firebasestorage.googleapis.com/v0/b/binqode.appspot.com/o/google-play-badge.png?alt=media&token=82ffb9aa-4829-45dd-9ddb-75ea71a709a5">
 
             </v-img>

@@ -33,7 +33,7 @@
         ></v-progress-circular>
       </v-col>
     </v-row>
-  <a :id="!darkTheme?'botonBack':''" @click="$router.replace({name:'Modulos',params:{id:$route.params.idCat}})" style="position:absolute; left:0px;top:10px; z-index:1000;" class="ml-3" > <v-icon :class="darkTheme?'tituloDark':''"  size="30">fas fa-times-circle</v-icon></a>
+  <a :id="!darkTheme?'botonBack':''" @click="$router.replace({name:'Modulos',params:{id:$route.params.idCat}})" style="position:absolute; left:0px;top:8px; z-index:1000;" class="ml-3" > <v-icon :class="darkTheme?'tituloDark':''"  size="25">fas fa-times-circle</v-icon></a>
     <v-stepper
       v-if="!status && !error"
       v-model="e1"
@@ -81,7 +81,8 @@
               </v-row>
               <v-row class="d-flex align-end" style="width: 100%; max-height:90px;">
                 <v-col cols="12" lg="12" md="12" sm="12">
-                  <div class="d-flex justify-space-between align-center">
+                 
+                  <div class="d-flex justify-space-between align-center" >
                     <v-btn
                       color="#ff4f5a"
                       fab
@@ -117,6 +118,7 @@
                       <v-icon>fas fa-angle-right</v-icon>
                     </v-btn>
                   </div>
+                  
                 </v-col>
               </v-row>
             </v-row>

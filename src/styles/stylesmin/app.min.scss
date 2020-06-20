@@ -11,19 +11,23 @@
     font-size: 18px !important;
     cursor: pointer;
     color: #b0b2be;
-    transition: 0.15s;
+    transition: 0.15s !important;
+    transform:scale(1);
 }
 .iconos-list {
     height: 24px !important;
     width: 27px !important;
     color: #b0b2be !important;
-    transition: 0.15s;
+    transition: 0.15s !important;
+    transform:scale(1);
 }
 .items-list:hover .list-items-title {
     color: #aa4b6b !important;
+    transform:scale(1.2) !important;
 }
 .items-list:hover .iconos-list {
     color: #aa4b6b !important;
+    transform:scale(1.2) !important;
 }
 .app-barfixed {
     position: fixed;

@@ -5,13 +5,18 @@
     style="height:100%;background:#f0efff;"
   >
     <v-row class="bannerPerfil d-flex ">
-      <v-icon style="position:absolute;top:10px; left:10px; cursor:pointer;z-index:200;" @click="$router.replace('/categoria')" color="white"
-          >fas fa-arrow-left</v-icon
-        >
-      <v-col lg="12" class="infoUser d-flex justify-start">
+      <v-icon
+        style="position:absolute;top:10px; left:10px; cursor:pointer;z-index:200;"
+        @click="$router.replace('/categoria')"
+        color="white"
+        >fas fa-arrow-left</v-icon
+      >
+      <v-col lg="12" class="infoUser d-flex justify-start align-center">
         <v-list class="lista">
           <v-list-item>
-            <v-list-item-avatar :size="$vuetify.breakpoint.smAndDown?100:150">
+            <v-list-item-avatar
+              :size="$vuetify.breakpoint.smAndDown ? 100 : 150"
+            >
               <img
                 :src="require(`../imagenes/avatars/${datosUser.avatar}.svg`)"
                 alt=""
@@ -55,38 +60,76 @@
           height="51"
           centered
           grow
-          :background-color="darkTheme?'#212121':''"
+          :background-color="darkTheme ? '#212121' : ''"
         >
           <v-tab
-          :style="{'font-size':$vuetify.breakpoint.mdAndDown?'12px':''}"
+            :style="{
+              'font-size': $vuetify.breakpoint.mdAndDown ? '12px' : '',
+            }"
             @click="finish = true"
-            
-            ><v-icon class="pa-2">fas fa-check</v-icon>{{$vuetify.breakpoint.xsOnly?'':'Modulos Terminados'}}</v-tab
+            ><v-icon class="pa-2">fas fa-check</v-icon
+            >{{ $vuetify.breakpoint.xsOnly ? "" : "Modulos Terminados" }}</v-tab
           >
           <v-tab
-          :style="{'font-size':$vuetify.breakpoint.mdAndDown?'12px':''}"
+            :style="{
+              'font-size': $vuetify.breakpoint.mdAndDown ? '12px' : '',
+            }"
             @click="finish = false"
-            
-            ><v-icon class="pa-2">fas fa-times</v-icon>{{$vuetify.breakpoint.xsOnly?'':'Módulos sin terminar'}}</v-tab>
+            ><v-icon class="pa-2">fas fa-times</v-icon
+            >{{
+              $vuetify.breakpoint.xsOnly ? "" : "Módulos sin terminar"
+            }}</v-tab
+          >
         </v-tabs>
       </v-col>
       <v-col
         :class="[
           darkTheme ? 'secondaryColorDark' : '',
-          modsIns.length == 0 ? 'd-flex justify-center align-center' : '',
+          modsIns.length == 0 ? 'd-flex justify-start align-center flex-column' : '',
         ]"
         class="containerPerfil pa-0"
         cols="11"
         lg="6"
         md="7"
         sm="9"
-        style="background:white;"
-        :style="{'box-shadow':darkTheme?'none':'0 0 50px -25px gray'}"
+        style="background:white;position:relative;"
+        :style="{ 'box-shadow': darkTheme ? 'none' : '0 0 50px -25px gray' }"
       >
+        <div style="position:absolute;top:0;right:0;z-index:2500;">
+          <v-btn  v-if="modsIns.length>0" @click="panelConfig()" icon :ripple="false"
+            ><v-icon
+              size="20"
+              class="pa-2"
+              :color="darkTheme ? 'white' : 'black'"
+              >{{
+                banner.style.height == "60px" ? "fas fa-times" : "fas fa-search"
+              }}</v-icon
+            ></v-btn
+          >
+        </div>
+        <div
+          :class="[banner.class,darkTheme?'secondaryColorDark':'']"
+          :style="banner.style"
+          style="transition:0.25s;"
+        >
+          <v-text-field
+            v-model="buscar"
+            placeholder="Buscar módulo"
+            class="ma-0 pt-6 pl-2 pr-2"
+            :style="{'opacity':banner.opacity}"
+            :class="banner.class"
+            :dark="darkTheme"
+            color="#aa4b6b"
+          ></v-text-field>
+        </div>
         <v-col cols="12" class="pa-0" v-for="(mod, i) in modsIns" :key="i">
-          <v-list :class="darkTheme?'secondaryColorDark':''">
+          <v-list :class="darkTheme ? 'secondaryColorDark' : ''">
             <v-list-item>
-              <v-list-item-avatar style="border-radius:2px;" tile :size="$vuetify.breakpoint.xsOnly?60:100">
+              <v-list-item-avatar
+                style="border-radius:2px;"
+                tile
+                :size="$vuetify.breakpoint.xsOnly ? 60 : 100"
+              >
                 <img
                   :src="
                     require(`../imagenes/modulos/imagenesModulospng/${mod.mod.img}`)
@@ -95,12 +138,16 @@
                 />
               </v-list-item-avatar>
               <v-list-item-content>
-                <v-list-item-title :class="darkTheme?'subtitleDark':''" style="font-family:Dosis-semi">{{
-                  mod.mod.nombre
-                }}</v-list-item-title>
-                <v-list-item-subtitle :class="darkTheme?'tituloDark':''" style="font-family:Dosis-medium">{{
-                  mod.mod.descripcion
-                }}</v-list-item-subtitle>
+                <v-list-item-title
+                  :class="darkTheme ? 'subtitleDark' : ''"
+                  style="font-family:Dosis-semi"
+                  >{{ mod.mod.nombre }}</v-list-item-title
+                >
+                <v-list-item-subtitle
+                  :class="darkTheme ? 'tituloDark' : ''"
+                  style="font-family:Dosis-medium"
+                  >{{ mod.mod.descripcion }}</v-list-item-subtitle
+                >
                 <div v-if="!$vuetify.breakpoint.xsOnly">
                   <v-list-item-action
                     @click="
@@ -115,21 +162,27 @@
                     class="font-weight-medium mr-1 ml-1"
                     style="font-size:14px;cursor:pointer;color:#79909D;display:ruby-base;"
                   >
-                    <v-icon :class="darkTheme?'tituloDark':''" size="16" class="pa-1">fas fa-eye</v-icon> Ver
-                    detalle
+                    <v-icon
+                      :class="darkTheme ? 'tituloDark' : ''"
+                      size="16"
+                      class="pa-1"
+                      >fas fa-eye</v-icon
+                    >
+                    Ver detalle
                   </v-list-item-action>
                   <v-list-item-action
                     @click="
-                      resetMod(
-                        mod.mod.id,
-                        mod.mod.categoria,
-                        mod.calificacion
-                      )
+                      resetMod(mod.mod.id, mod.mod.categoria, mod.calificacion)
                     "
                     class="font-weight-medium ml-1 mr-1"
                     style="font-size:14px;cursor:pointer;color:#79909D;display:ruby-base;"
                   >
-                    <v-icon :class="darkTheme?'tituloDark':''" size="16" class="pa-1">fas fa-redo</v-icon>Reiniciar
+                    <v-icon
+                      :class="darkTheme ? 'tituloDark' : ''"
+                      size="16"
+                      class="pa-1"
+                      >fas fa-redo</v-icon
+                    >Reiniciar
                   </v-list-item-action>
                 </div>
                 <v-progress-linear
@@ -137,14 +190,19 @@
                   class="ma-2"
                   color="#aa4b6b"
                   rounded
-                  :value="mod.calificacion * 100"
+                  :value="(mod.calificacion * 100).toFixed(1)"
                 ></v-progress-linear>
               </v-list-item-content>
-              <v-list-item-action>
-                <v-menu v-if="$vuetify.breakpoint.xsOnly"  bottom right transition="fade-transition">
+              <v-list-item-action class="ma-0">
+                <v-menu
+                  v-if="$vuetify.breakpoint.xsOnly"
+                  bottom
+                  right
+                  transition="fade-transition"
+                >
                   <template v-slot:activator="{ on }">
                     <v-btn
-                      style="position:absolute;top:0;right:0;"
+                      style="margin:auto;"
                       icon
                       v-on="on"
                       ><v-icon
@@ -193,12 +251,12 @@
             </v-list-item>
           </v-list>
         </v-col>
-        <div v-if="modsIns.length === 0" style="width:50%;height:50%;">
+        <div v-if="modsIns.length === 0" style="width:50%;height:50%;margin:auto;">
           <v-img contain src="../imagenes/moduloVacio/modVacio.svg"></v-img>
         </div>
       </v-col>
     </v-row>
-    <!-- <pre>{{modsIns}}</pre> -->
+    <!-- <pre>{{banner}}</pre> -->
   </v-container>
 </template>
 <script>
@@ -221,6 +279,14 @@ export default {
         "Viernes",
         "Sábado",
       ],
+      banner: {
+        class: "",
+        style: {
+          'height': "0px",
+          'background':"#fff"
+        },
+        'opacity':'0'
+      },
       // bannerColor:{text:`Feliz ${moment().format('dddd')}`}
     };
   },
@@ -232,7 +298,7 @@ export default {
       return store.getters
         .modsInsFil(this.buscar.toLowerCase(), true)
         .filter((mod) => {
-          return this.finish ? mod.calificacion >= 1 : mod.calificacion < 1;
+          return this.finish ? mod.calificacion.toFixed(1) >= 1 : mod.calificacion.toFixed(1) < 1;
         });
     },
     darkTheme() {
@@ -266,11 +332,12 @@ export default {
       });
     },
     resetMod(idMod, idCat, calificacion) {
+      
       Swal.fire({
         icon: "warning",
         title: "¿Reintentar módulo?",
         text:
-          calificacion >= 1
+          calificacion.toFixed(1) >= 1
             ? "Ya tienes el 100% de este módulo, ¿Seguro quieres anular tu inscripción?"
             : "¡Si aceptas, anularás tu inscripción al módulo!",
         showCancelButton: true,
@@ -295,6 +362,17 @@ export default {
             });
         }
       });
+    },
+    panelConfig() {
+      if (this.banner.class == "") {
+        this.banner.class = "panelBuscar";
+        this.banner.style.height = "60px";
+        this.banner.opacity = '1';
+      } else {
+        this.banner.class = "";
+        this.banner.style.height = "0px";
+        this.banner.opacity = '0';
+      }
     },
   },
 };
