@@ -7,6 +7,7 @@ import Vuetify from 'vuetify/lib'
 import axios from 'axios';
 import VueCookies from 'vue-cookies'
 // import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import '@mdi/font/css/materialdesignicons.css'
 import '@fortawesome/fontawesome-free/css/all.css' // Ensure you are using css-loader
 
 import "prismjs";
@@ -51,7 +52,7 @@ Vue.use(Vuetify,Swal,VueCookies);
 export default new Vuetify({
   icons: {
     // iconfont: 'md',
-    iconfont:'fa'
+    iconfont:'fas'
   },
 })
 new Vue({

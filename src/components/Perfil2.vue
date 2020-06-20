@@ -95,14 +95,14 @@
         style="background:white;position:relative;"
         :style="{ 'box-shadow': darkTheme ? 'none' : '0 0 50px -25px gray' }"
       >
-        <div style="position:absolute;top:0;right:0;z-index:2500;">
+        <div style="position:absolute;top:0;z-index:2500;" :style="{'right':this.banner.class?'unset':'0','left':this.banner.class?'0':'unset'}">
           <v-btn  v-if="modsIns.length>0" @click="panelConfig()" icon :ripple="false"
             ><v-icon
               size="20"
               class="pa-2"
               :color="darkTheme ? 'white' : 'black'"
               >{{
-                banner.style.height == "60px" ? "fas fa-times" : "fas fa-search"
+                banner.style.height == "60px" ? "fas fa-arrow-up" : "fas fa-search"
               }}</v-icon
             ></v-btn
           >
@@ -120,6 +120,7 @@
             :class="banner.class"
             :dark="darkTheme"
             color="#aa4b6b"
+            clearable
           ></v-text-field>
         </div>
         <v-col cols="12" class="pa-0" v-for="(mod, i) in modsIns" :key="i">
@@ -296,7 +297,7 @@ export default {
     },
     modsIns() {
       return store.getters
-        .modsInsFil(this.buscar.toLowerCase(), true)
+        .modsInsFil(this.buscar !=null?this.buscar.toLowerCase():'', true)
         .filter((mod) => {
           return this.finish ? mod.calificacion.toFixed(1) >= 1 : mod.calificacion.toFixed(1) < 1;
         });

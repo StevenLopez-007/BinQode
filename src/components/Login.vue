@@ -219,7 +219,7 @@
               >
                 <v-text-field
                   :class="$vuetify.breakpoint.xsOnly && !register ? 'mb-4' : ''"
-                  :counter="40"
+                  :counter="30"
                   :rules="nameRules"
                   v-if="register"
                   v-model="nombre"
@@ -388,7 +388,7 @@ export default {
         (v) =>
           v == null
             ? (v = "")
-            : v.length <= 40 || "El nombre debe ser menos de 40 carácteres",
+            : v.length <= 30 || "El nombre debe ser menos de 30 carácteres",
       ],
       passwordRules: [
         (v) => !!v || "La contraseña es requerida",

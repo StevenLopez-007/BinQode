@@ -93,6 +93,7 @@
         >
           <v-card class="cardHome">
             <v-img
+             contain
               class="imgHome"
               src="../imagenes/imagenesHome/categorias.png"
             ></v-img>
@@ -127,6 +128,7 @@
         >
           <v-card class="cardHome">
             <v-img
+            contain
               class="imgHome"
               src="../imagenes/imagenesHome/cuestionario.png"
             ></v-img>
@@ -161,6 +163,7 @@
         >
           <v-card class="cardHome">
             <v-img
+            contain
               class="imgHome"
               src="../imagenes/imagenesHome/modulosCom.png"
             ></v-img>
