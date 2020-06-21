@@ -385,10 +385,8 @@ export default {
       ],
       nameRules: [
         (v) => (v == null ? (v = "") : !!v || "El nombre es requerido"),
-        (v) =>
-          v == null
-            ? (v = "")
-            : v.length <= 30 || "El nombre debe ser menos de 30 carácteres",
+        (v) =>v == null? (v = ""): v.length <= 30 || "El nombre debe ser menos de 30 carácteres",
+        v=> /^[a-zA-Z\s]+$/g.test(v) || "El nombre solo debe tener letras"
       ],
       passwordRules: [
         (v) => !!v || "La contraseña es requerida",
@@ -539,7 +537,7 @@ export default {
       if (this.register) {
         axios
           .post("estudiante/create", {
-            nombre: this.nombre,
+            nombre: this.nombre.toLowerCase().replace(/\b\w/g,l=>l.toUpperCase()),
             password: this.password,
             email: this.email,
             avatar: this.avatarSelected,
