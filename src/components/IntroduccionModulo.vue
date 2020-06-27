@@ -155,26 +155,6 @@
         </v-btn>
       </div>
     </v-overlay>
-
-    <!-- Dialog -->
-    <!-- <v-dialog v-model="dialog" max-width="290">
-      <v-card>
-        <v-card-title style="word-break: normal;" class="headline"
-          >¿Desea comenzar el cuestionario sobre {{ modulo2 }}?</v-card-title
-        >
-        <v-card-actions>
-          <v-spacer></v-spacer>
-
-          <v-btn color="red darken-1" text @click="dialog = false">
-            Cancelar
-          </v-btn>
-
-          <v-btn color="green darken-1" text @click="toCuestionario()">
-            Aceptar
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog> -->
   </div>
 </template>
 <script>
@@ -245,23 +225,14 @@ export default {
         .get("contenido/getContenidoPorModulo/" + this.$route.params.id)
         .then((response) => {
           this.contenido = response.data.contenidosEdit;
-          // response.data.contenidosEdit.length == 0
-          //   ? null
-          //   : ((this.modulo = response.data.contenidosEdit[0].modulo.nombre
-          //       .replace(/[0-9]/, "")
-          //       .toLowerCase()
-          //       .trim()),
-          //     (this.modulo2 = response.data.contenidosEdit[0].modulo.nombre)),
-              
-              (this.overlay = true);
-            //  this.$store.commit("setType",response.data.contenidosEdit[0].type)
+              this.overlay = true;
         })
         .catch((error) => {
           console.log(error);
         })
         .finally(() => {
           this.status = false;
-          this.contenido.length == 0 ? (this.error = true) : null;
+          this.contenido.length == 0 ? (this.error = true) : this.modulo2 = this.contenido[0].modulo.nombre;
         });
     },
     toCuestionario(id) {

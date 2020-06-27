@@ -85,7 +85,7 @@
           class="seccion2 pa-0 ma-0 pl-lg-12 pl-md-12 pl-sm-0"
         >
           <div
-            v-if="resetPassword"
+            v-if="resetPassword && !success"
             style="width:100%;"
             class="d-flex justify-center tabs"
           >
@@ -385,8 +385,11 @@ export default {
       ],
       nameRules: [
         (v) => (v == null ? (v = "") : !!v || "El nombre es requerido"),
-        (v) =>v == null? (v = ""): v.length <= 30 || "El nombre debe ser menos de 30 carácteres",
-        v=> /^[a-zA-Z\s]+$/g.test(v) || "El nombre solo debe tener letras"
+        (v) =>
+          v == null
+            ? (v = "")
+            : v.length <= 30 || "El nombre debe ser menos de 30 carácteres",
+        (v) => /^[a-zA-Z\s]+$/g.test(v) || "El nombre solo debe tener letras",
       ],
       passwordRules: [
         (v) => !!v || "La contraseña es requerida",
@@ -517,7 +520,7 @@ export default {
           if (response.data.ok) {
             this.$store.dispatch("guardarToken", response.data.token);
             if (VueCookies.isKey(`user${email}`)) {
-              localStorage.setItem("loginSuccess",true)
+              localStorage.setItem("loginSuccess", true);
               this.$router.go();
             } else {
               VueCookies.set(`user${email}`, "firstTime", Infinity);
@@ -537,7 +540,9 @@ export default {
       if (this.register) {
         axios
           .post("estudiante/create", {
-            nombre: this.nombre.toLowerCase().replace(/\b\w/g,l=>l.toUpperCase()),
+            nombre: this.nombre
+              .toLowerCase()
+              .replace(/\b\w/g, (l) => l.toUpperCase()),
             password: this.password,
             email: this.email,
             avatar: this.avatarSelected,
@@ -567,7 +572,7 @@ export default {
           .then((response) => {
             if (response.data.ok) {
               this.$store.dispatch("guardarToken", response.data.token);
-              localStorage.setItem("loginSuccess",true)
+              localStorage.setItem("loginSuccess", true);
               this.emailIncorrecto = false;
               this.$router.go("/categoria");
             } else {
@@ -619,13 +624,18 @@ export default {
         axios
           .post("mail/", datosEmail)
           .then((result) => {
-            !result.data.ok
-              ? (this.errorEnviarEmail = true)
-              : (this.resetPassword = false)(this.limpiar())(
-                  (this.success = true)
-                );
+            if (!result.data.ok) {
+              this.errorEnviarEmail = true;
+            } else {
+              //  this.resetPassword = false
+              this.limpiar();
+              this.success = true;
+            }
           })
-          .finally(() => (this.cargando = false)((this.dialogGoogle = false)));
+          .finally(() => {
+            this.cargando = false;
+            this.dialogGoogle = false;
+          });
       }
     },
   },
